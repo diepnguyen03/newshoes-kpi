@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>New Shoes Bình Phú — Hệ thống Báo cáo KPI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --brand:#0065B3; --brand-dk:#004C87; --navy:#003862; --navy-2:#0A4E85;
+  --sky:#3E93D6; --sky-lt:#8FBFE4; --orange:#E4622B; --orange-lt:#F3A97F;
+  --green:#1F8A5B; --red:#C93A2E; --gray:#69798A; --ink:#16242F;
+  --bg:#F3F6F9; --card:#FFFFFF; --line:#DFE7EE;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Inter',-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--ink);font-size:13px;-webkit-font-smoothing:antialiased}
+#app{display:flex;min-height:100vh}
+
+aside{width:250px;background:var(--navy);color:#D2E2EE;flex-shrink:0;position:sticky;top:0;height:100vh;overflow-y:auto}
+.brand{padding:18px 18px 16px;border-bottom:1px solid rgba(255,255,255,.1)}
+.brand .cust{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+.brand .cust .logo{width:46px;height:46px;flex-shrink:0;background:#fff;border-radius:9px;padding:4px;display:flex;align-items:center;justify-content:center}
+.brand .cust .logo img{width:100%;height:100%;object-fit:contain;display:block}
+.brand .cust .nm{min-width:0}
+.brand .cust .nm b{display:block;font-size:13.5px;font-weight:700;color:#fff;line-height:1.3;letter-spacing:.2px}
+.brand .cust .nm span{display:block;font-size:9.5px;color:#8CADC5;margin-top:3px;text-transform:uppercase;letter-spacing:.8px}
+.brand h1{font-size:14.5px;font-weight:700;color:#fff;letter-spacing:.3px;line-height:1.4}
+.brand p{font-size:10px;color:#8CADC5;margin-top:9px;text-transform:uppercase;letter-spacing:.85px;line-height:1.6}
+nav{padding:14px 10px}
+nav a{display:block;padding:11px 13px;margin-bottom:4px;border-radius:7px;color:#BED4E3;text-decoration:none;font-size:12.5px;font-weight:500;cursor:pointer;transition:.15s;line-height:1.4}
+nav a:hover{background:rgba(255,255,255,.07);color:#fff}
+nav a.active{background:var(--brand);color:#fff;font-weight:600}
+nav .grp{font-size:9.5px;color:#7796AC;text-transform:uppercase;letter-spacing:1px;padding:14px 13px 7px;font-weight:600}
+.side-note{margin:12px;padding:12px;background:rgba(255,255,255,.05);border-radius:8px;font-size:10.5px;color:#96B2C6;line-height:1.65}
+
+main{flex:1;min-width:0}
+.topbar{background:#fff;border-bottom:1px solid var(--line);padding:15px 26px;position:sticky;top:0;z-index:20}
+.topbar-row{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap}
+.topbar h2{font-size:19px;font-weight:700;color:var(--navy)}
+.topbar .sub{font-size:11.5px;color:var(--gray);margin-top:4px}
+.filters{display:flex;gap:13px;align-items:flex-end;flex-wrap:wrap}
+.fl{display:flex;flex-direction:column;gap:5px}
+.fl label{font-size:9.5px;font-weight:600;color:var(--gray);text-transform:uppercase;letter-spacing:.6px}
+.fl select{border:1px solid var(--line);border-radius:7px;padding:7px 11px;font-size:12px;font-family:inherit;background:#fff;color:var(--ink);min-width:150px;cursor:pointer;font-weight:500}
+.fl select:focus{outline:none;border-color:var(--brand)}
+.seg{display:flex;border:1px solid var(--line);border-radius:7px;overflow:hidden}
+.seg button{border:0;background:#fff;padding:7px 14px;font-size:12px;font-family:inherit;font-weight:500;cursor:pointer;color:var(--gray)}
+.seg button.on{background:var(--brand);color:#fff;font-weight:600}
+
+.wrap{padding:20px 26px 44px}
+.page{display:none}.page.show{display:block}
+.grid{display:grid;gap:14px}
+.g4{grid-template-columns:repeat(4,1fr)}
+.g2{grid-template-columns:1fr 1fr}
+.g21{grid-template-columns:1.3fr 1fr}
+@media(max-width:1280px){.g4{grid-template-columns:repeat(2,1fr)}.g2,.g21{grid-template-columns:1fr}}
+
+.card{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:16px 18px}
+.card h3{font-size:13px;font-weight:600;color:var(--navy);margin-bottom:3px}
+.card .cs{font-size:10.5px;color:var(--gray);margin-bottom:12px;line-height:1.55}
+.card .rd{font-size:11px;color:var(--brand);background:#EAF3FA;border-radius:6px;padding:7px 10px;margin-top:11px;line-height:1.55}
+.card .rd b{color:var(--navy-2)}
+
+.stat{background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px 17px;display:flex;flex-direction:column}
+.stat .lb{flex:none;font-size:9.5px;color:var(--gray);font-weight:700;text-transform:uppercase;letter-spacing:.75px;line-height:1.45}
+.stat .bd{flex:1;display:flex;align-items:center}
+.stat .vl{font-size:34px;font-weight:700;color:var(--navy);letter-spacing:-1px;line-height:1.1;padding:10px 0 4px}
+.stat .vl small{font-size:15px;font-weight:600;color:var(--gray);letter-spacing:0}
+.stat .ft{display:flex;margin-top:auto;padding-top:11px;border-top:1px solid var(--line)}
+.stat .ft>div{flex:1;min-width:0}
+.stat .ft>div+div{border-left:1px solid var(--line);padding-left:13px;margin-left:13px}
+.stat .ft span{display:block;font-size:9px;text-transform:uppercase;letter-spacing:.6px;color:var(--gray);font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.stat .ft b{display:block;font-size:15px;font-weight:700;color:var(--navy);margin-top:4px;font-variant-numeric:tabular-nums;line-height:1.2}
+.stat .trend{margin-top:auto;padding-top:11px;border-top:1px solid var(--line);font-size:12.5px;font-weight:700;display:flex;align-items:center;gap:5px;font-variant-numeric:tabular-nums}
+.stat.hl .trend{border-top-color:rgba(255,255,255,.2)}
+.up{color:var(--green)}.dn{color:var(--red)}.mut{color:var(--gray)}
+.stat.hl{background:var(--navy);border-color:var(--navy)}
+.stat.hl .lb{color:#8FB0C7}.stat.hl .vl{color:#fff}.stat.hl .vl small{color:#8FB0C7}
+.stat.hl .ft{border-top-color:rgba(255,255,255,.2)}
+.stat.hl .ft>div+div{border-left-color:rgba(255,255,255,.2)}
+.stat.hl .ft span{color:#8FB0C7}.stat.hl .ft b{color:#fff}
+.stat.gg-card{padding:15px 13px 13px}
+.stat.gg-card .bd{justify-content:center;padding:2px 0}
+.gg{width:100%;max-width:216px;display:block;margin:0 auto}
+
+
+.cw{position:relative;height:272px}
+.cw.sm{height:230px}
+.cw.lg{height:320px}
+
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{background:#EDF3F8;color:var(--navy);font-weight:600;text-align:left;padding:9px 10px;border-bottom:2px solid var(--line);font-size:10px;text-transform:uppercase;letter-spacing:.45px;white-space:nowrap}
+td{padding:9px 10px;border-bottom:1px solid #EFF3F7;vertical-align:top;line-height:1.5}
+tbody tr:hover{background:#F7FAFC}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tfoot td{font-weight:700;background:#EDF3F8;color:var(--navy);border-top:2px solid var(--line);border-bottom:0}
+.pill{display:inline-block;padding:2.5px 9px;border-radius:20px;font-size:10.5px;font-weight:600;white-space:nowrap}
+.p-ok{background:#E1F1E9;color:var(--green)}
+.p-wn{background:#FCEDE4;color:#B4501F}
+.p-bd{background:#FAE5E3;color:var(--red)}
+.p-nu{background:#EDF1F5;color:var(--gray)}
+.p-bl{background:#E3EFF9;color:var(--brand)}
+.bar{height:6px;background:#EDF1F5;border-radius:4px;overflow:hidden;min-width:66px;margin-top:5px}
+.bar i{display:block;height:100%;border-radius:4px}
+
+.heatt{width:100%;border-collapse:separate;border-spacing:2px}
+.heatt th{background:#EDF3F8;border-bottom:0;border-radius:5px;padding:7px 8px;text-align:left}
+.heatt th.num{text-align:center}
+.heatt .thw{font-size:9px;font-weight:500;color:var(--gray);letter-spacing:0;text-transform:none;margin-top:2px}
+.heatt td{border-bottom:0;padding:8px 9px;background:#FAFCFD;border-radius:5px}
+.heatt td.hc{text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
+.heatt tbody tr:hover td{outline:1px solid #C9DCEA}
+.heatt tbody tr.sel td{outline:2px solid var(--brand)}
+.heatt tfoot td{background:#EDF3F8;border-top:0;font-weight:600}
+.heatt tfoot td.num{text-align:center}
+.hleg{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:12px;font-size:10.5px;color:var(--gray)}
+.hleg span{font-weight:600}
+.hleg em{font-style:normal;display:inline-flex;align-items:center;gap:4px}
+.hleg em i{width:14px;height:10px;border-radius:3px;display:inline-block}
+.hleg b{margin-left:auto;font-weight:500;color:#9AABB8}
+
+tr.clk{cursor:pointer}
+tr.clk:hover td{background:#EFF5FA}
+.cr{display:inline-block;width:11px;color:var(--brand);font-size:10px}
+tr.drow{display:none}
+tr.drow.open{display:table-row}
+tr.drow>td{background:#F7FAFC;padding:0}
+tr.chr{display:none}
+tr.chr.open{display:table-row}
+tr.chr>td{background:#F7FAFC;font-size:11.5px;border-bottom:1px solid #E6EDF3}
+tr.chr:hover>td{background:#EFF5FA}
+.ind{display:inline-block;width:16px;border-left:2px solid #B6CDDF;height:11px;margin-right:6px;vertical-align:-1px}
+.sm{font-size:10.5px;color:var(--gray);margin-top:3px;line-height:1.45}
+.dwrap{padding:12px 14px}
+.dhead{font-size:11.5px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.dhead em{display:block;font-style:normal;font-size:10.5px;font-weight:500;color:var(--gray);margin-top:3px}
+.heatt tr.dchr{display:none}
+.heatt tr.dchr.open{display:table-row}
+.heatt tr.dchr td{font-size:11px;padding:5px 8px}
+.heatt tr.dchr td.hc{font-weight:500}
+.heatt tr.dchr:hover td{outline:1px solid #C9DCEA}
+.note{background:#FDF3EE;border:1px solid #F5D9C7;border-radius:9px;padding:13px 15px;font-size:12px;line-height:1.65;color:#7A4326}
+.note b{color:#5B2F16}
+.note.info{background:#EAF3FA;border-color:#CCE1F1;color:#1F4E71}
+.note.info b{color:#003862}
+.mb14{margin-bottom:14px}.mt14{margin-top:14px}
+.footer{margin-top:24px;padding-top:14px;border-top:1px solid var(--line);font-size:10.5px;color:var(--gray);line-height:1.6}
+</style>
+</head>
+<body>
+<div id="app">
+<aside>
+  <div class="brand">
+    <div class="cust">
+      <div class="logo"><img src="data:image/png;base64,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" alt="New Shoes Bình Phú"></div>
+      <div class="nm"><b>New Shoes Bình Phú</b><span>Khách hàng</span></div>
+    </div>
+    <h1>HỆ THỐNG BÁO CÁO KPI</h1>
+    <p>Bản demo — Base.vn Data Service</p>
+  </div>
+  <nav>
+    <div class="grp">Báo cáo</div>
+    <a data-p="p1" class="active">Tổng quan công ty</a>
+    <a data-p="p2">Sản xuất</a>
+    <a data-p="p3">QC</a>
+  </nav>
+  <div class="side-note">
+    Chỉ số, trọng số và mục tiêu lấy đúng theo 2 bảng KPI Sản xuất và QC đã nhận (57 người / 5 nhóm KPI lớn: Cắt, Ấn, Chuẩn Bị, Hình Thành, May; 44 người / 6 nhóm KPI lớn QC). Nhóm KPI nhỏ bên trong được xác định theo đúng bộ tiêu chí đánh giá thực tế của từng người, không suy theo tên chức danh. Chuỗi số theo tháng là dữ liệu minh hoạ; xem ghi chú ở từng trang để biết phần nào là số thật (Hiện tại) và phần nào là mô phỏng.
+  </div>
+</aside>
+
+<main>
+  <div class="topbar">
+    <div class="topbar-row">
+      <div>
+        <h2 id="ttl">Tổng quan công ty</h2>
+        <div class="sub" id="sub"></div>
+      </div>
+      <div class="filters">
+        <div class="fl"><label>Kỳ đánh giá</label><select id="fMonth"></select></div>
+        <div class="fl" id="fnkWrap"><label>Nhóm KPI</label><select id="fNhomKPI"></select></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+
+  <!-- ===== P1: TỔNG QUAN CÔNG TY ===== -->
+  <section class="page show" id="p1">
+    <div class="grid g4 mb14" id="p1stats"></div>
+
+    <div class="grid g21 mb14">
+      <div class="card">
+        <h3>Điểm công ty hụt ở phòng ban nào</h3>
+        <div class="cs">Bắt đầu từ mốc chuẩn 100 điểm, trừ dần phần điểm mỗi phòng ban làm hụt (bình quân có trọng số theo số nhân sự).</div>
+        <div class="cw"><canvas id="c1a"></canvas></div>
+      </div>
+      <div class="card">
+        <h3>Điểm trung bình công ty theo tháng</h3>
+        <div class="cs">Bình quân điểm toàn công ty qua từng tháng. Vạch đứt là ngưỡng Đạt 95 điểm.</div>
+        <div class="cw"><canvas id="c1c"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card mb14">
+      <h3>Điểm theo phòng ban</h3>
+      <div class="cs">Điểm bình quân của từng phòng ban. Khi có thêm phòng ban mới, biểu đồ sẽ tự thêm cột tương ứng.</div>
+      <div class="cw"><canvas id="c1b"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>So sánh các phòng ban</h3>
+      <div class="cs">Điểm đã chuẩn hoá về thang 100 nên so sánh trực tiếp được. Bấm vào tên phòng ban để mở drill-down xuống từng nhóm KPI nhỏ bên trong.</div>
+      <table>
+        <thead><tr id="p1th"></tr></thead>
+        <tbody id="p1tb"></tbody>
+        <tfoot id="p1tf"></tfoot>
+      </table>
+    </div>
+  </section>
+
+  <!-- ===== P2: SẢN XUẤT ===== -->
+  <section class="page" id="p2">
+    <div class="note info mb14"><b>Về số liệu:</b> File KPI Sản xuất chưa có cột "Hiện tại" nào được điền — toàn bộ 57 người / 5 nhóm KPI lớn mới dừng ở khung chỉ số, trọng số và mục tiêu năm 2026. Biểu đồ xu hướng theo tháng dưới đây là <b>số minh hoạ</b>, không phải số đo thực tế.</div>
+    <div class="grid g4 mb14" id="p2stats"></div>
+
+    <div class="grid g2 mb14">
+      <div class="card">
+        <h3>Điểm trung bình theo tháng</h3>
+        <div class="cs">Điểm của phạm vi đang chọn (toàn phòng hoặc một nhóm KPI lớn) qua từng tháng.</div>
+        <div class="cw"><canvas id="c2d"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 id="c2title">Chỉ số nào kéo điểm xuống</h3>
+        <div class="cs" id="c2sub">Khi chọn "Toàn phòng", mỗi cột là một nhóm KPI lớn. Khi chọn một nhóm KPI lớn cụ thể, mỗi cột là một nhóm KPI nhỏ bên trong nhóm đó.</div>
+        <div class="cw"><canvas id="c2a"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card mb14">
+      <h3>Điểm KPI trung bình của các nhóm KPI lớn</h3>
+      <div class="cs">Điểm bình quân của từng nhóm KPI lớn (không đổi theo bộ lọc "Nhóm KPI" phía trên) — dùng để định vị nhanh nhóm nào đang mạnh, nhóm nào đang yếu trong toàn phòng.</div>
+      <div class="cw lg"><canvas id="c2e"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
+      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau; các vị trí dùng chung tiêu chí (chỉ khác số hiệu chuyền/tổ) được gộp vào cùng một nhóm.</div>
+      <div id="tree2"></div>
+    </div>
+  </section>
+
+  <!-- ===== P3: QC ===== -->
+  <section class="page" id="p3">
+    <div class="note info mb14"><b>Về số liệu:</b> File KPI QC đã điền đầy đủ "Hiện tại" cho toàn bộ 44 người và mục tiêu chi tiết Quý 3–4/2026. Tuy vậy, trong mỗi nhóm KPI nhỏ, giá trị "Hiện tại" đang <b>giống hệt nhau cho mọi cá nhân</b>. Chuỗi 8 tháng dùng trong biểu đồ xu hướng là nội suy để minh hoạ, được neo về đúng số "Hiện tại" thật ở tháng gần nhất.</div>
+    <div class="grid g4 mb14" id="p3stats"></div>
+
+    <div class="grid g2 mb14">
+      <div class="card">
+        <h3>Điểm trung bình theo tháng</h3>
+        <div class="cs">Điểm của phạm vi đang chọn (toàn phòng hoặc một nhóm KPI lớn) qua từng tháng, neo về số Hiện tại thật ở tháng gần nhất khi có.</div>
+        <div class="cw"><canvas id="c3d"></canvas></div>
+      </div>
+      <div class="card">
+        <h3 id="c3title">Chỉ số nào kéo điểm xuống</h3>
+        <div class="cs" id="c3sub">Khi chọn "Toàn phòng", mỗi cột là một nhóm KPI lớn. Khi chọn một nhóm KPI lớn cụ thể, mỗi cột là một nhóm KPI nhỏ bên trong nhóm đó.</div>
+        <div class="cw"><canvas id="c3a"></canvas></div>
+      </div>
+    </div>
+
+    <div class="card mb14">
+      <h3>Điểm KPI trung bình của các nhóm KPI lớn</h3>
+      <div class="cs">Điểm bình quân của từng nhóm KPI lớn (không đổi theo bộ lọc "Nhóm KPI" phía trên) — dùng để định vị nhanh nhóm nào đang mạnh, nhóm nào đang yếu trong toàn phòng.</div>
+      <div class="cw lg"><canvas id="c3e"></canvas></div>
+    </div>
+
+    <div class="card">
+      <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
+      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau (ví dụ So màu và Kiểm da trong QA liệu đầu vào); các vị trí chỉ khác số hiệu chuyền (như QC May 1-2 và QC May 3-4) được gộp chung.</div>
+      <div id="tree3"></div>
+    </div>
+  </section>
+
+  <div class="footer">
+    Bản demo cập nhật cho New Shoes Bình Phú theo 2 bộ phận Sản xuất và QC, phục vụ trao đổi phương án, thực hiện bởi Base.vn Data Service. Chỉ số, trọng số, mục tiêu và giá trị "Hiện tại" (khi có) trích đúng theo 2 bảng KPI đã nhận. Nhóm KPI nhỏ được xác định bằng cách so sánh đúng dữ liệu tiêu chí/trọng số/mục tiêu, không dựa vào tên chức danh. Chuỗi số theo tháng là dữ liệu minh hoạ/nội suy; phần nào dựa trên số thật đã được ghi chú riêng ở từng trang.
+  </div>
+  </div>
+</main>
+</div>
+
+<script>
+/* ===== HẰNG SỐ CHUNG ===== */
+var MONTHS=['T1/2026','T2/2026','T3/2026','T4/2026','T5/2026','T6/2026','T7/2026','T8/2026'];
+var GOAL=100, PASS=95, LAST=11;
+
+function seedRand(a){return function(){a=(a*1664525+1013904223)%4294967296;return a/4294967296;};}
+function mkOffsets(nS,nK,seed){
+  var r=seedRand(seed),m=[],e,k,sum;
+  for(e=0;e<nS;e++){m.push([]);for(k=0;k<nK;k++)m[e].push((r()-0.5)*15);}
+  for(k=0;k<nK;k++){sum=0;for(e=0;e<nS;e++)sum+=m[e][k];sum/=nS;for(e=0;e<nS;e++)m[e][k]-=sum;}
+  return m;
+}
+
+
+/* ============ DỮ LIỆU KPI SẢN XUẤT & QC ============ */
+
+var SX00_LIST=[
+  {id:"SX001",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[85.88,99.33,117.38,124.22,106.08,76.19,90.4,103.06358227316518]},
+  {id:"SX002",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[87.33,102.95,118.83,125.31,110.03,80.22,91.36,105.75555694788405]},
+  {id:"SX003",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:7,tgtTxt:"7",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[6.06,7.14,8.3,8.65,7.51,5.53,6.35,7.3115898436690046]},
+  {id:"SX004",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[63.39,76.94,91.14,97.73,82.94,56.62,66.49,79.37067902876056]},
+  {id:"SX005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[64.28,77.57,94.28,98.46,83.46,58.34,68.59,80.80845975052036]}
+];
+var SX00_STAFF=[
+  ["Kim Duyên","CQ"],
+  ["Thu Thảo","CB1"],
+  ["Như Ý","CB2"],
+  ["Trung Hòa","CB3"]
+];
+
+var SX01_LIST=[
+  {id:"SX011",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[72.56,90.68,109.34,115.95,97.85,62.54,75.76,91.67262341832573]},
+  {id:"SX012",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[84.92,102.13,121.43,127.2,107.45,73.83,86.99,103.16451686827857]},
+  {id:"SX013",name:"Tỷ lệ hao hụt nguyên liệu",uom:"%",w:20,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl nguyên liệu hao hụt / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.39,1.2,0.94,0.88,1.1,1.47,1.31,1.1237351877233908]},
+  {id:"SX014",name:"Đáp ứng liệu cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:15,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu liệu trong tháng",current:null,anomaly:null,s:[0.72,0.49,0.29,0.2,0.41,0.78,0.62,0.4451421780017332]},
+  {id:"SX015",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[62.07,77.23,94.65,101.09,84.45,52.49,65.44,79.42794835843985]}
+];
+var SX01_STAFF=[
+  ["Nguyễn Thanh Tường","Cắt 1 & 2 · Lãnh liệu"],
+  ["Lâm Thị Quỳnh Như","Cắt 3 · Lãnh liệu"]
+];
+
+var SX02_LIST=[
+  {id:"SX021",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[73.17,85.2,98.19,105.15,90.97,67.96,76.34,89.11453452414894]},
+  {id:"SX022",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[88.36,100.51,115.0,120.34,107.24,83.92,93.81,105.5094267203917]},
+  {id:"SX023",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.27,2.67,3.08,3.27,2.82,2.11,2.4,2.777716094826848]},
+  {id:"SX024",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[78.84,90.23,101.52,107.05,95.51,72.89,82.98,93.56272678203351]},
+  {id:"SX025",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[78.25,89.03,102.56,106.36,94.01,73.69,83.3,92.93038930674071]}
+];
+var SX02_STAFF=[
+  ["Dương Cảnh","CB"]
+];
+
+var SX03_LIST=[
+  {id:"SX031",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[71.06,87.3,103.68,109.92,93.39,62.9,76.33,89.39496497312184]},
+  {id:"SX032",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[86.47,102.76,119.27,124.22,108.28,78.6,92.35,104.95442978522408]},
+  {id:"SX033",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.24,2.71,3.23,3.38,2.87,1.98,2.37,2.769282969801793]},
+  {id:"SX034",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[76.1,89.24,104.44,110.06,95.83,68.39,80.22,91.97505622953254]},
+  {id:"SX035",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[65.42,80.56,95.41,101.19,86.41,57.75,69.95,82.52300360129799]}
+];
+var SX03_STAFF=[
+  ["Hồng Gấm","CB1"],
+  ["Kiều Chinh","CB2"],
+  ["Huỳnh Giao","CB3"]
+];
+
+var SX04_LIST=[
+  {id:"SX041",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[73.64,87.93,103.14,108.15,94.51,66.04,77.41,90.25871647270547]},
+  {id:"SX042",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[70.69,83.07,99.44,104.25,89.51,62.16,74.98,87.02853931938675]},
+  {id:"SX043",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:4.16,tgtTxt:"4.16",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[3.76,4.37,5.01,5.26,4.69,3.53,4.01,4.508231582784597]},
+  {id:"SX044",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[64.34,76.19,91.98,95.73,81.99,58.2,67.65,79.49612643059123]},
+  {id:"SX045",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[68.68,81.21,96.53,100.61,86.48,62.0,72.52,84.08716272621747]}
+];
+var SX04_STAFF=[
+  ["Lê Dũng","CQ"],
+  ["Huy Thiên","HT1 · CQ"],
+  ["Ninh Khang","HT1 · CB1"],
+  ["Hoàng Ân","HT1 · CB2"],
+  ["Ngô Thụy An","HT1 · CB3"],
+  ["Hồng Hải","HT2 · CQ"],
+  ["Huy Khánh","HT2 · CB1"],
+  ["Bùi Văn Hậu","HT2 · CB2"],
+  ["Thanh Ngân","HT2 · CB3"],
+  ["Mai","HT3 · CQ"],
+  ["Thúy An","HT3 · CB1"],
+  ["Văn Chung","HT3 · CB2"],
+  ["Thị Duyên","HT3 · CB3"],
+  ["Thị Mai","HT4 · CQ"],
+  ["Đào Văn Hậu","HT4 · CB1"],
+  ["Văn Lợi","HT4 · CB2"],
+  ["Thanh Tâm","HT4 · CB3"]
+];
+
+var SX05_LIST=[
+  {id:"SX051",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[68.93,86.73,106.53,112.67,92.72,58.32,72.51,87.7569945486392]},
+  {id:"SX052",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[70.66,89.69,107.7,115.58,95.44,61.2,74.75,90.28549288756695]},
+  {id:"SX053",name:"Đáp ứng vật tư cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:20,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu/chậm cấp vật tư trong tháng",current:null,anomaly:null,s:[0.73,0.54,0.31,0.19,0.42,0.83,0.65,0.47405736075161964]},
+  {id:"SX054",name:"Tỷ lệ hao hụt vật tư",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl vật tư hao hụt, hư hỏng / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.2,1.01,0.75,0.67,0.88,1.29,1.14,0.9355051279143649]},
+  {id:"SX055",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[78.83,94.17,112.21,117.93,100.91,69.11,81.21,95.91131239220796]}
+];
+var SX05_STAFF=[
+  ["Trần Thị Mỹ Lệ","Thành hình 4 · Lãnh mặt giày"],
+  ["Phạm Thị Phượng","Thành hình 4 · Lãnh đế"],
+  ["Trần Thị Ngọc Hiền","Thành hình 4 · Lãnh phụ kiện"],
+  ["Nguyễn Thị Thanh Trúc","Thành hình 3 · Lãnh mặt giày"],
+  ["Bùi Thị Diệp","Thành hình 3 · Lãnh đế"],
+  ["Nguyễn Huỳnh Như","Thành hình 3 · Lãnh phụ kiện"],
+  ["Nguyễn Thị Chi Lê","Thành hình 2 · Lãnh mặt giày"],
+  ["Dương Thị Thúy Oanh","Thành hình 2 · Lãnh đế"],
+  ["Nguyễn Thị Kiều Vy","Thành hình 2 · Lãnh phụ kiện"],
+  ["Hồ Mộng Trúc","Thành hình 1 · Lãnh mặt giày"],
+  ["Nguyễn Thị Lụt","Thành hình 1 · Lãnh đế"],
+  ["Huỳnh Thị Mỹ Lệ","Thành hình 1 · Lãnh phụ kiện"]
+];
+
+var SX06_LIST=[
+  {id:"SX061",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[82.64,99.71,120.99,126.73,108.39,71.33,85.61,101.97731483542559]},
+  {id:"SX062",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[69.51,86.09,105.1,112.08,93.89,56.28,71.95,87.25077808085004]},
+  {id:"SX063",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.16,2.76,3.34,3.51,2.91,1.85,2.25,2.7681551233789077]},
+  {id:"SX064",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[62.13,77.7,97.19,103.09,83.61,51.56,64.39,79.35223243959813]},
+  {id:"SX065",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[75.72,93.02,109.26,117.3,99.12,65.1,79.3,93.41418290388214]}
+];
+var SX06_STAFF=[
+  ["Thị Nguyệt","Thoa · M1"],
+  ["Thu Thảo","Thoa · M3"],
+  ["Thị Thúy An","Thị Yến · M5"],
+  ["Thị Thúy An","Thị Yến · M6"],
+  ["Thị Hiếu","Thị Yến · M7"],
+  ["Thị Hiếu","Thị Yến · M8"],
+  ["Thị Nhí","Thị Yến · M9"],
+  ["Thị Nhí","Thị Yến · M10"]
+];
+
+var SX07_LIST=[
+  {id:"SX071",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[83.56,97.63,113.8,119.26,105.9,76.56,88.05,101.41010705447287]},
+  {id:"SX072",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[73.11,88.09,104.26,111.77,96.15,67.36,77.62,91.75725778101695]},
+  {id:"SX073",name:"Đáp ứng vật tư cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:20,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu/chậm cấp vật tư trong tháng",current:null,anomaly:null,s:[0.87,0.71,0.51,0.42,0.6,0.92,0.8,0.6327972011047953]},
+  {id:"SX074",name:"Tỷ lệ hao hụt vật tư",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl vật tư hao hụt, hư hỏng / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.35,1.2,1.0,0.91,1.11,1.4,1.27,1.1146851802302766]},
+  {id:"SX075",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[77.8,92.84,107.51,111.2,97.16,72.49,82.54,94.58669316017317]}
+];
+var SX07_STAFF=[
+  ["Trần Thị Thúy Kiều","May 1 & 2 · Lãnh liệu"],
+  ["Nguyễn Ngọc Ái My","May 3 & 4 · Lãnh liệu"],
+  ["Lưu Thị Ái Mỹ","May 5 & 6 · Lãnh liệu"],
+  ["Trần Thị Cẩm Tú","May 7 & 8 · Lãnh liệu"],
+  ["Nguyễn Thị Kiều Thư","May 9 & 10 · Lãnh liệu"]
+];
+
+var SX08_LIST=[
+  {id:"SX081",name:"Giao kho đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần giao kho đúng giờ / Tổng số lần giao x 100%",current:null,anomaly:null,s:[84.02,99.77,119.5,125.7,107.69,74.75,87.24,102.596566267751]},
+  {id:"SX082",name:"Cập nhật số liệu đúng giờ",uom:"%",w:25,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cập nhật số liệu đúng giờ / Tổng số lần phải cập nhật x 100%",current:null,anomaly:null,s:[67.52,84.76,102.81,108.87,91.87,59.87,72.79,86.83321274449905]},
+  {id:"SX083",name:"Độ chính xác số liệu giao kho",uom:"%",w:20,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng chứng từ - Số chứng từ sai lệch) / Tổng chứng từ x 100%",current:null,anomaly:null,s:[85.88,102.97,120.37,127.39,109.38,76.53,88.67,103.92901946162505]},
+  {id:"SX084",name:"Tỷ lệ lô hàng giao kho bị trả lại",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Số lô bị kho từ chối/trả lại / Tổng số lô giao x 100%",current:null,anomaly:null,s:[1.37,1.18,0.94,0.85,1.08,1.43,1.28,1.1096732211295146]},
+  {id:"SX085",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[65.82,81.05,97.3,104.6,87.76,57.11,69.26,83.22440345197028]}
+];
+var SX08_STAFF=[
+  ["Nguyễn Thị Ngọc Hân","May 1 & 2 · Giao kho"],
+  ["Lê Thị Thanh Duyên","May 3 & 4 · Giao kho"],
+  ["Lê Thị Hiếu Nga","May 5 & 6 · Giao kho"],
+  ["Đỗ Thị Mỹ Lệ","May 7 & 8 · Giao kho"],
+  ["Nguyễn Thị Cẩm Thu","May 9 & 10 · Giao kho"]
+];
+
+var QC00_LIST=[
+  {id:"QC001",name:"Tỷ lệ đạt May",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lỗi/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[59.19,103.27,154.4,172.03,113.94,12.69,50.1,90.0]},
+  {id:"QC002",name:"Tỷ lệ B do lỗi may",uom:"%",w:20,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:5.0,anomaly:null,s:[5.66,4.69,3.69,3.33,4.51,6.54,5.83,5.0]},
+  {id:"QC003",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:20,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:3.0,anomaly:null,s:[3.64,2.7,1.68,1.34,2.51,4.57,3.82,3.0]},
+  {id:"QC004",name:"Tỷ lệ đạt ngay lần đầu kiểm",uom:"%",w:20,target:95.0,tgtTxt:"≥95 – 97%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm",current:80.0,anomaly:null,s:[49.21,93.62,142.19,160.02,102.49,5.96,41.42,80.0]},
+  {id:"QC005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[50.32,92.48,140.43,154.53,102.54,9.38,42.5,80.0]}
+];
+var QC00_STAFF=[
+  ["Võ Thị Mộng Nhi","QA MAY"],
+  ["Trần Thị Ngọc Ngân","QC MAY 1-2"],
+  ["Lưu Thị Kha Ly","QC MAY 3-4"],
+  ["Ngô Thị Mỹ Hà","QC MAY 7-8"],
+  ["Nguyễn Thị Trúc Lan","QC MAY 5-6"],
+  ["Trần Thị Ngọc Chuyên","QC MAY 9"]
+];
+
+var QC01_LIST=[
+  {id:"QC011",name:"Tỷ lệ đạt",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lỗi/ Tổng sl kiểm",current:90.0,anomaly:null,s:[56.64,107.31,163.64,181.6,117.99,6.12,45.42,90.0]},
+  {id:"QC012",name:"Tỷ lệ kiểm áp dụng AQL",uom:"Pos",w:20,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl lỗi/ Tổng Pos kiểm",current:10.0,anomaly:null,s:[10.68,9.67,8.5,8.15,9.43,11.71,10.91,10.0]},
+  {id:"QC013",name:"Tỷ Lệ giày loại B",uom:"%",w:20,target:0.1,tgtTxt:"~ 0.1%",dir:"down",calc:"Sl lỗi B/ Tổng sl kiểm",current:0.5,anomaly:null,s:[0.85,0.46,0.03,0.03,0.34,1.19,0.84,0.5]},
+  {id:"QC014",name:"báo cáo kiểm trên chuyền",uom:"%",w:20,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần/ngày",current:98.0,anomaly:null,s:[62.94,116.19,173.5,190.46,125.7,11.97,52.66,98.0]},
+  {id:"QC015",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[49.6,94.64,147.0,164.23,104.68,2.7,37.6,80.0]}
+];
+var QC01_STAFF=[
+  ["Nguyễn Thị Trúc Linh","CB THÀNH HÌNH"],
+  ["Trương Thị Huyền Trân","QA TH 1,2"],
+  ["Nguyễn Thị Ngọc Linh","QC TH1"],
+  ["Võ Thị Minh Thư","QC TH1"],
+  ["Nguyễn Thị Thảo","QC TH1"],
+  ["Nguyễn Thị Cẩm Tú","QC TH2"],
+  ["Nguyễn Võ Trà Hương","QC TH2"],
+  ["Nguyễn Thị Yến Phi","QC TH2"],
+  ["Võ Thị Diệu Đăng","QA TH 3,4"],
+  ["Đặng Thị Huyền Như","QC TH3"],
+  ["Lưu Ngọc Truyện","QC TH3"],
+  ["Bùi Ngọc Hân","QC TH3"],
+  ["Nguyễn Thị Thu Thuỷ","QC TH4"],
+  ["Trần Thị Kim Hồng","QC TH4"]
+];
+
+var QC02_LIST=[
+  {id:"QC021",name:"Tỷ lệ kiểm lô NVL đạt",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[59.59,101.99,151.67,167.53,112.93,16.99,51.08,90.0]},
+  {id:"QC022",name:"Tỷ lệ kiểm sai lệch màu so với mẫu",uom:"%",w:15,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[58.8,102.14,151.0,166.22,112.93,17.47,51.05,90.0]},
+  {id:"QC023",name:"Tỷ lệ kiểm đúng thời hạn",uom:"%",w:20,target:98,tgtTxt:"2%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:"Mục tiêu gốc trong file ghi 2 phần trăm trong khi Hiện tại đã 90% — nghi ngờ lỗi nhập liệu (thiếu ký hiệu ≥ và số 9), hệ thống tạm quy đổi mục tiêu về ≥98% để tính điểm; cần khách xác nhận lại con số đúng.",s:[59.5,101.99,150.79,167.97,111.96,16.75,50.17,90.0]},
+  {id:"QC024",name:"Thời gian xử lý khiếu nại với Ncc",uom:"ngày",w:20,target:5.0,tgtTxt:"5 ngày",dir:"down",calc:"Sl đạt/ Tổng sl kiểm",current:5.0,anomaly:null,s:[6.53,4.35,1.89,1.08,3.84,8.78,6.96,5.0]},
+  {id:"QC025",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:15,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:5.0,anomaly:null,s:[5.62,4.74,3.77,3.45,4.55,6.47,5.78,5.0]},
+  {id:"QC026",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[52.56,92.12,135.92,151.53,100.33,12.74,45.12,80.0]}
+];
+var QC02_STAFF=[
+  ["Trần Thị Hoàng My","CB LIỆU"]
+];
+
+var QC03_LIST=[
+  {id:"QC031",name:"Tỷ lệ lô liệu đạt so màu ngay lần đầu",uom:"%",w:25,target:96.0,tgtTxt:"≥96%",dir:"up",calc:"Sl lô đạt so màu lần 1 / Tổng lô so màu",current:88.0,anomaly:null,s:[55.99,105.23,158.19,176.39,113.93,6.44,43.18,88.0]},
+  {id:"QC032",name:"Tỷ lệ so màu đúng điều kiện chuẩn (tủ đèn D65/TL84, thang xám ≥4)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lần so màu đúng quy trình / Tổng lần so màu",current:90.0,anomaly:null,s:[55.77,106.51,163.73,181.71,118.02,4.77,44.81,90.0]},
+  {id:"QC033",name:"Tỷ lệ so màu đúng thời hạn",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô so màu đúng hạn / Tổng lô yêu cầu",current:90.0,anomaly:null,s:[56.3,106.9,161.69,179.64,116.08,5.61,46.25,90.0]},
+  {id:"QC034",name:"Tỷ lệ bỏ sót lệch màu (chuyền/khách hàng phát hiện sau)",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lô lệch màu phát hiện sau / Tổng lô đã so màu",current:3.0,anomaly:null,s:[3.41,2.88,2.31,2.12,2.74,3.89,3.45,3.0]},
+  {id:"QC035",name:"Thời gian phản hồi & xử lý lệch màu với NCC",uom:"ngày",w:10,target:1.0,tgtTxt:"1 ngày",dir:"down",calc:"Time chốt xử lý - time phát hiện lệch màu",current:3.0,anomaly:null,s:[3.41,2.88,2.31,2.12,2.75,3.86,3.47,3.0]},
+  {id:"QC036",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[49.35,95.59,146.55,163.39,104.81,2.7,39.31,80.0]}
+];
+var QC03_STAFF=[
+  ["Nguyễn Thị Tuyền Duyên","QC LIỆU"]
+];
+
+var QC04_LIST=[
+  {id:"QC041",name:"Tỷ lệ lô da đạt khi kiểm nhập",uom:"%",w:25,target:96.0,tgtTxt:"≥96%",dir:"up",calc:"Sl lô da đạt / Tổng lô da kiểm",current:88.0,anomaly:null,s:[57.19,101.3,150.5,165.17,112.33,15.02,49.03,88.0]},
+  {id:"QC042",name:"Tỷ lệ kiểm đủ chỉ tiêu da (độ dày, độ bền màu, phân hạng, diện tích)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô kiểm đủ chỉ tiêu / Tổng lô da kiểm",current:90.0,anomaly:null,s:[57.83,104.9,155.4,171.62,114.75,13.17,49.73,90.0]},
+  {id:"QC043",name:"Tỷ lệ kiểm da đúng thời hạn",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô kiểm đúng hạn / Tổng lô yêu cầu",current:90.0,anomaly:null,s:[58.58,104.61,154.26,169.52,112.66,13.65,49.75,90.0]},
+  {id:"QC044",name:"Tỷ lệ bỏ sót lỗi da (chuyền cắt phát hiện sau)",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lỗi da phát hiện sau kiểm / Tổng lỗi da phát hiện",current:3.0,anomaly:null,s:[3.38,2.91,2.38,2.23,2.79,3.8,3.41,3.0]},
+  {id:"QC045",name:"Thời gian xử lý khiếu nại / trả hàng với NCC",uom:"ngày",w:10,target:1.0,tgtTxt:"1 ngày",dir:"down",calc:"Time chốt xử lý - time phát hiện lỗi",current:3.0,anomaly:null,s:[3.37,2.91,2.41,2.21,2.79,3.78,3.41,3.0]},
+  {id:"QC046",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.96,92.23,138.59,152.74,102.05,10.15,44.11,80.0]}
+];
+var QC04_STAFF=[
+  ["Trần Thị Cẩm My","QC LIỆU"],
+  ["Đỗ Hoàng Khánh Băng","QC LIỆU"]
+];
+
+var QC05_LIST=[
+  {id:"QC051",name:"Tỷ lệ lỗi cắt",uom:"%",w:20,target:3.0,tgtTxt:"≤3%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm x 100%",current:10.0,anomaly:null,s:[10.95,9.55,8.02,7.47,9.27,12.34,11.25,10.0]},
+  {id:"QC052",name:"Tỷ lệ kiểm áp dụng AQL",uom:"%",w:20,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl đạt ngay lând đầu/ Tổng sl kiểm",current:10.0,anomaly:null,s:[10.65,9.71,8.66,8.32,9.51,11.55,10.84,10.0]},
+  {id:"QC053",name:"Tỷ bỏ sót lỗi",uom:"%",w:15,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl trả về/ Tổng sl giao may",current:5.0,anomaly:null,s:[5.66,4.72,3.66,3.31,4.49,6.57,5.85,5.0]},
+  {id:"QC054",name:"Tỷ lệ hành động khắc phục",uom:"%",w:15,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl kiểm lại/ Tổng sl giao may",current:5.0,anomaly:null,s:[5.66,4.72,3.69,3.34,4.49,6.58,5.86,5.0]},
+  {id:"QC055",name:"Tỷ lệ lỗi bề mặt da (Tưa biên,lẹm,sẹo,rách...)",uom:"%",w:20,target:5.0,tgtTxt:"≤5% ~ 10%",dir:"down",calc:"Sl chi tiết kiểm lỗi/ Tổng sl kiểm x 100%",current:15.0,anomaly:null,s:[16.55,14.22,11.7,10.8,13.8,18.96,17.1,15.0]},
+  {id:"QC056",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.11,94.31,140.66,155.22,102.34,8.65,42.53,80.0]}
+];
+var QC05_STAFF=[
+  ["Đỗ Thị Thuý Nga","QA CẮT"],
+  ["Nguyễn Châu Ánh Vy","QC CẮT 2"],
+  ["Lưu Thị Thu Liễu","QC CẮT 3"],
+  ["Trần Thị Tuyết Nhung","QC CẮT 1"],
+  ["Nguyễn Hoàng Minh Thư","QC CẮT"]
+];
+
+var QC06_LIST=[
+  {id:"QC061",name:"Test đúng hạn",uom:"%",w:30,target:98.0,tgtTxt:"98%",dir:"up",calc:"Sl mẫu test đúng hạn/ Tổng mẫu test",current:92.0,anomaly:null,s:[63.53,102.66,144.39,156.47,110.03,27.74,58.28,92.0]},
+  {id:"QC062",name:"Kết quả test chính xác",uom:"%",w:20,target:99.0,tgtTxt:"99%",dir:"up",calc:"SL mẫu ko retest/Số mẫu test",current:95.0,anomaly:null,s:[66.13,104.87,145.87,160.35,115.03,30.41,60.22,95.0]},
+  {id:"QC063",name:"Thời gian xử lý test",uom:"Giờ",w:20,target:120.0,tgtTxt:"5 ngày (120h)",dir:"down",calc:"Time trả kqua/ time nhận mẫu",current:168.0,anomaly:null,s:[201.9,155.54,105.07,87.6,145.28,244.01,208.61,168.0]},
+  {id:"QC064",name:"Calibration thiết bị đúng hạn",uom:"%",w:20,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số thiết bị hiệu chuẩn đúng hạn/ Tổng số thiết bị đúng hạn",current:95.0,anomaly:null,s:[66.85,105.66,148.24,160.83,115.33,31.61,60.05,95.0]},
+  {id:"QC065",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.95,89.48,128.2,140.49,96.66,21.05,49.71,80.0]}
+];
+var QC06_STAFF=[
+  ["Tăng Thị Thanh Nha","CB LAB"]
+];
+
+var QC07_LIST=[
+  {id:"QC071",name:"Tỷ lệ mẫu giày test đúng hạn (TAT)",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl mẫu giày trả kết quả đúng hạn / Tổng mẫu giày test",current:92.0,anomaly:null,s:[63.8,102.14,141.07,154.75,108.92,30.86,59.06,92.0]},
+  {id:"QC072",name:"Độ chính xác & lặp lại kết quả (không phải test lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl mẫu không retest / Tổng mẫu test",current:95.0,anomaly:null,s:[68.0,103.41,145.52,158.35,112.46,33.23,62.53,95.0]},
+  {id:"QC073",name:"Tỷ lệ test đủ hạng mục theo tiêu chuẩn KH (bám dính, uốn gập, mài mòn...)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl mẫu test đủ hạng mục / Tổng mẫu yêu cầu",current:90.0,anomaly:null,s:[63.49,99.55,139.57,152.27,107.71,29.13,58.07,90.0]},
+  {id:"QC074",name:"Hiệu chuẩn & bảo trì thiết bị test giày đúng hạn",uom:"%",w:15,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl thiết bị hiệu chuẩn đúng hạn / Tổng thiết bị",current:95.0,anomaly:null,s:[66.92,103.95,145.4,158.16,112.56,33.1,62.52,95.0]},
+  {id:"QC075",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.31,88.63,124.41,137.19,97.13,24.02,51.14,80.0]}
+];
+var QC07_STAFF=[
+  ["Lê Tấn Tài Lộc","LAB"],
+  ["Nguyễn Ngọc Tiến","LAB"]
+];
+
+var QC08_LIST=[
+  {id:"QC081",name:"Tỷ lệ mẫu NVL (da, vải, keo, chỉ) test đúng hạn",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl mẫu NVL trả kết quả đúng hạn / Tổng mẫu NVL test",current:90.0,anomaly:null,s:[61.01,100.93,146.16,160.76,110.6,22.77,54.72,90.0]},
+  {id:"QC082",name:"Độ chính xác kết quả test NVL (không phải test lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl mẫu không retest / Tổng mẫu test",current:95.0,anomaly:null,s:[65.31,105.92,151.15,166.26,115.53,25.32,57.72,95.0]},
+  {id:"QC083",name:"Tỷ lệ lô NVL được test trước khi đưa vào sản xuất",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô NVL đã test / Tổng lô NVL nhập",current:90.0,anomaly:null,s:[60.61,100.62,148.84,162.88,110.87,20.26,52.66,90.0]},
+  {id:"QC084",name:"Thời gian xử lý mẫu gấp / phản hồi NCC",uom:"Giờ",w:15,target:24.0,tgtTxt:"24h",dir:"down",calc:"Time trả kết quả - time nhận mẫu gấp",current:48.0,anomaly:null,s:[54.83,45.29,34.0,30.62,43.1,64.87,56.97,48.0]},
+  {id:"QC085",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[53.05,89.74,132.42,145.24,98.69,16.52,46.74,80.0]}
+];
+var QC08_STAFF=[
+  ["Nguyễn Thị Kiều Lan","LAB"],
+  ["Ngô Thị Hồng Ân","LAB"]
+];
+
+var QC09_LIST=[
+  {id:"QC091",name:"Tỷ lệ báo cáo kết quả test phát hành đúng hạn",uom:"%",w:30,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl báo cáo phát hành đúng hạn / Tổng báo cáo",current:92.0,anomaly:null,s:[57.82,110.1,167.11,186.02,120.27,5.28,46.35,92.0]},
+  {id:"QC092",name:"Tỷ lệ báo cáo không sai sót (không phải chỉnh sửa/phát hành lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl báo cáo không hiệu chỉnh / Tổng báo cáo",current:95.0,anomaly:null,s:[61.93,112.37,169.83,186.3,123.25,9.43,49.78,95.0]},
+  {id:"QC093",name:"Tỷ lệ hồ sơ, dữ liệu test được lưu trữ & truy xuất đầy đủ",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl hồ sơ đầy đủ / Tổng hồ sơ kiểm tra",current:90.0,anomaly:null,s:[56.16,107.56,165.57,182.6,118.63,3.96,43.09,90.0]},
+  {id:"QC094",name:"Thời gian phát hành báo cáo sau khi có kết quả",uom:"Giờ",w:15,target:8.0,tgtTxt:"8h",dir:"down",calc:"Time phát hành báo cáo - time có kết quả",current:24.0,anomaly:null,s:[26.83,22.55,17.98,16.52,21.79,30.9,27.65,24.0]},
+  {id:"QC095",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[50.14,94.59,146.99,162.84,104.51,2.7,37.54,80.0]}
+];
+var QC09_STAFF=[
+  ["Lê Thị Kim Cúc","LAB"]
+];
+
+var QC10_LIST=[
+  {id:"QC101",name:"Tỷ lệ hàng đạt chất lượng ngay từ lần đầu (FPY)",uom:"%",w:30,target:97.0,tgtTxt:"≥97%",dir:"up",calc:"Sl đôi đạt ngay lần kiểm đầu / Tổng sản lượng kiểm",current:92.0,anomaly:null,s:[60.35,106.49,154.38,170.88,115.51,18.6,52.49,92.0]},
+  {id:"QC102",name:"Tỷ lệ hàng phải tái chế / sửa lại",uom:"%",w:25,target:2.0,tgtTxt:"≤2%",dir:"down",calc:"Sl đôi phải tái chế / Tổng sản lượng",current:5.0,anomaly:null,s:[5.63,4.74,3.69,3.38,4.51,6.53,5.79,5.0]},
+  {id:"QC103",name:"Tỷ lệ bỏ sót lỗi của đội QC (PKH/khách hàng phát hiện sau)",uom:"%",w:20,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lỗi phát hiện sau công đoạn QC / Tổng lỗi phát hiện",current:3.0,anomaly:null,s:[3.37,2.9,2.42,2.21,2.79,3.78,3.4,3.0]},
+  {id:"QC104",name:"Tỷ lệ khiếu nại chất lượng được xử lý & đóng CAPA đúng hạn",uom:"%",w:15,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl CAPA đóng đúng hạn (≤30 ngày) / Tổng khiếu nại",current:85.0,anomaly:null,s:[53.38,99.48,150.08,166.51,108.98,8.93,44.02,85.0]},
+  {id:"QC105",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.68,92.11,138.98,153.51,101.09,10.67,44.47,80.0]}
+];
+var QC10_STAFF=[
+  ["Vũ Thăng Liêm","CQCL"],
+  ["Nguyễn Thị Tâm","CÁN BỘ"]
+];
+
+var QC11_LIST=[
+  {id:"QC111",name:"Tỷ lệ hàng tái chế lại",uom:"Pos",w:30,target:3.0,tgtTxt:"3%",dir:"down",calc:"Tổng số Pos fail/ Tổng sl Pos",current:6.5,anomaly:null,s:[7.39,6.15,4.77,4.38,5.88,8.56,7.59,6.5]},
+  {id:"QC112",name:"Tỷ lệ QC nhận biết lỗi",uom:"Người",w:20,target:2.0,tgtTxt:"≤2 người",dir:"down",calc:"Tổng số người test ko đạt/ Tổng số người có mặt",current:5.0,anomaly:null,s:[5.59,4.75,3.88,3.6,4.61,6.36,5.73,5.0]},
+  {id:"QC113",name:"Tỷ Lệ hàng đạt chất lượng ngay từ lần đầu",uom:"%",w:20,target:95.0,tgtTxt:"95%",dir:"up",calc:"Tổng số lượng đôi/ Tổng sl sản xuất",current:80.0,anomaly:null,s:[51.06,91.73,133.5,147.35,100.31,14.23,46.25,80.0]},
+  {id:"QC114",name:"Tỷ lệ lỗi xảy ra trên chuyền",uom:"%",w:20,target:5.0,tgtTxt:"5%",dir:"down",calc:"Số lần/ngày",current:15.0,anomaly:null,s:[16.49,14.37,12.12,11.45,13.94,18.44,16.87,15.0]},
+  {id:"QC115",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.6,90.75,130.7,143.55,97.99,18.38,46.95,80.0]}
+];
+var QC11_STAFF=[
+  ["Lê Thị Ngọc Dung","QC MẪU"]
+];
+
+var QC12_LIST=[
+  {id:"QC121",name:"Tỷ lệ lô đạt AQL ngay lần kiểm đầu",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô Pass lần 1 / Tổng lô kiểm (ISO 2859-1)",current:90.0,anomaly:null,s:[56.02,106.65,162.14,179.66,116.2,6.51,46.13,90.0]},
+  {id:"QC122",name:"Tỷ lệ lô được kiểm đúng kế hoạch / đúng hạn",uom:"%",w:25,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô kiểm đúng lịch / Tổng lô yêu cầu kiểm",current:92.0,anomaly:null,s:[59.52,107.79,164.63,181.69,120.05,7.53,46.36,92.0]},
+  {id:"QC123",name:"Tỷ lệ bỏ sót lỗi (khách hàng/kho phát hiện sau kiểm)",uom:"%",w:20,target:0.5,tgtTxt:"≤0.5%",dir:"down",calc:"Sl lô bị khiếu nại sau kiểm / Tổng lô đã kiểm",current:3.0,anomaly:null,s:[3.35,2.94,2.52,2.38,2.85,3.67,3.34,3.0]},
+  {id:"QC124",name:"Tỷ lệ hành động khắc phục",uom:"%",w:15,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lượng PO đóng đúng hạn / Tổng PO phát hành",current:85.0,anomaly:null,s:[52.91,102.23,155.45,174.59,112.85,2.94,40.04,85.0]},
+  {id:"QC125",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[48.83,95.11,145.75,162.47,104.84,4.89,39.04,80.0]}
+];
+var QC12_STAFF=[
+  ["Nguyễn Thị Ngọc Tâm","QA PKH"],
+  ["Lê Thị Huỳnh Như","QA PKH"],
+  ["Nguyễn Thị Ngọc Trinh","QA PKH"],
+  ["Phan Thị Như Huỳnh","QC PKH"]
+];
+
+var QC13_LIST=[
+  {id:"QC131",name:"Tỷ lệ báo cáo chất lượng phát hành đúng hạn (ngày/tuần/tháng)",uom:"%",w:30,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl báo cáo đúng hạn / Tổng báo cáo theo lịch",current:92.0,anomaly:null,s:[59.01,107.68,159.78,176.34,118.04,12.88,49.32,92.0]},
+  {id:"QC132",name:"Độ chính xác số liệu báo cáo (không phải hiệu chỉnh sau phát hành)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl báo cáo không hiệu chỉnh / Tổng báo cáo",current:95.0,anomaly:null,s:[63.23,108.88,161.47,178.21,119.52,15.99,52.54,95.0]},
+  {id:"QC133",name:"Tỷ lệ dữ liệu lỗi được cập nhật đầy đủ vào hệ thống trong 24h",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl hồ sơ lỗi cập nhật ≤24h / Tổng hồ sơ lỗi",current:90.0,anomaly:null,s:[58.44,104.18,158.47,174.42,115.13,11.21,47.04,90.0]},
+  {id:"QC134",name:"Tỷ lệ báo cáo có phân tích nguyên nhân & đề xuất cải tiến",uom:"%",w:15,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Sl báo cáo có phân tích & đề xuất / Tổng báo cáo",current:60.0,anomaly:null,s:[28.35,75.15,124.02,140.38,84.07,2.85,19.95,60.0]},
+  {id:"QC135",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.66,94.54,141.63,157.39,103.5,8.07,41.99,80.0]}
+];
+var QC13_STAFF=[
+  ["Tô Thị Hồng Ngân","TRỢ LÝ"],
+  ["Giao Thị Thanh Nguyên","TRỢ LÝ"]
+];
+
+var LEAVES_SX=[
+  {code:"SX00",congdoan:"Cắt",nhom:"Công nhân",list:SX00_LIST,staff:SX00_STAFF,off:mkOffsets(SX00_STAFF.length,SX00_LIST.length,20260301)},
+  {code:"SX01",congdoan:"Cắt",nhom:"Vật tư / Lãnh liệu",list:SX01_LIST,staff:SX01_STAFF,off:mkOffsets(SX01_STAFF.length,SX01_LIST.length,20260302)},
+  {code:"SX02",congdoan:"Ấn",nhom:"Công nhân",list:SX02_LIST,staff:SX02_STAFF,off:mkOffsets(SX02_STAFF.length,SX02_LIST.length,20260303)},
+  {code:"SX03",congdoan:"Chuẩn Bị",nhom:"Công nhân",list:SX03_LIST,staff:SX03_STAFF,off:mkOffsets(SX03_STAFF.length,SX03_LIST.length,20260304)},
+  {code:"SX04",congdoan:"Hình Thành",nhom:"Công nhân",list:SX04_LIST,staff:SX04_STAFF,off:mkOffsets(SX04_STAFF.length,SX04_LIST.length,20260305)},
+  {code:"SX05",congdoan:"Hình Thành",nhom:"Vật tư / Lãnh liệu",list:SX05_LIST,staff:SX05_STAFF,off:mkOffsets(SX05_STAFF.length,SX05_LIST.length,20260306)},
+  {code:"SX06",congdoan:"May",nhom:"Công nhân",list:SX06_LIST,staff:SX06_STAFF,off:mkOffsets(SX06_STAFF.length,SX06_LIST.length,20260307)},
+  {code:"SX07",congdoan:"May",nhom:"Vật tư / Lãnh liệu",list:SX07_LIST,staff:SX07_STAFF,off:mkOffsets(SX07_STAFF.length,SX07_LIST.length,20260308)},
+  {code:"SX08",congdoan:"May",nhom:"Giao kho",list:SX08_LIST,staff:SX08_STAFF,off:mkOffsets(SX08_STAFF.length,SX08_LIST.length,20260309)}
+];
+
+var LEAVES_QC=[
+  {code:"QC00",congdoan:"QA May",nhom:"Công nhân",list:QC00_LIST,staff:QC00_STAFF,off:mkOffsets(QC00_STAFF.length,QC00_LIST.length,20260401)},
+  {code:"QC01",congdoan:"QA HT",nhom:"Công nhân",list:QC01_LIST,staff:QC01_STAFF,off:mkOffsets(QC01_STAFF.length,QC01_LIST.length,20260402)},
+  {code:"QC02",congdoan:"QA liệu đầu vào",nhom:"Công nhân",list:QC02_LIST,staff:QC02_STAFF,off:mkOffsets(QC02_STAFF.length,QC02_LIST.length,20260403)},
+  {code:"QC03",congdoan:"QA liệu đầu vào",nhom:"So màu",list:QC03_LIST,staff:QC03_STAFF,off:mkOffsets(QC03_STAFF.length,QC03_LIST.length,20260404)},
+  {code:"QC04",congdoan:"QA liệu đầu vào",nhom:"Kiểm da",list:QC04_LIST,staff:QC04_STAFF,off:mkOffsets(QC04_STAFF.length,QC04_LIST.length,20260405)},
+  {code:"QC05",congdoan:"QA Cắt chuẩn bị",nhom:"Công nhân",list:QC05_LIST,staff:QC05_STAFF,off:mkOffsets(QC05_STAFF.length,QC05_LIST.length,20260406)},
+  {code:"QC06",congdoan:"Lab Test",nhom:"Công nhân",list:QC06_LIST,staff:QC06_STAFF,off:mkOffsets(QC06_STAFF.length,QC06_LIST.length,20260407)},
+  {code:"QC07",congdoan:"Lab Test",nhom:"Lab giày",list:QC07_LIST,staff:QC07_STAFF,off:mkOffsets(QC07_STAFF.length,QC07_LIST.length,20260408)},
+  {code:"QC08",congdoan:"Lab Test",nhom:"Lab liệu",list:QC08_LIST,staff:QC08_STAFF,off:mkOffsets(QC08_STAFF.length,QC08_LIST.length,20260409)},
+  {code:"QC09",congdoan:"Lab Test",nhom:"Lab báo cáo",list:QC09_LIST,staff:QC09_STAFF,off:mkOffsets(QC09_STAFF.length,QC09_LIST.length,20260410)},
+  {code:"QC10",congdoan:"QA Supervisor",nhom:"Công nhân",list:QC10_LIST,staff:QC10_STAFF,off:mkOffsets(QC10_STAFF.length,QC10_LIST.length,20260411)},
+  {code:"QC11",congdoan:"QA Supervisor",nhom:"QC Mẫu",list:QC11_LIST,staff:QC11_STAFF,off:mkOffsets(QC11_STAFF.length,QC11_LIST.length,20260412)},
+  {code:"QC12",congdoan:"QA Supervisor",nhom:"PKH",list:QC12_LIST,staff:QC12_STAFF,off:mkOffsets(QC12_STAFF.length,QC12_LIST.length,20260413)},
+  {code:"QC13",congdoan:"QA Supervisor",nhom:"Báo Cáo",list:QC13_LIST,staff:QC13_STAFF,off:mkOffsets(QC13_STAFF.length,QC13_LIST.length,20260414)}
+];
+
+function valAt(k,i,mode){if(mode==='ytd'){var s=0;for(var j=0;j<=i;j++)s+=k.s[j];return s/(i+1);}return k.s[i];}
+function scoreOf(k,v){var r=(k.dir==='down')?(k.target/v):(v/k.target);return Math.min(r,1.2)*100;}
+function kScore(k,i,mode){return scoreOf(k,valAt(k,i,mode));}
+function cl(v){return Math.max(0,Math.min(120,v));}
+/* điểm của một chỉ số: e<0 là cả phòng, e>=0 là một nhân viên */
+function sc1(list,off,e,x,i,mode){var b=kScore(list[x],i,mode);return e<0?b:cl(b+off[e][x]);}
+function backVal(k,s){return k.dir==='down'?k.target/(s/100):s/100*k.target;}
+function sumW(list){return list.reduce(function(a,k){return a+k.w;},0);}
+function normAt(list,off,e,i,mode){
+  var w=sumW(list),t=0;
+  list.forEach(function(k,x){t+=sc1(list,off,e,x,i,mode)*k.w;});
+  return t/w;
+}
+var ALL_LEAVES = LEAVES_SX.map(function(d){return Object.assign({},d,{group:'SX',color:'#0065B3',name:(d.congdoan===d.nhom?d.congdoan:d.congdoan+' · '+d.nhom)});})
+  .concat(LEAVES_QC.map(function(d){return Object.assign({},d,{group:'QC',color:'#E4622B',name:(d.congdoan===d.nhom?d.congdoan:d.congdoan+' · '+d.nhom)});}));
+function leafByCode(code){return ALL_LEAVES.filter(function(x){return x.code===code;})[0];}
+function deptAt(code,i,mode){var d=leafByCode(code);return normAt(d.list,d.off,-1,i,mode);}
+function activeDepts(){return ALL_LEAVES;}
+function coScoreAt(i,mode,ds){
+  var a=ds||activeDepts(),tw=0,t=0;
+  a.forEach(function(d){var w=d.staff.length;t+=deptAt(d.code,i,mode)*w;tw+=w;});
+  return tw?t/tw:0;
+}
+function groupAt(pid,i,mode){
+  var leaves=(pid==='p2'?LEAVES_SX:LEAVES_QC),tw=0,t=0;
+  leaves.forEach(function(d){var w=d.staff.length;t+=deptAt(d.code,i,mode)*w;tw+=w;});
+  return tw?t/tw:0;
+}
+function congdoanLeaves(pid,cd){return (pid==='p2'?LEAVES_SX:LEAVES_QC).filter(function(d){return d.congdoan===cd;});}
+function congdoanAt(pid,cd,i,mode){
+  var leaves=congdoanLeaves(pid,cd),tw=0,t=0;
+  leaves.forEach(function(d){var w=d.staff.length;t+=deptAt(d.code,i,mode)*w;tw+=w;});
+  return tw?t/tw:0;
+}
+function congdoanStaffCount(pid,cd){return congdoanLeaves(pid,cd).reduce(function(a,d){return a+d.staff.length;},0);}
+function rateOf(f,i){return i<1?0:(f(i)-f(0))/i;}
+function needOf(cur,i,goal){var l=LAST-i;return l<=0?0:Math.max((goal===undefined?GOAL:goal)-cur,0)/l;}
+function forecast(cur,rate,i){return cur+rate*(LAST-i);}
+
+function rank(s){if(s>=100)return{t:'Xuất sắc',c:'p-ok'};if(s>=95)return{t:'Đạt',c:'p-ok'};if(s>=85)return{t:'Cần cải thiện',c:'p-wn'};return{t:'Không đạt',c:'p-bd'};}
+function col(s){return s>=95?'#1F8A5B':(s>=85?'#E4622B':'#C93A2E');}
+function n1(v){return (Math.round(v*10)/10).toLocaleString('vi-VN',{minimumFractionDigits:1,maximumFractionDigits:1});}
+function n2(v){return (Math.round(v*100)/100).toLocaleString('vi-VN',{minimumFractionDigits:2,maximumFractionDigits:2});}
+function R1(v){return Math.round(v*10)/10;}
+function R2(v){return Math.round(v*100)/100;}
+function delta(c,p){if(p===null)return '<span class="mut">—</span>';var d=c-p;if(Math.abs(d)<0.05)return '<span class="mut">● 0.0</span>';return '<span class="'+(d>0?'up':'dn')+'">'+(d>0?'▲':'▼')+' '+n1(Math.abs(d))+'</span>';}
+function mk(id,cfg){if(charts[id])charts[id].destroy();charts[id]=new Chart(document.getElementById(id),cfg);}
+
+var GRID={color:'#EFF3F7'},TICK={color:'#69798A',font:{size:10.5,family:'Inter'}};
+var TT={backgroundColor:'#003862',padding:11,titleFont:{size:11.5,family:'Inter'},bodyFont:{size:11.5,family:'Inter'},cornerRadius:6,displayColors:false};
+function baseOpt(o){return Object.assign({responsive:true,maintainAspectRatio:false,
+  plugins:{legend:{display:false},tooltip:TT},
+  scales:{x:{grid:{display:false},ticks:TICK},y:{grid:GRID,ticks:TICK,border:{display:false}}}},o||{});}
+function legendOpt(){return {display:true,position:'bottom',labels:{boxWidth:10,boxHeight:10,font:{size:10.5,family:'Inter'},color:'#69798A',padding:10,usePointStyle:true,pointStyle:'rectRounded'}};}
+function hline(v,c,l){return {id:'h'+v+l,afterDatasetsDraw:function(ch){
+  var y=ch.scales.y;if(!y)return;var py=y.getPixelForValue(v);if(py<ch.chartArea.top||py>ch.chartArea.bottom)return;
+  var x=ch.ctx;x.save();x.setLineDash([5,4]);x.strokeStyle=c;x.lineWidth=1.2;
+  x.beginPath();x.moveTo(ch.chartArea.left,py);x.lineTo(ch.chartArea.right,py);x.stroke();
+  x.setLineDash([]);x.fillStyle=c;x.font='600 10px Inter';x.textAlign='right';
+  var ly=(py-ch.chartArea.top<14)?py+13:py-4;
+  x.fillText(l,ch.chartArea.right-2,ly);x.restore();}};}
+function vline(v,c,l){return {id:'v'+v+l,afterDatasetsDraw:function(ch){
+  var sx=ch.scales.x;if(!sx)return;var px=sx.getPixelForValue(v);if(px<ch.chartArea.left||px>ch.chartArea.right)return;
+  var x=ch.ctx;x.save();x.setLineDash([5,4]);x.strokeStyle=c;x.lineWidth=1.2;
+  x.beginPath();x.moveTo(px,ch.chartArea.top);x.lineTo(px,ch.chartArea.bottom);x.stroke();
+  x.setLineDash([]);x.fillStyle=c;x.font='600 10px Inter';
+  var align='center';
+  if(px-ch.chartArea.left<38)align='left';else if(ch.chartArea.right-px<38)align='right';
+  x.textAlign=align;
+  var ly=(ch.chartArea.top<16)?ch.chartArea.top+11:ch.chartArea.top-4;
+  x.fillText(l,px,ly);x.restore();}};}
+
+/* ----- gauge ----- */
+function polar(cx,cy,r,deg){var a=deg*Math.PI/180;return [cx+r*Math.cos(a),cy-r*Math.sin(a)];}
+function arcP(cx,cy,r,a0,a1){var p0=polar(cx,cy,r,a0),p1=polar(cx,cy,r,a1);
+  return 'M'+p0[0].toFixed(2)+' '+p0[1].toFixed(2)+' A'+r+' '+r+' 0 '+(Math.abs(a0-a1)>180?1:0)+' 1 '+p1[0].toFixed(2)+' '+p1[1].toFixed(2);}
+function gauge(val,mn,mx,thr){
+  var cx=112,cy=104,r=68,w=17;
+  val=R1(val);
+  var pct=Math.max(0,Math.min(1,(val-mn)/(mx-mn))),a1=180-180*pct;
+  var c=val>=thr?'#1F8A5B':(val>=thr-8?'#E4622B':'#C93A2E');
+  var t0=polar(cx,cy,r+w/2+2,a1),t1=polar(cx,cy,r-w/2-2,a1);
+  return '<svg viewBox="0 0 224 118" class="gg">'+
+    '<path d="'+arcP(cx,cy,r,180,0)+'" fill="none" stroke="#E7EDF3" stroke-width="'+w+'" stroke-linecap="round"/>'+
+    (pct>0.004?'<path d="'+arcP(cx,cy,r,180,a1)+'" fill="none" stroke="'+c+'" stroke-width="'+w+'" stroke-linecap="round"/>':'')+
+    '<line x1="'+t0[0].toFixed(2)+'" y1="'+t0[1].toFixed(2)+'" x2="'+t1[0].toFixed(2)+'" y2="'+t1[1].toFixed(2)+'" stroke="#16242F" stroke-width="2.6"/>'+
+    '<text x="'+cx+'" y="'+(cy-4)+'" text-anchor="middle" font-size="30" font-weight="700" fill="#16242F" font-family="Inter">'+n1(val)+'</text>'+
+    '<text x="4" y="'+(cy+14)+'" font-size="11" fill="#69798A" font-family="Inter">'+n1(mn)+'</text>'+
+    '<text x="220" y="'+(cy+14)+'" text-anchor="end" font-size="11" fill="#69798A" font-family="Inter">'+n1(mx)+'</text>'+
+    '</svg>';
+}
+
+/* ----- thác nước ----- */
+function waterfall(id,items,endScore,endLabel){
+  var labels=['Mốc chuẩn 100'],data=[[0,100]],meta=[null],colors=['#003862'],run=100;
+  items.forEach(function(it){
+    labels.push(it.label);var a=run,b=run-it.loss;
+    data.push([Math.min(a,b),Math.max(a,b)]);meta.push(it);
+    colors.push(it.loss>0?'#C93A2E':'#1F8A5B');run=b;
+  });
+  labels.push(endLabel);data.push([0,endScore]);meta.push(null);colors.push(col(endScore));
+  var mn=Math.max(0,Math.floor(Math.min(endScore,run)/5)*5-6);
+  mk(id,{type:'bar',data:{labels:labels,datasets:[{data:data,backgroundColor:colors,borderRadius:4,barPercentage:.72}]},
+    options:baseOpt({scales:{x:{grid:{display:false},ticks:Object.assign({},TICK,{maxRotation:0,autoSkip:false})},
+      y:{min:mn,max:104,grid:GRID,ticks:TICK,border:{display:false}}},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        title:function(c){var m=meta[c[0].dataIndex];return m?m.full:c[0].label;},
+        label:function(c){var m=meta[c.dataIndex];
+          if(!m)return c.dataIndex===0?'Mốc chuẩn: 100 điểm':'Điểm thực tế: '+n1(c.raw[1]);
+          return ['Điểm: '+n1(m.score),'Trọng số: '+m.w+'%','Làm hụt: '+(m.loss>0?'-':'+')+n2(Math.abs(m.loss))+' điểm'];}}})}})});
+}
+
+/* ----- ma trận trọng số × điểm ----- */
+function matrix(id,items,xLabel,avgW){
+  var pts=items.map(function(it){return {x:it.w,y:R1(it.score),r:Math.max(6,Math.min(26,6+Math.abs(it.loss)*3.2)),it:it};});
+  var maxX=Math.max.apply(null,items.map(function(i){return i.w;}));
+  mk(id,{type:'bubble',data:{datasets:[{data:pts,
+    backgroundColor:pts.map(function(p){return p.it.score>=95?'rgba(31,138,91,.55)':(p.it.score>=85?'rgba(228,98,43,.55)':'rgba(201,58,46,.6)');}),
+    borderColor:pts.map(function(p){return col(p.it.score);}),borderWidth:1.5}]},
+    options:baseOpt({layout:{padding:{top:10,right:16}},
+      scales:{x:{min:0,max:maxX+7,title:{display:true,text:xLabel,color:'#69798A',font:{size:10.5,family:'Inter'}},grid:GRID,ticks:Object.assign({},TICK,{callback:function(v){return v+'%';}}),border:{display:false}},
+        y:{min:50,max:114,title:{display:true,text:'Điểm chỉ số',color:'#69798A',font:{size:10.5,family:'Inter'}},grid:GRID,ticks:TICK,border:{display:false}}},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        title:function(c){return c[0].raw.it.full;},
+        label:function(c){var i=c.raw.it;return ['Trọng số: '+i.w+'%','Điểm: '+n1(i.score),'Làm hụt: '+n2(i.loss)+' điểm'];}}})}}),
+    plugins:[{id:'q'+id,beforeDatasetsDraw:function(c){
+      var x=c.ctx,ax=c.chartArea,py=c.scales.y.getPixelForValue(95),px=c.scales.x.getPixelForValue(avgW);
+      x.save();x.fillStyle='rgba(201,58,46,.05)';x.fillRect(px,py,ax.right-px,ax.bottom-py);
+      x.setLineDash([4,4]);x.strokeStyle='#C7D5DF';x.lineWidth=1;
+      x.beginPath();x.moveTo(ax.left,py);x.lineTo(ax.right,py);x.stroke();
+      x.beginPath();x.moveTo(px,ax.top);x.lineTo(px,ax.bottom);x.stroke();
+      x.setLineDash([]);x.font='600 9.5px Inter';x.fillStyle='#C93A2E';x.textAlign='right';
+      x.fillText('ƯU TIÊN XỬ LÝ',ax.right-6,ax.bottom-6);
+      x.fillStyle='#9AABB8';x.textAlign='left';x.fillText('Ngưỡng đạt 95',ax.left+4,py-5);x.restore();}},
+    {id:'l'+id,afterDatasetsDraw:function(c){
+      var x=c.ctx;x.save();x.font='700 10.5px Inter';x.fillStyle='#16242F';x.textAlign='center';
+      c.getDatasetMeta(0).data.forEach(function(p,i){x.fillText(pts[i].it.id,p.x,p.y-p.options.radius-4);});x.restore();}}]});
+}
+
+/* ----- điểm trung bình theo tháng ----- */
+function monthLine(id,list,off,e,i,mode,staffName){
+  var lb=[],dp=[],em=[];
+  for(var j=0;j<=i;j++){lb.push(MONTHS[j]);dp.push(R1(normAt(list,off,-1,j,mode)));
+    if(e>=0)em.push(R1(normAt(list,off,e,j,mode)));}
+  var ds=[{label:'Điểm trung bình phòng',data:dp,borderColor:e>=0?'#B6C7D4':'#0065B3',borderWidth:e>=0?2:2.6,
+    pointRadius:e>=0?2:3.5,pointBackgroundColor:e>=0?'#B6C7D4':'#0065B3',tension:.32,
+    fill:e>=0?false:true,backgroundColor:'rgba(0,101,179,.10)'}];
+  if(e>=0)ds.push({label:staffName,data:em,borderColor:'#E4622B',borderWidth:2.6,pointRadius:3.5,
+    pointBackgroundColor:'#E4622B',tension:.32,fill:false});
+  var lo=Math.min.apply(null,dp.concat(em)),hi=Math.max.apply(null,dp.concat(em));
+  mk(id,{type:'line',data:{labels:lb,datasets:ds},
+    options:baseOpt({layout:{padding:{top:12}},
+      plugins:{legend:e>=0?legendOpt():{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        label:function(c){return c.dataset.label+': '+n1(c.raw)+' điểm';}}})},
+      scales:{x:{grid:{display:false},ticks:TICK},
+        y:{min:Math.max(0,Math.floor((lo-6)/5)*5),max:Math.min(120,Math.ceil((hi+6)/5)*5),grid:GRID,ticks:TICK,border:{display:false}}}}),
+    plugins:[hline(PASS,'#1F8A5B','Ngưỡng Đạt 95')]});
+  return dp.concat();
+}
+
+/* ----- bảng nhiệt nhân viên ----- */
+function heatC(v){
+  if(v>=100)return['#CFEBDF','#12563A'];
+  if(v>=95) return['#E4F3EB','#1F8A5B'];
+  if(v>=90) return['#FCF0E4','#A2551D'];
+  if(v>=80) return['#FADFCF','#8C3F16'];
+  if(v>=70) return['#F7D5D1','#9E2F26'];
+  return ['#EDB4AD','#701C16'];
+}
+function renderHeat(elId,list,staff,off,i,mode,sel,pid){
+  var base=list.map(function(k,x){return sc1(list,off,-1,x,i,mode);}),W=sumW(list);
+  var rows=staff.map(function(p,e){
+    var cells=list.map(function(k,x){return sc1(list,off,e,x,i,mode);});
+    var t=0;list.forEach(function(k,x){t+=cells[x]*k.w;});
+    return {e:e,name:p[0],role:p[1],cells:cells,tot:t/W};
+  }).sort(function(a,b){return b.tot-a.tot;});
+  var th='<tr><th>#</th><th>Nhân viên</th><th>Vị trí</th>'+
+    list.map(function(k){return '<th class="num" title="'+k.name+'">'+k.id+'<div class="thw">'+k.w+'%</div></th>';}).join('')+
+    '<th class="num">Điểm KPI</th><th>Xếp loại</th></tr>';
+  var tb=rows.map(function(r,x){
+    var c=r.cells.map(function(v){var h=heatC(v);return '<td class="num hc" style="background:'+h[0]+';color:'+h[1]+'">'+n1(v)+'</td>';}).join('');
+    var h=heatC(r.tot),rk=rank(r.tot);
+    return '<tr class="'+(sel===r.e?'sel':'')+'"><td class="num">'+(x+1)+'</td>'+
+      '<td><b>'+r.name+'</b></td><td style="color:var(--gray)">'+r.role+'</td>'+c+
+      '<td class="num hc" style="background:'+h[0]+';color:'+h[1]+';font-weight:700">'+n1(r.tot)+'</td>'+
+      '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+  }).join('');
+  var avg=rows.reduce(function(a,r){return a+r.tot;},0)/rows.length;
+  var tf='<tr><td colspan="3">Bình quân nhóm ('+rows.length+' nhân sự)</td>'+
+    base.map(function(v){return '<td class="num">'+n1(v)+'</td>';}).join('')+
+    '<td class="num">'+n1(avg)+'</td><td></td></tr>';
+  document.getElementById(elId).innerHTML='<table class="heatt"><thead>'+th+'</thead><tbody>'+tb+'</tbody><tfoot>'+tf+'</tfoot></table>'+
+    '<div class="hleg"><span>Thang màu điểm</span>'+
+    [['<70','#EDB4AD'],['70–80','#F7D5D1'],['80–90','#FADFCF'],['90–95','#FCF0E4'],['95–100','#E4F3EB'],['≥100','#CFEBDF']]
+      .map(function(v){return '<em><i style="background:'+v[1]+'"></i>'+v[0]+'</em>';}).join('')+
+    '<b>Di chuột lên mã chỉ số ở dòng tiêu đề để xem tên đầy đủ</b></div>';
+}
+
+function statCard(hl,lb,vlDisplay,curNum,prevNum,tone){
+  var c=tone==='red'?' style="color:var(--red)"':(tone==='amber'?' style="color:var(--orange)"':(tone==='green'?' style="color:var(--green)"':''));
+  return '<div class="stat'+(hl?' hl':'')+'"><div class="lb">'+lb+'</div>'+
+    '<div class="bd"><div class="vl"'+c+'>'+vlDisplay+'</div></div>'+
+    '<div class="trend">'+trendLine(curNum,prevNum)+'</div></div>';
+}
+function trendLine(cur,prev){
+  if(prev===null||prev===undefined) return '<span class="mut">— so với tháng trước</span>';
+  var d=cur-prev;
+  if(Math.abs(d)<0.05) return '<span class="mut">● 0.0 pts so với tháng trước</span>';
+  var arrow=d>0?'▲':'▼', cls=d>0?'up':'dn';
+  return '<span class="'+cls+'">'+arrow+' '+n1(Math.abs(d))+' pts so với tháng trước</span>';
+}
+function ftRow(fts){
+  if(!fts||!fts.length)return '';
+  return '<div class="ft">'+fts.map(function(f){return '<div><span>'+f[0]+'</span><b>'+f[1]+'</b></div>';}).join('')+'</div>';
+}
+function gaugeCard(lb,val,mn,mx,thr,fts){
+  return '<div class="stat gg-card"><div class="lb">'+lb+'</div>'+
+    '<div class="bd">'+gauge(val,mn,mx,thr)+'</div>'+ftRow(fts)+'</div>';
+}
+
+/* dòng drill-down: dùng đúng 8 cột của bảng cha, chèn thẳng vào cùng bảng */
+function drillRows(dep,i,mode){
+  var list=dep.list,out='';
+  list.forEach(function(k,x){
+    var sc=sc1(list,dep.off,-1,x,i,mode);
+    var pv=i>0?sc1(list,dep.off,-1,x,i-1,mode):null;
+    var rate=rateOf(function(j){return sc1(list,dep.off,-1,x,j,mode);},i);
+    var fc=forecast(sc,rate,i),need=needOf(sc,i),rk=rank(sc);
+    var kl=need<=0?'<span class="pill p-ok">Đã đạt mục tiêu</span>'
+                 :(rate>=need?'<span class="pill p-ok">Dự báo kịp</span>':'<span class="pill p-bd">Không kịp mục tiêu 2026</span>');
+    out+='<tr class="chr ch-'+dep.code+'"><td><span class="ind"></span><b>'+k.id+'</b> — '+k.name+
+      '<div class="sm">'+k.uom+' · mục tiêu '+k.tgtTxt+' · thực tế '+n2(valAt(k,i,mode))+(k.uom==='%'?'%':'')+' · nguồn: '+k.src+'</div></td>'+
+      '<td class="num">'+k.w+'%</td><td class="num"><b style="color:'+col(sc)+'">'+n1(sc)+'</b></td>'+
+      '<td class="num">'+delta(sc,pv)+'</td><td class="num">'+n1(Math.min(fc,120))+'</td>'+
+      '<td class="num">'+(sc<PASS?'1/1':'0/1')+'</td>'+
+      '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td><td>'+kl+'</td></tr>';
+  });
+  dep.notes.forEach(function(nt){
+    out+='<tr class="chr ch-'+dep.code+'"><td><span class="ind"></span><span style="color:#8896A4">'+nt[0]+'</span>'+
+      '<div class="sm" style="color:var(--red)">'+nt[1]+'</div></td>'+
+      '<td class="num mut">—</td><td class="num mut">—</td><td class="num mut">—</td><td class="num mut">—</td><td class="num mut">—</td>'+
+      '<td><span class="pill p-nu">Chưa chấm được</span></td><td style="color:var(--gray)">Cần chốt ĐVT, công thức và trọng số</td></tr>';
+  });
+  return out;
+}
+
+/* ===== TRẠNG THÁI ===== */
+var st={m:7,nk:{p2:'ALL',p3:'ALL'}},charts={};
+var mode='month';
+var DEPARTMENTS=[
+  {pid:'p2',code:'SX',name:'Sản xuất',color:'#0065B3'},
+  {pid:'p3',code:'QC',name:'QC',color:'#E4622B'}
+];
+
+/* ===== TIỆN ÍCH PHÂN CẤP ===== */
+function leavesOf(pid){return pid==='p2'?LEAVES_SX:LEAVES_QC;}
+function congdoanList(pid){
+  var seen=[],leaves=leavesOf(pid);
+  leaves.forEach(function(d){if(seen.indexOf(d.congdoan)<0)seen.push(d.congdoan);});
+  return seen;
+}
+function safeCode(s){return s.replace(/[^a-zA-Z0-9]/g,'');}
+function hAxisRange(vals){
+  var lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);
+  var min=Math.max(0,Math.min(Math.floor((lo-8)/10)*10,PASS-15));
+  var max=Math.max(Math.ceil((hi+8)/10)*10,PASS+10);
+  return {min:min,max:max};
+}
+
+/* ===== BIỂU ĐỒ XU HƯỚNG DÙNG CHUNG — bấm vào 1 điểm để nhảy tới đúng tháng đó ===== */
+function trendChart(id,i,scoreFn){
+  var lb=[],dt=[];
+  for(var j=0;j<8;j++){lb.push(MONTHS[j]);dt.push(j<=i?R1(scoreFn(j)):null);}
+  var known=dt.filter(function(v){return v!==null;});
+  var lo=Math.min.apply(null,known),hi=Math.max.apply(null,known);
+  var yMin=Math.max(0,Math.min(Math.floor((lo-6)/5)*5, PASS-15));
+  var yMax=Math.min(120,Math.max(Math.ceil((hi+6)/5)*5, PASS+5));
+  mk(id,{type:'line',data:{labels:lb,datasets:[{data:dt,borderColor:'#0065B3',borderWidth:2.6,
+      pointRadius:dt.map(function(v,x){return x===i?6:3.5;}),
+      pointBackgroundColor:dt.map(function(v){return v!==null&&v<PASS?'#C93A2E':'#0065B3';}),
+      pointHoverRadius:7,tension:.32,fill:true,backgroundColor:'rgba(0,101,179,.10)',spanGaps:false}]},
+    options:baseOpt({layout:{padding:{top:12}},
+      onClick:function(evt,els){
+        if(els&&els.length){var idx=els[0].index;if(dt[idx]!==null){st.m=idx;document.getElementById('fMonth').value=idx;render();}}
+      },
+      onHover:function(evt,els){evt.native.target.style.cursor=(els&&els.length)?'pointer':'default';},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{label:function(c){return 'Điểm: '+n1(c.raw)+(c.raw<PASS?' — chưa đạt (bấm để xem chi tiết)':' — đạt');}}})},
+      scales:{x:{grid:{display:false},ticks:TICK},
+        y:{min:yMin,max:yMax,grid:GRID,ticks:TICK,border:{display:false}}}}),
+    plugins:[hline(PASS,'#1F8A5B','Ngưỡng Đạt 95')]});
+  return known;
+}
+
+/* ===== TRANG 1: TỔNG QUAN CÔNG TY ===== */
+function r1(){
+  var i=st.m;
+  var totalStaff=ALL_LEAVES.reduce(function(a,d){return a+d.staff.length;},0);
+  var cs=coScoreAt(i,mode,ALL_LEAVES),prev=i>0?coScoreAt(i-1,mode,ALL_LEAVES):null;
+
+  var deptRows=DEPARTMENTS.map(function(dp){
+    var n=leavesOf(dp.pid).reduce(function(a,d){return a+d.staff.length;},0);
+    return {dp:dp,n:n,score:groupAt(dp.pid,i,mode),prevScore:i>0?groupAt(dp.pid,i-1,mode):null};
+  });
+  var deptOk=deptRows.filter(function(r){return r.score>=PASS;}).length;
+  var deptOkPrev = i>0 ? deptRows.filter(function(r){return r.prevScore>=PASS;}).length : null;
+
+  var allK=[];ALL_LEAVES.forEach(function(d){d.list.forEach(function(k,x){
+    allK.push({d:d,score:sc1(d.list,d.off,-1,x,i,mode)});});});
+  var kBad=allK.filter(function(a){return a.score<PASS;}).length;
+  var kBadPrev = i>0 ? (function(){var c=0;ALL_LEAVES.forEach(function(d){d.list.forEach(function(k,x){if(sc1(d.list,d.off,-1,x,i-1,mode)<PASS)c++;});});return c;})() : null;
+
+  document.getElementById('p1stats').innerHTML=
+    statCard(true,'Điểm trung bình',n1(cs),cs,prev,'')+
+    statCard(false,'Số phòng ban đạt ngưỡng KPI',deptOk+'<small>/'+deptRows.length+'</small>',deptOk,deptOkPrev,deptOk===deptRows.length?'green':'')+
+    statCard(false,'Số phòng ban dưới ngưỡng',(deptRows.length-deptOk)+'<small>/'+deptRows.length+'</small>',deptRows.length-deptOk,deptOkPrev===null?null:(deptRows.length-deptOkPrev),deptOk<deptRows.length?'red':'green')+
+    statCard(false,'Chỉ số dưới ngưỡng Đạt',kBad+'<small>/'+allK.length+'</small>',kBad,kBadPrev,kBad?'red':'green');
+
+  var totW=deptRows.reduce(function(a,r){return a+r.n;},0);
+  var byLoss=deptRows.map(function(r){return {label:r.dp.name,full:r.dp.name,loss:(100-r.score)*(r.n/totW),score:r.score,w:R1(r.n/totW*100)};})
+    .sort(function(a,b){return b.loss-a.loss;});
+  waterfall('c1a',byLoss,cs,'Điểm công ty');
+
+  trendChart('c1c',i,function(j){return coScoreAt(j,mode,ALL_LEAVES);});
+
+  var hr1b=hAxisRange(deptRows.map(function(r){return r.score;}));
+  mk('c1b',{type:'bar',data:{labels:deptRows.map(function(r){return r.dp.name;}),
+    datasets:[{data:deptRows.map(function(r){return R1(r.score);}),
+      backgroundColor:deptRows.map(function(r){return r.dp.color;}),borderRadius:6,barThickness:40}]},
+    options:baseOpt({indexAxis:'y',layout:{padding:{top:16}},
+      scales:{x:{min:hr1b.min,max:hr1b.max,grid:GRID,ticks:TICK,border:{display:false}},
+        y:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:12,family:'Inter',weight:'600'}})}},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        label:function(c){var r=deptRows[c.dataIndex];return [r.n+' người','Điểm: '+n1(r.score)];}}})}}),
+    plugins:[vline(PASS,'#1F8A5B','Ngưỡng Đạt 95'),
+      {id:'lbl1b',afterDatasetsDraw:function(c){
+        var x=c.ctx;x.save();x.font='700 12.5px Inter';x.fillStyle='#16242F';x.textAlign='left';
+        c.getDatasetMeta(0).data.forEach(function(b,k){x.fillText(n1(deptRows[k].score),b.x+7,b.y+4);});x.restore();}}]});
+
+  document.getElementById('p1th').innerHTML='<th style="width:26%">Phòng ban</th><th class="num">Số nhân sự</th>'+
+    '<th class="num">Điểm bình quân</th><th class="num">So với tháng trước</th>'+
+    '<th class="num">Số chỉ số dưới ngưỡng</th><th>Xếp loại</th>';
+
+  var tb='';
+  deptRows.forEach(function(r){
+    var leaves=leavesOf(r.dp.pid);
+    var kAll=[];leaves.forEach(function(d){d.list.forEach(function(k,x){kAll.push(sc1(d.list,d.off,-1,x,i,mode));});});
+    var kBadDept=kAll.filter(function(s){return s<PASS;}).length;
+    var rk=rank(r.score);
+    tb+='<tr class="clk" onclick="tgDept(\''+r.dp.code+'\')"><td><span class="cr" id="cd-'+r.dp.code+'">▸</span> <b style="color:'+r.dp.color+'">'+r.dp.name+'</b></td>'+
+      '<td class="num">'+r.n+'</td>'+
+      '<td class="num"><b style="color:'+col(r.score)+'">'+n1(r.score)+'</b></td>'+
+      '<td class="num">'+(r.prevScore===null?'—':delta(r.score,r.prevScore))+'</td>'+
+      '<td class="num">'+kBadDept+'/'+kAll.length+'</td><td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+    congdoanList(r.dp.pid).forEach(function(cd){
+      var dsc=congdoanAt(r.dp.pid,cd,i,mode);
+      var dprev=i>0?congdoanAt(r.dp.pid,cd,i-1,mode):null;
+      var drk=rank(dsc);
+      var cdLeaves=congdoanLeaves(r.dp.pid,cd);
+      var cdN=congdoanStaffCount(r.dp.pid,cd);
+      var cdK=[];cdLeaves.forEach(function(d){d.list.forEach(function(k,x){cdK.push(sc1(d.list,d.off,-1,x,i,mode));});});
+      var itemBad=cdK.filter(function(s){return s<PASS;}).length;
+      tb+='<tr class="chr ch-'+r.dp.code+'"><td><span class="ind"></span>'+cd+'</td>'+
+        '<td class="num">'+cdN+'</td>'+
+        '<td class="num"><b style="color:'+col(dsc)+'">'+n1(dsc)+'</b></td>'+
+        '<td class="num">'+(dprev===null?'—':delta(dsc,dprev))+'</td>'+
+        '<td class="num">'+itemBad+'/'+cdK.length+'</td><td><span class="pill '+drk.c+'">'+drk.t+'</span></td></tr>';
+    });
+  });
+  document.getElementById('p1tb').innerHTML=tb;
+  document.getElementById('p1tf').innerHTML='<tr><td>Điểm trung bình công ty</td><td class="num">'+totalStaff+'</td>'+
+    '<td class="num">'+n1(cs)+'</td><td class="num">'+(prev===null?'—':delta(cs,prev))+'</td>'+
+    '<td class="num">'+kBad+'/'+allK.length+'</td><td></td></tr>';
+}
+function tgDept(code){
+  var rs=document.querySelectorAll('.ch-'+code),c=document.getElementById('cd-'+code);
+  if(!rs||!rs.length)return;
+  var open=rs[0].classList.contains('open');
+  rs.forEach(function(r){r.classList.toggle('open',!open);});
+  if(c)c.innerHTML=open?'▸':'▾';
+}
+
+/* ===== TRANG SẢN XUẤT / QC ===== */
+function scopeScore(pid,i){return st.nk[pid]==='ALL'?groupAt(pid,i,mode):congdoanAt(pid,st.nk[pid],i,mode);}
+function scopeStaffCount(pid){return st.nk[pid]==='ALL'?leavesOf(pid).reduce(function(a,d){return a+d.staff.length;},0):congdoanStaffCount(pid,st.nk[pid]);}
+function scopeLeaves(pid){return st.nk[pid]==='ALL'?leavesOf(pid):congdoanLeaves(pid,st.nk[pid]);}
+
+function renderPhong(pid,pfx){
+  var i=st.m,scope=st.nk[pid];
+  var leaves=scopeLeaves(pid);
+  var score=scopeScore(pid,i),prevScore=i>0?scopeScore(pid,i-1):null;
+  var n=scopeStaffCount(pid);
+
+  var allK=[];leaves.forEach(function(d){d.list.forEach(function(k,x){allK.push({d:d,score:sc1(d.list,d.off,-1,x,i,mode)});});});
+  var kBad=allK.filter(function(a){return a.score<PASS;}).length;
+  var kBadPrev = i>0 ? (function(){var c=0;leaves.forEach(function(d){d.list.forEach(function(k,x){if(sc1(d.list,d.off,-1,x,i-1,mode)<PASS)c++;});});return c;})() : null;
+
+  document.getElementById(pid+'stats').innerHTML=
+    statCard(true,'Điểm KPI ('+(scope==='ALL'?'toàn phòng':scope)+')',n1(score),score,prevScore,'')+
+    statCard(false,'Số nhân sự',n,n,null,'')+
+    statCard(false,'Chỉ số dưới ngưỡng Đạt',kBad+'<small>/'+allK.length+'</small>',kBad,kBadPrev,kBad?'red':'green')+
+    statCard(false,'Số nhóm KPI nhỏ',leaves.length,leaves.length,null,'');
+
+  trendChart(pfx+'d',i,function(j){return scope==='ALL'?groupAt(pid,j,mode):congdoanAt(pid,scope,j,mode);});
+
+  var titleEl=document.getElementById(pfx+'title'), subEl=document.getElementById(pfx+'sub');
+  var items,totW2;
+  if(scope==='ALL'){
+    if(titleEl)titleEl.innerHTML='Chỉ số nào kéo điểm xuống — theo nhóm KPI lớn';
+    if(subEl)subEl.innerHTML='Mỗi cột là một nhóm KPI lớn (Cắt/Ấn/Chuẩn Bị/Hình Thành/May hoặc tương đương bên QC).';
+    var cds=congdoanList(pid);
+    totW2=n;
+    items=cds.map(function(cd){
+      var sc=congdoanAt(pid,cd,i,mode),cN=congdoanStaffCount(pid,cd);
+      return {label:cd,full:cd,score:sc,loss:(100-sc)*(cN/totW2),w:R1(cN/totW2*100)};
+    });
+  }else{
+    if(titleEl)titleEl.innerHTML='Chỉ số nào kéo điểm xuống — theo nhóm KPI nhỏ trong '+scope;
+    if(subEl)subEl.innerHTML='Mỗi cột là một nhóm KPI nhỏ bên trong '+scope+'.';
+    totW2=n;
+    items=leaves.map(function(d){
+      var sc=deptAt(d.code,i,mode);
+      return {label:d.nhom,full:scope+' — '+d.nhom,score:sc,loss:(100-sc)*(d.staff.length/totW2),w:R1(d.staff.length/totW2*100)};
+    });
+  }
+  items=items.slice().sort(function(a,b){return b.loss-a.loss;});
+  waterfall(pfx+'a',items,score,scope==='ALL'?'Điểm phòng':'Điểm nhóm');
+
+  renderCongdoanBar(pid,pfx);
+  renderTree(pid);
+}
+function scopeScoreAt(pid,scope,j){return scope==='ALL'?groupAt(pid,j,mode):congdoanAt(pid,scope,j,mode);}
+function r2(){renderPhong('p2','c2');}
+function r3(){renderPhong('p3','c3');}
+
+function renderCongdoanBar(pid,pfx){
+  var i=st.m;
+  var cds=congdoanList(pid);
+  var rows=cds.map(function(cd){return {cd:cd,score:congdoanAt(pid,cd,i,mode),n:congdoanStaffCount(pid,cd)};});
+  var dp=DEPARTMENTS.filter(function(d){return d.pid===pid;})[0];
+  var hr=hAxisRange(rows.map(function(r){return r.score;}));
+  mk(pfx+'e',{type:'bar',data:{labels:rows.map(function(r){return r.cd;}),
+    datasets:[{data:rows.map(function(r){return R1(r.score);}),
+      backgroundColor:dp.color,borderRadius:5,barThickness:22}]},
+    options:baseOpt({indexAxis:'y',layout:{padding:{top:16}},
+      scales:{x:{min:hr.min,max:hr.max,grid:GRID,ticks:TICK,border:{display:false}},
+        y:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:11.5,family:'Inter',weight:'600'}})}},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        label:function(c){var r=rows[c.dataIndex];return [r.n+' người','Điểm: '+n1(r.score)];}}})}}),
+    plugins:[vline(PASS,'#1F8A5B','Ngưỡng Đạt 95'),
+      {id:'lbl'+pfx+'e',afterDatasetsDraw:function(c){
+        var x=c.ctx;x.save();x.font='700 11.5px Inter';x.fillStyle='#16242F';x.textAlign='left';
+        c.getDatasetMeta(0).data.forEach(function(b,k){x.fillText(n1(rows[k].score),b.x+7,b.y+4);});x.restore();}}]});
+}
+
+/* ===== BẢNG DRILL-DOWN, HIGHLIGHT ĐẦY ĐỦ: Nhóm KPI lớn -> Nhóm KPI nhỏ -> Nhân viên ===== */
+function maxCriteriaCount(pid){
+  return Math.max.apply(null, leavesOf(pid).map(function(d){return d.list.length;}));
+}
+function hc(v){var h=heatC(v);return 'background:'+h[0]+';color:'+h[1];}
+function tcCells(list,off,e,i,maxN){
+  var cells='';
+  for(var x=0;x<maxN;x++){
+    if(x<list.length){
+      var v=sc1(list,off,e,x,i,mode);
+      cells+='<td class="num hc" title="'+list[x].name+'" style="'+hc(v)+'">'+n1(v)+'</td>';
+    }else{
+      cells+='<td class="num mut">—</td>';
+    }
+  }
+  return cells;
+}
+function leafRowHtml(pid,leaf,i,opts,maxN){
+  var sc=deptAt(leaf.code,i,mode);
+  var prevSc=i>0?deptAt(leaf.code,i-1,mode):null;
+  var rk=rank(sc);
+  var cls='clk'+(opts.hidden?' chr lvl2':'');
+  var tcc=tcCells(leaf.list,leaf.off,-1,i,maxN);
+  var hcs=hc(sc);
+  return '<tr class="'+cls+'" '+opts.dataAttrs+' onclick="'+opts.onclick+'">'+
+    '<td>'+(opts.indent?'<span class="ind"></span>':'')+'<span class="cr" id="'+opts.caretId+'">▸</span> <b>'+leaf.nhom+'</b></td>'+
+    '<td class="num">'+leaf.staff.length+'</td>'+tcc+
+    '<td class="num hc" style="'+hcs+';font-weight:700">'+n1(sc)+'</td>'+
+    '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
+    '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+}
+function empRowsHtml(pid,leaf,i,l1code,l2code,maxN){
+  return leaf.staff.map(function(p,e){
+    var sc=normAt(leaf.list,leaf.off,e,i,mode);
+    var prevSc=i>0?normAt(leaf.list,leaf.off,e,i-1,mode):null;
+    var rk=rank(sc);
+    var tcc=tcCells(leaf.list,leaf.off,e,i,maxN);
+    var hcs=hc(sc);
+    return '<tr class="lvl3 chr" data-pid="'+pid+'" data-l1="'+l1code+'" data-l2="'+l2code+'">'+
+      '<td style="padding-left:44px">'+p[0]+' <span style="color:var(--gray)">— '+p[1]+'</span></td>'+
+      '<td class="num">1</td>'+tcc+
+      '<td class="num hc" style="'+hcs+';font-weight:700">'+n1(sc)+'</td>'+
+      '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
+      '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+  }).join('');
+}
+function heatLegendHtml(){
+  return '<div class="hleg"><span>Thang màu điểm</span>'+
+    [['<70','#EDB4AD'],['70–80','#F7D5D1'],['80–90','#FADFCF'],['90–95','#FCF0E4'],['95–100','#E4F3EB'],['≥100','#CFEBDF']]
+      .map(function(v){return '<em><i style="background:'+v[1]+'"></i>'+v[0]+'</em>';}).join('')+
+    '<b>Di chuột lên từng ô TC để xem tên chỉ số đầy đủ</b></div>';
+}
+function renderTree(pid){
+  var i=st.m,scope=st.nk[pid];
+  var el=document.getElementById('tree'+pid.slice(1));
+  var maxN=maxCriteriaCount(pid);
+  var tcHead='';for(var x=0;x<maxN;x++)tcHead+='<th class="num">TC'+(x+1)+'</th>';
+  var thead='<tr><th style="width:26%">Tên</th><th class="num">Số người</th>'+tcHead+'<th class="num">Điểm hiện tại</th><th class="num">Điểm tháng trước</th><th>Xếp loại</th></tr>';
+  var rowsHtml='';
+  if(scope==='ALL'){
+    congdoanList(pid).forEach(function(cd){
+      var leaves=congdoanLeaves(pid,cd);
+      var sc=congdoanAt(pid,cd,i,mode);
+      var prevSc=i>0?congdoanAt(pid,cd,i-1,mode):null;
+      var rk=rank(sc);
+      var n=congdoanStaffCount(pid,cd);
+      var l1=safeCode(cd);
+      var blankTc='';for(var x=0;x<maxN;x++)blankTc+='<td class="num mut">—</td>';
+      rowsHtml+='<tr class="clk" onclick="tgL1(\''+pid+'\',\''+l1+'\')">'+
+        '<td><span class="cr" id="car1-'+pid+'-'+l1+'">▸</span> <b>'+cd+'</b></td>'+
+        '<td class="num">'+n+'</td>'+blankTc+
+        '<td class="num hc" style="'+hc(sc)+';font-weight:700">'+n1(sc)+'</td>'+
+        '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
+        '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+      leaves.forEach(function(leaf){
+        rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:true,indent:true,dataAttrs:'data-pid="'+pid+'" data-l1="'+l1+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
+        rowsHtml+=empRowsHtml(pid,leaf,i,l1,leaf.code,maxN);
+      });
+    });
+  }else{
+    congdoanLeaves(pid,scope).forEach(function(leaf){
+      rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:false,indent:false,dataAttrs:'data-pid="'+pid+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
+      rowsHtml+=empRowsHtml(pid,leaf,i,'NA',leaf.code,maxN);
+    });
+  }
+  el.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+rowsHtml+'</tbody></table>'+heatLegendHtml();
+}
+function tgL1(pid,code){
+  var lvl2=document.querySelectorAll('tr.lvl2[data-pid="'+pid+'"][data-l1="'+code+'"]');
+  var lvl3=document.querySelectorAll('tr.lvl3[data-pid="'+pid+'"][data-l1="'+code+'"]');
+  var caret=document.getElementById('car1-'+pid+'-'+code);
+  if(!lvl2.length)return;
+  var opening=!lvl2[0].classList.contains('open');
+  lvl2.forEach(function(r){r.classList.toggle('open',opening);});
+  if(!opening)lvl3.forEach(function(r){r.classList.remove('open');});
+  if(caret)caret.innerHTML=opening?'▾':'▸';
+}
+function tgL2(pid,leafcode){
+  var lvl3=document.querySelectorAll('tr.lvl3[data-pid="'+pid+'"][data-l2="'+leafcode+'"]');
+  var caret=document.getElementById('car2-'+pid+'-'+leafcode);
+  if(!lvl3.length)return;
+  var opening=!lvl3[0].classList.contains('open');
+  lvl3.forEach(function(r){r.classList.toggle('open',opening);});
+  if(caret)caret.innerHTML=opening?'▾':'▸';
+}
+
+/* ===== ĐIỀU HƯỚNG ===== */
+var TITLES={p1:['Tổng quan công ty',''],p2:['Sản xuất',''],p3:['QC','']};
+function fillNhomKPI(pid){
+  var sel=document.getElementById('fNhomKPI');sel.innerHTML='';
+  var o=document.createElement('option');o.value='ALL';o.textContent='Toàn phòng ban';sel.appendChild(o);
+  congdoanList(pid).forEach(function(cd){
+    var n=congdoanStaffCount(pid,cd);
+    var t=document.createElement('option');t.value=cd;t.textContent=cd+' ('+n+' người)';sel.appendChild(t);
+  });
+  sel.value=st.nk[pid];
+}
+function go(p){
+  document.querySelectorAll('.page').forEach(function(s){s.classList.toggle('show',s.id===p);});
+  document.querySelectorAll('nav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-p')===p);});
+  document.getElementById('ttl').innerHTML=TITLES[p][0];
+  document.getElementById('fnkWrap').style.display=(p==='p1')?'none':'flex';
+  if(p!=='p1')fillNhomKPI(p);
+  window.scrollTo(0,0);render();
+}
+function render(){
+  var p=document.querySelector('.page.show').id;
+  var sub = p==='p1' ? 'So sánh Sản xuất (57 người) và QC (44 người)' : ('Phạm vi: '+(st.nk[p]==='ALL'?'Toàn phòng ban':st.nk[p]));
+  document.getElementById('sub').innerHTML=sub+' &nbsp;·&nbsp; Kỳ: '+MONTHS[st.m];
+  if(p==='p1')r1();else if(p==='p2')r2();else r3();
+}
+(function init(){
+  var sel=document.getElementById('fMonth');
+  MONTHS.forEach(function(m,x){var o=document.createElement('option');o.value=x;o.textContent='Tháng '+m;sel.appendChild(o);});
+  sel.value=st.m;sel.onchange=function(){st.m=+sel.value;render();};
+  document.getElementById('fNhomKPI').onchange=function(){
+    var p=document.querySelector('.page.show').id;
+    st.nk[p]=this.value; render();
+  };
+  document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){go(a.getAttribute('data-p'));};});
+  document.getElementById('fnkWrap').style.display='none';
+  render();
+})();
+
+</script>
+</body>
+</html>
