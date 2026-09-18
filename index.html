@@ -110,6 +110,8 @@ tfoot td{font-weight:700;background:#EDF3F8;color:var(--navy);border-top:2px sol
 .heatt th.num{text-align:center}
 .heatt .thw{font-size:9px;font-weight:500;color:var(--gray);letter-spacing:0;text-transform:none;margin-top:2px}
 .heatt td{border-bottom:0;padding:8px 9px;background:#FAFCFD;border-radius:5px}
+.catgrp td{background:#DCE8F2;font-weight:700;color:var(--navy);padding:9px 9px 7px}
+.catsub td{background:#EEF3F8;font-weight:600;color:var(--navy);padding:6px 9px;font-size:12px}
 .heatt td.hc{text-align:center;font-weight:600;font-variant-numeric:tabular-nums}
 .heatt tbody tr:hover td{outline:1px solid #C9DCEA}
 .heatt tbody tr.sel td{outline:2px solid var(--brand)}
@@ -245,10 +247,16 @@ tr.chr:hover>td{background:#EFF5FA}
       <div class="cw lg"><canvas id="c2e"></canvas></div>
     </div>
 
-    <div class="card">
+    <div class="card mb14">
       <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
       <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau; các vị trí dùng chung tiêu chí (chỉ khác số hiệu chuyền/tổ) được gộp vào cùng một nhóm.</div>
       <div id="tree2"></div>
+    </div>
+
+    <div class="card">
+      <h3>Danh mục KPI</h3>
+      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo: Nhóm KPI lớn → Nhóm KPI nhỏ → từng chỉ số kèm cách tính lấy đúng theo cột "Cách tính" trong file gốc.</div>
+      <div id="catalog2"></div>
     </div>
   </section>
 
@@ -276,10 +284,28 @@ tr.chr:hover>td{background:#EFF5FA}
       <div class="cw lg"><canvas id="c3e"></canvas></div>
     </div>
 
-    <div class="card">
+    <div class="card mb14">
+      <h3>Tỷ lệ hư hỏng theo từng chuyền</h3>
+      <div class="cs">Tỷ lệ % hàng lỗi/hư hỏng của từng chuyền sản xuất trong tháng, xếp từ cao đến thấp.</div>
+      <div class="cw lg"><canvas id="c3f"></canvas></div>
+    </div>
+
+    <div class="card mb14">
+      <h3>Top lỗi cao nhất theo từng chuyền</h3>
+      <div class="cs">3 lỗi phát sinh nhiều nhất tại mỗi chuyền. Bấm vào một chuyền để mở rộng xem chi tiết từng lỗi.</div>
+      <div id="defectTable"></div>
+    </div>
+
+    <div class="card mb14">
       <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
       <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau (ví dụ So màu và Kiểm da trong QA liệu đầu vào); các vị trí chỉ khác số hiệu chuyền (như QC May 1-2 và QC May 3-4) được gộp chung.</div>
       <div id="tree3"></div>
+    </div>
+
+    <div class="card">
+      <h3>Danh mục KPI</h3>
+      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo: Nhóm KPI lớn → Nhóm KPI nhỏ → từng chỉ số kèm cách tính lấy đúng theo cột "Cách tính" trong file gốc.</div>
+      <div id="catalog3"></div>
     </div>
   </section>
 
@@ -669,6 +695,23 @@ var LEAVES_QC=[
   {code:"QC12",congdoan:"QA Supervisor",nhom:"PKH",list:QC12_LIST,staff:QC12_STAFF,off:mkOffsets(QC12_STAFF.length,QC12_LIST.length,20260413)},
   {code:"QC13",congdoan:"QA Supervisor",nhom:"Báo Cáo",list:QC13_LIST,staff:QC13_STAFF,off:mkOffsets(QC13_STAFF.length,QC13_LIST.length,20260414)}
 ];
+/* ============ DỮ LIỆU CHẤT LƯỢNG THEO CHUYỀN — gộp Tháng 9 từ file Chất lượng hàng ngày ============ */
+var QUALITY_DATA=[
+  {sheet:"CẮT 1",congdoan:"Cắt",total_loi:195,tong_sl:840,pct_loi:23.21,top3:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",sl:120,pct:61.5},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",sl:62,pct:31.8},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",sl:12,pct:6.2}]},
+  {sheet:"CẮT 2",congdoan:"Cắt",total_loi:174,tong_sl:850,pct_loi:20.47,top3:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",sl:109,pct:62.6},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",sl:46,pct:26.4},{ten:"Dao chặt biến dạng, bị sét, dính dơ",sl:15,pct:8.6}]},
+  {sheet:"CẮT 3",congdoan:"Cắt",total_loi:235,tong_sl:935,pct_loi:25.13,top3:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",sl:189,pct:80.4},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",sl:32,pct:13.6},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",sl:13,pct:5.5}]},
+  {sheet:"ÉP-ẤN 1+2+3",congdoan:"Ấn",total_loi:0,tong_sl:1400,pct_loi:0.0,top3:[]},
+  {sheet:"GÒ 1",congdoan:"Hình Thành",total_loi:3267,tong_sl:7730,pct_loi:42.26,top3:[{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",sl:867,pct:26.5},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",sl:819,pct:25.1},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",sl:610,pct:18.7}]},
+  {sheet:"GÒ 2",congdoan:"Hình Thành",total_loi:2064,tong_sl:8206,pct_loi:25.15,top3:[{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",sl:649,pct:31.4},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",sl:499,pct:24.2},{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",sl:289,pct:14.0}]},
+  {sheet:"GÒ 3",congdoan:"Hình Thành",total_loi:2897,tong_sl:5974,pct_loi:48.49,top3:[{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",sl:998,pct:34.4},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",sl:784,pct:27.1},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",sl:698,pct:24.1}]},
+  {sheet:"GÒ 4",congdoan:"Hình Thành",total_loi:777,tong_sl:1350,pct_loi:57.56,top3:[{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",sl:236,pct:30.4},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",sl:202,pct:26.0},{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",sl:186,pct:23.9}]},
+  {sheet:"MAY 1+2",congdoan:"May",total_loi:265,tong_sl:3160,pct_loi:8.39,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:97,pct:36.6},{ten:"Lỗ kim / vết rách",sl:20,pct:7.5},{ten:"Biên vòng cổ không đều, tưa lót, nhăn, đỉnh gót xấu",sl:20,pct:7.5}]},
+  {sheet:"MAY 3+4",congdoan:"May",total_loi:350,tong_sl:3900,pct_loi:8.97,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:118,pct:33.7},{ten:"Không đồng đôi, không đối xứng, eo trong - ngoài, chiều cao gót",sl:37,pct:10.6},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:36,pct:10.3}]},
+  {sheet:"MAY 5+6",congdoan:"May",total_loi:451,tong_sl:4200,pct_loi:10.74,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:224,pct:49.7},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:45,pct:10.0},{ten:"Biên may xấu, khoảng cách biên may không đều",sl:32,pct:7.1}]},
+  {sheet:"MAY 7+8",congdoan:"May",total_loi:295,tong_sl:3850,pct_loi:7.66,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:143,pct:48.5},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:35,pct:11.9},{ten:"Biên may xấu, khoảng cách biên may không đều",sl:33,pct:11.2}]},
+  {sheet:"MAY 9+10",congdoan:"May",total_loi:73,tong_sl:888,pct_loi:8.22,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:24,pct:32.9},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:17,pct:23.3},{ten:"Lỗi khác",sl:11,pct:15.1}]}
+];
+
 
 function valAt(k,i,mode){if(mode==='ytd'){var s=0;for(var j=0;j<=i;j++)s+=k.s[j];return s/(i+1);}return k.s[i];}
 function scoreOf(k,v){var r=(k.dir==='down')?(k.target/v):(v/k.target);return Math.min(r,1.2)*100;}
@@ -915,6 +958,8 @@ function drillRows(dep,i,mode){
   });
   return out;
 }
+
+/* ===== TRẠNG THÁI ===== */
 
 /* ===== TRẠNG THÁI ===== */
 var st={m:7,nk:{p2:'ALL',p3:'ALL'}},charts={};
@@ -1230,7 +1275,58 @@ function tgL2(pid,leafcode){
   if(caret)caret.innerHTML=opening?'▾':'▸';
 }
 
+/* ===== TỶ LỆ HƯ HỎNG THEO CHUYỀN & TOP LỖI — dữ liệu chất lượng theo tháng ===== */
+function defectHc(pct){
+  if(pct<10) return ['#E4F3EB','#1F8A5B'];
+  if(pct<20) return ['#FCF0E4','#A2551D'];
+  if(pct<30) return ['#FADFCF','#8C3F16'];
+  return ['#EDB4AD','#701C16'];
+}
+var defectRendered=false;
+function renderDefect(){
+  var tbl=document.getElementById('defectTable');
+  if(!tbl)return;
+  var rows=QUALITY_DATA.slice().sort(function(a,b){return b.pct_loi-a.pct_loi;});
+  var maxPct=Math.max.apply(null,rows.map(function(r){return r.pct_loi;}));
+  mk('c3f',{type:'bar',data:{labels:rows.map(function(r){return r.sheet;}),
+    datasets:[{data:rows.map(function(r){return r.pct_loi;}),
+      backgroundColor:rows.map(function(r){var h=defectHc(r.pct_loi);return h[1];}),borderRadius:5,barThickness:17}]},
+    options:baseOpt({indexAxis:'y',layout:{padding:{top:6,right:38}},
+      scales:{x:{min:0,max:Math.ceil((maxPct+6)/5)*5,grid:GRID,ticks:Object.assign({},TICK,{callback:function(v){return v+'%';}}),border:{display:false}},
+        y:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:11,family:'Inter',weight:'600'}})}},
+      plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
+        label:function(c){var r=rows[c.dataIndex];return ['SL không đạt: '+r.total_loi+' / '+r.tong_sl,'Tỷ lệ lỗi: '+n1(r.pct_loi)+'%'];}}})}}),
+    plugins:[{id:'lblc3f',afterDatasetsDraw:function(c){
+      var x=c.ctx;x.save();x.font='700 11px Inter';x.fillStyle='#16242F';x.textAlign='left';
+      c.getDatasetMeta(0).data.forEach(function(b,k){x.fillText(n1(rows[k].pct_loi)+'%',b.x+6,b.y+4);});x.restore();}}]});
+
+  var thead='<tr><th style="width:34%">Chuyền / Lỗi</th><th class="num">Tổng SL kiểm</th><th class="num">SL không đạt</th><th class="num">% Lỗi</th></tr>';
+  var body='';
+  rows.forEach(function(r){
+    var code=safeCode(r.sheet);
+    var hc=defectHc(r.pct_loi);
+    body+='<tr class="clk" onclick="tgDefL1(\''+code+'\')"><td><span class="cr" id="defcar-'+code+'">▸</span> <b>'+r.sheet+'</b></td>'+
+      '<td class="num">'+r.tong_sl+'</td><td class="num">'+r.total_loi+'</td>'+
+      '<td class="num hc" style="background:'+hc[0]+';color:'+hc[1]+';font-weight:700">'+n1(r.pct_loi)+'%</td></tr>';
+    r.top3.forEach(function(t,idx){
+      body+='<tr class="chr deflvl2" data-defp="'+code+'"><td style="padding-left:34px">'+(idx+1)+'. '+t.ten+'</td>'+
+        '<td class="num mut">—</td><td class="num">'+t.sl+'</td><td class="num">'+n1(t.pct)+'%</td></tr>';
+    });
+  });
+  tbl.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table>'+
+    '<div class="hleg"><span>% Lỗi ở dòng lỗi con là tỷ trọng lỗi đó trong tổng số lỗi của chính chuyền</span></div>';
+}
+function tgDefL1(code){
+  var rs=document.querySelectorAll('tr.deflvl2[data-defp="'+code+'"]');
+  var c=document.getElementById('defcar-'+code);
+  if(!rs.length)return;
+  var opening=!rs[0].classList.contains('open');
+  rs.forEach(function(r){r.classList.toggle('open',opening);});
+  if(c)c.innerHTML=opening?'▾':'▸';
+}
+
 /* ===== ĐIỀU HƯỚNG ===== */
+
 var TITLES={p1:['Tổng quan công ty',''],p2:['Sản xuất',''],p3:['QC','']};
 function fillNhomKPI(pid){
   var sel=document.getElementById('fNhomKPI');sel.innerHTML='';
@@ -1241,12 +1337,63 @@ function fillNhomKPI(pid){
   });
   sel.value=st.nk[pid];
 }
+var catalogRendered={p2:false,p3:false};
+function renderCatalog(pid){
+  var el=document.getElementById('catalog'+pid.slice(1));
+  if(!el)return;
+  var thead='<tr><th style="width:3%">#</th><th style="width:22%">Chỉ số</th><th style="width:6%">Đơn vị</th>'+
+    '<th class="num" style="width:8%">Trọng số</th><th class="num" style="width:9%">Mục tiêu</th>'+
+    '<th style="width:12%">Hướng đạt</th><th>Cách tính</th></tr>';
+  var rows='';
+  congdoanList(pid).forEach(function(cd){
+    var leaves=congdoanLeaves(pid,cd);
+    var n=congdoanStaffCount(pid,cd);
+    var l1=safeCode(cd);
+    rows+='<tr class="clk" onclick="tgCatL1(\''+pid+'\',\''+l1+'\')"><td colspan="7"><span class="cr" id="catcar1-'+pid+'-'+l1+'">▸</span> <b>'+cd+'</b>'+
+      ' <span style="color:var(--gray);font-weight:500">— '+leaves.length+' nhóm nhỏ, '+n+' người</span></td></tr>';
+    leaves.forEach(function(leaf){
+      rows+='<tr class="catlvl2 chr clk" data-catpid="'+pid+'" data-cl1="'+l1+'" onclick="tgCatL2(\''+pid+'\',\''+leaf.code+'\')">'+
+        '<td colspan="7"><span class="ind"></span><span class="cr" id="catcar2-'+pid+'-'+leaf.code+'">▸</span> '+leaf.nhom+
+        ' <span style="color:var(--gray);font-weight:500">— áp dụng cho '+leaf.staff.length+' người, '+leaf.list.length+' chỉ số</span></td></tr>';
+      leaf.list.forEach(function(k,x){
+        rows+='<tr class="catlvl3 chr" data-catpid="'+pid+'" data-cl1="'+l1+'" data-cl2="'+leaf.code+'">'+
+          '<td class="num" style="padding-left:44px">'+(x+1)+'</td><td><b>'+k.name+'</b></td><td>'+k.uom+'</td>'+
+          '<td class="num">'+k.w+'%</td><td class="num">'+k.tgtTxt+'</td>'+
+          '<td>'+(k.dir==='up'?'Cao hơn tốt hơn':'Thấp hơn tốt hơn')+'</td>'+
+          '<td style="color:var(--gray)">'+(k.calc||'—')+'</td></tr>';
+      });
+    });
+  });
+  el.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table>';
+}
+function tgCatL1(pid,code){
+  var lvl2=document.querySelectorAll('tr.catlvl2[data-catpid="'+pid+'"][data-cl1="'+code+'"]');
+  var lvl3=document.querySelectorAll('tr.catlvl3[data-catpid="'+pid+'"][data-cl1="'+code+'"]');
+  var caret=document.getElementById('catcar1-'+pid+'-'+code);
+  if(!lvl2.length)return;
+  var opening=!lvl2[0].classList.contains('open');
+  lvl2.forEach(function(r){r.classList.toggle('open',opening);});
+  if(!opening)lvl3.forEach(function(r){r.classList.remove('open');});
+  if(caret)caret.innerHTML=opening?'▾':'▸';
+}
+function tgCatL2(pid,leafcode){
+  var lvl3=document.querySelectorAll('tr.catlvl3[data-catpid="'+pid+'"][data-cl2="'+leafcode+'"]');
+  var caret=document.getElementById('catcar2-'+pid+'-'+leafcode);
+  if(!lvl3.length)return;
+  var opening=!lvl3[0].classList.contains('open');
+  lvl3.forEach(function(r){r.classList.toggle('open',opening);});
+  if(caret)caret.innerHTML=opening?'▾':'▸';
+}
 function go(p){
   document.querySelectorAll('.page').forEach(function(s){s.classList.toggle('show',s.id===p);});
   document.querySelectorAll('nav a').forEach(function(a){a.classList.toggle('active',a.getAttribute('data-p')===p);});
   document.getElementById('ttl').innerHTML=TITLES[p][0];
   document.getElementById('fnkWrap').style.display=(p==='p1')?'none':'flex';
-  if(p!=='p1')fillNhomKPI(p);
+  if(p!=='p1'){
+    fillNhomKPI(p);
+    if(!catalogRendered[p]){renderCatalog(p);catalogRendered[p]=true;}
+  }
+  if(p==='p3'&&!defectRendered){renderDefect();defectRendered=true;}
   window.scrollTo(0,0);render();
 }
 function render(){
@@ -1267,6 +1414,7 @@ function render(){
   document.getElementById('fnkWrap').style.display='none';
   render();
 })();
+
 
 </script>
 </body>
