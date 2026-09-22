@@ -169,7 +169,7 @@ tr.chr:hover>td{background:#EFF5FA}
     <a data-p="p3">QC</a>
   </nav>
   <div class="side-note">
-    Chỉ số, trọng số và mục tiêu lấy đúng theo 2 bảng KPI Sản xuất và QC đã nhận (57 người / 5 nhóm KPI lớn: Cắt, Ấn, Chuẩn Bị, Hình Thành, May; 44 người / 6 nhóm KPI lớn QC). Nhóm KPI nhỏ bên trong được xác định theo đúng bộ tiêu chí đánh giá thực tế của từng người, không suy theo tên chức danh. Chuỗi số theo tháng là dữ liệu minh hoạ; xem ghi chú ở từng trang để biết phần nào là số thật (Hiện tại) và phần nào là mô phỏng.
+    Chỉ số, trọng số và mục tiêu lấy đúng theo 2 bảng KPI Sản xuất và QC đã nhận (17 người / 4 nhóm KPI lớn: Lãnh liệu, Giao kho, Tổ trưởng chuyền, Chuyền trưởng — chuyền May; 8 người / 3 nhóm KPI lớn QC: QC chuyền may, QA May, QA Supervisor — cùng phạm vi chuyền May). Nhóm KPI nhỏ bên trong được xác định theo đúng bộ tiêu chí đánh giá thực tế của từng người, không suy theo tên chức danh. Chuỗi số theo tháng là dữ liệu minh hoạ; xem ghi chú ở từng trang để biết phần nào là số thật (Hiện tại) và phần nào là mô phỏng.
   </div>
 </aside>
 
@@ -225,7 +225,7 @@ tr.chr:hover>td{background:#EFF5FA}
 
   <!-- ===== P2: SẢN XUẤT ===== -->
   <section class="page" id="p2">
-    <div class="note info mb14"><b>Về số liệu:</b> File KPI Sản xuất chưa có cột "Hiện tại" nào được điền — toàn bộ 57 người / 5 nhóm KPI lớn mới dừng ở khung chỉ số, trọng số và mục tiêu năm 2026. Biểu đồ xu hướng theo tháng dưới đây là <b>số minh hoạ</b>, không phải số đo thực tế.</div>
+    <div class="note info mb14"><b>Về số liệu:</b> File KPI Sản xuất chưa có cột "Hiện tại" nào được điền — toàn bộ 17 người / 4 nhóm KPI lớn (Lãnh liệu, Giao kho, Tổ trưởng chuyền, Chuyền trưởng) thuộc chuyền May mới dừng ở khung chỉ số, trọng số và mục tiêu năm 2026. Biểu đồ xu hướng theo tháng dưới đây là <b>số minh hoạ</b>, không phải số đo thực tế.</div>
     <div class="grid g4 mb14" id="p2stats"></div>
 
     <div class="grid g2 mb14">
@@ -248,6 +248,17 @@ tr.chr:hover>td{background:#EFF5FA}
     </div>
 
     <div class="card mb14">
+      <div class="topbar-row" style="align-items:flex-start;gap:10px;flex-wrap:wrap">
+        <div>
+          <h3>Sản lượng sản xuất theo chuyền</h3>
+          <div class="cs">Sản lượng thực tế (đôi/ngày) của từng chuyền trong ngày đang chọn, kèm sản lượng kế hoạch để đối chiếu. Biểu đồ này xem theo ngày, không theo bộ lọc "Kỳ đánh giá" phía trên.</div>
+        </div>
+        <div class="fl"><label>Ngày</label><select id="fDayVol"></select></div>
+      </div>
+      <div class="cw lg"><canvas id="c2v"></canvas></div>
+    </div>
+
+    <div class="card mb14">
       <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
       <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau; các vị trí dùng chung tiêu chí (chỉ khác số hiệu chuyền/tổ) được gộp vào cùng một nhóm.</div>
       <div id="tree2"></div>
@@ -262,7 +273,7 @@ tr.chr:hover>td{background:#EFF5FA}
 
   <!-- ===== P3: QC ===== -->
   <section class="page" id="p3">
-    <div class="note info mb14"><b>Về số liệu:</b> File KPI QC đã điền đầy đủ "Hiện tại" cho toàn bộ 44 người và mục tiêu chi tiết Quý 3–4/2026. Tuy vậy, trong mỗi nhóm KPI nhỏ, giá trị "Hiện tại" đang <b>giống hệt nhau cho mọi cá nhân</b>. Chuỗi 8 tháng dùng trong biểu đồ xu hướng là nội suy để minh hoạ, được neo về đúng số "Hiện tại" thật ở tháng gần nhất.</div>
+    <div class="note info mb14"><b>Về số liệu:</b> Nhóm "QC chuyền may" (5 người) đã có "Hiện tại" thật và mục tiêu chi tiết Quý 3–4/2026, nhưng giá trị này <b>giống hệt nhau cho mọi cá nhân</b> trong nhóm — là số ước lượng chung theo dây chuyền, chưa phải số đo riêng theo từng người. Hai nhóm "QA May" và "QA Supervisor" hiện chỉ có khung chỉ số — trọng số — mục tiêu, chưa có số liệu Hiện tại nên chuỗi 8 tháng ở các nhóm này là <b>số minh hoạ</b>.</div>
     <div class="grid g4 mb14" id="p3stats"></div>
 
     <div class="grid g2 mb14">
@@ -285,20 +296,25 @@ tr.chr:hover>td{background:#EFF5FA}
     </div>
 
     <div class="card mb14">
-      <h3>Tỷ lệ hư hỏng theo từng chuyền</h3>
-      <div class="cs">Tỷ lệ % hàng lỗi/hư hỏng của từng chuyền sản xuất trong tháng, xếp từ cao đến thấp.</div>
+      <div class="topbar-row" style="align-items:flex-start;gap:10px;flex-wrap:wrap">
+        <div>
+          <h3>Tỷ lệ hư hỏng theo từng chuyền</h3>
+          <div class="cs">Tỷ lệ % hàng lỗi/hư hỏng của từng chuyền trong ngày đang chọn, xếp từ cao đến thấp. Biểu đồ này xem theo ngày, không theo bộ lọc "Kỳ đánh giá" phía trên.</div>
+        </div>
+        <div class="fl"><label>Ngày</label><select id="fDayDefect"></select></div>
+      </div>
       <div class="cw lg"><canvas id="c3f"></canvas></div>
     </div>
 
     <div class="card mb14">
       <h3>Top lỗi cao nhất theo từng chuyền</h3>
-      <div class="cs">3 lỗi phát sinh nhiều nhất tại mỗi chuyền. Bấm vào một chuyền để mở rộng xem chi tiết từng lỗi.</div>
+      <div class="cs">Lỗi phát sinh nhiều nhất tại mỗi chuyền trong ngày đang chọn ở trên. Bấm vào một chuyền để mở rộng xem chi tiết từng lỗi.</div>
       <div id="defectTable"></div>
     </div>
 
     <div class="card mb14">
       <h3>Bảng chi tiết theo cấp: Nhóm KPI lớn → Nhóm KPI nhỏ → Nhân viên</h3>
-      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau (ví dụ So màu và Kiểm da trong QA liệu đầu vào); các vị trí chỉ khác số hiệu chuyền (như QC May 1-2 và QC May 3-4) được gộp chung.</div>
+      <div class="cs">Bấm vào một dòng để mở rộng xuống cấp tiếp theo. Cột TC1, TC2... là điểm theo thứ tự tiêu chí của từng vị trí — vì mỗi nhóm KPI nhỏ có bộ tiêu chí riêng nên TC1 ở nhóm này và TC1 ở nhóm khác có thể là hai chỉ số khác nhau (di chuột vào từng ô để xem tên tiêu chí thật). Nhóm KPI nhỏ chỉ tách ra khi bộ tiêu chí đánh giá thực sự khác nhau; các vị trí chỉ khác số hiệu chuyền được gộp chung vào cùng một nhóm.</div>
       <div id="tree3"></div>
     </div>
 
@@ -329,372 +345,104 @@ function mkOffsets(nS,nK,seed){
   return m;
 }
 
-
 /* ============ DỮ LIỆU KPI SẢN XUẤT & QC ============ */
 
 var SX00_LIST=[
-  {id:"SX001",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[85.88,99.33,117.38,124.22,106.08,76.19,90.4,103.06358227316518]},
-  {id:"SX002",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[87.33,102.95,118.83,125.31,110.03,80.22,91.36,105.75555694788405]},
-  {id:"SX003",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:7,tgtTxt:"7",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[6.06,7.14,8.3,8.65,7.51,5.53,6.35,7.3115898436690046]},
-  {id:"SX004",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[63.39,76.94,91.14,97.73,82.94,56.62,66.49,79.37067902876056]},
-  {id:"SX005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[64.28,77.57,94.28,98.46,83.46,58.34,68.59,80.80845975052036]}
+  {id:"SX001",name:"Tỷ lệ đồng bộ hàng nhập",uom:"%",w:60,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần nhập đồng bộ đủ / Tổng số lần nhập x 100%",current:null,anomaly:null,s:[69.48,85.5,102.03,108.89,93.69,60.83,73.29,88.26]},
+  {id:"SX002",name:"Tỷ lệ báo cáo đúng hạn",uom:"%",w:40,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần báo đúng chu kỳ 2 giờ / Tổng số lần phải báo x 100%",current:null,anomaly:null,s:[71.19,87.21,105.49,111.11,94.4,62.57,76.08,90.47]}
 ];
 var SX00_STAFF=[
-  ["Kim Duyên","CQ"],
-  ["Thu Thảo","CB1"],
-  ["Như Ý","CB2"],
-  ["Trung Hòa","CB3"]
+  ["Trần Thị Thúy Kiều","M1 & M2"],
+  ["Nguyễn Ngọc Ái My","M3 & M4"],
+  ["Lưu Thị Ái Mỹ","M5 & M6"],
+  ["Trần Thị Cẩm Tú","M7 & M8"],
+  ["Nguyễn Thị Kiều Thư","M9 & M10"]
 ];
-
 var SX01_LIST=[
-  {id:"SX011",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[72.56,90.68,109.34,115.95,97.85,62.54,75.76,91.67262341832573]},
-  {id:"SX012",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[84.92,102.13,121.43,127.2,107.45,73.83,86.99,103.16451686827857]},
-  {id:"SX013",name:"Tỷ lệ hao hụt nguyên liệu",uom:"%",w:20,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl nguyên liệu hao hụt / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.39,1.2,0.94,0.88,1.1,1.47,1.31,1.1237351877233908]},
-  {id:"SX014",name:"Đáp ứng liệu cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:15,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu liệu trong tháng",current:null,anomaly:null,s:[0.72,0.49,0.29,0.2,0.41,0.78,0.62,0.4451421780017332]},
-  {id:"SX015",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[62.07,77.23,94.65,101.09,84.45,52.49,65.44,79.42794835843985]}
+  {id:"SX011",name:"Tỷ lệ đạt sản lượng giao",uom:"%",w:60,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Sản lượng giao thực tế / Sản lượng mục tiêu giờ x 100%",current:null,anomaly:null,s:[84.03,96.92,111.63,116.37,103.96,77.77,89.03,101.28]},
+  {id:"SX012",name:"Tỷ lệ cập nhật đúng hạn",uom:"%",w:40,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần cập nhật đúng chu kỳ 1 giờ / Tổng số lần phải cập nhật x 100%",current:null,anomaly:null,s:[75.49,88.18,103.99,111.01,96.68,68.06,80.63,91.68]}
 ];
 var SX01_STAFF=[
-  ["Nguyễn Thanh Tường","Cắt 1 & 2 · Lãnh liệu"],
-  ["Lâm Thị Quỳnh Như","Cắt 3 · Lãnh liệu"]
+  ["Nguyễn Thị Ngọc Hân","M1 & M2"],
+  ["Lê Thị Thanh Duyên","M3 & M4"],
+  ["Lê Thị Hiếu Nga","M5 & M6"],
+  ["Đỗ Thị Mỹ Lệ","M7 & M8"],
+  ["Nguyễn Thị Cẩm Thu","M9 & M10"]
 ];
-
 var SX02_LIST=[
-  {id:"SX021",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[73.17,85.2,98.19,105.15,90.97,67.96,76.34,89.11453452414894]},
-  {id:"SX022",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[88.36,100.51,115.0,120.34,107.24,83.92,93.81,105.5094267203917]},
-  {id:"SX023",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.27,2.67,3.08,3.27,2.82,2.11,2.4,2.777716094826848]},
-  {id:"SX024",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[78.84,90.23,101.52,107.05,95.51,72.89,82.98,93.56272678203351]},
-  {id:"SX025",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[78.25,89.03,102.56,106.36,94.01,73.69,83.3,92.93038930674071]}
+  {id:"SX021",name:"Tỷ lệ chuyền đạt sản lượng",uom:"%",w:30,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Số giờ chuyền đạt ≥95% / Tổng số giờ sản xuất x 100%",current:null,anomaly:null,s:[67.82,81.33,98.38,104.6,88.18,59.28,70.58,85.13]},
+  {id:"SX022",name:"Chất lượng chuyền",uom:"%",w:25,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm x 100%",current:null,anomaly:null,s:[72.01,88.26,104.25,109.47,93.99,64.86,75.97,88.92]},
+  {id:"SX023",name:"Tỷ lệ tự xử lý tại chuyền",uom:"%",w:20,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ tổ trưởng xử lý xong / Tổng số vụ phát sinh x 100%",current:null,anomaly:null,s:[69.15,82.85,95.37,99.94,87.56,62.57,72.68,84.27]},
+  {id:"SX024",name:"Số vụ phải leo lên Chuyền trưởng",uom:"vụ",w:15,target:3.0,tgtTxt:"≤3 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 2 (Chuyền trưởng) trong tháng",current:null,anomaly:null,s:[3.31,2.88,2.36,2.13,2.65,3.56,3.24,2.77]},
+  {id:"SX025",name:"Đánh giá của Chuyền trưởng",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chuyền trưởng / thang điểm 100",current:null,anomaly:null,s:[80.57,94.4,108.52,115.81,99.88,72.66,82.69,96.88]}
 ];
 var SX02_STAFF=[
-  ["Dương Cảnh","CB"]
+  ["Thị Nguyệt","M1 & M2"],
+  ["Thu Thảo","M3 & M4"],
+  ["Thị Thúy An","M5 & M6"],
+  ["Thị Hiếu","M7 & M8"],
+  ["Thị Nhí","M9 & M10"]
 ];
-
 var SX03_LIST=[
-  {id:"SX031",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[71.06,87.3,103.68,109.92,93.39,62.9,76.33,89.39496497312184]},
-  {id:"SX032",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[86.47,102.76,119.27,124.22,108.28,78.6,92.35,104.95442978522408]},
-  {id:"SX033",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.24,2.71,3.23,3.38,2.87,1.98,2.37,2.769282969801793]},
-  {id:"SX034",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[76.1,89.24,104.44,110.06,95.83,68.39,80.22,91.97505622953254]},
-  {id:"SX035",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[65.42,80.56,95.41,101.19,86.41,57.75,69.95,82.52300360129799]}
+  {id:"SX031",name:"Tỷ lệ chuyền đạt sản lượng",uom:"%",w:30,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Số giờ chuyền đạt ≥95% / Tổng số giờ sản xuất x 100%",current:null,anomaly:null,s:[79.45,92.59,109.81,113.69,99.08,73.88,83.56,97.46]},
+  {id:"SX032",name:"Tỷ lệ đồng bộ hàng nhập của chuyền",uom:"%",w:20,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần nhập đồng bộ / Tổng số lần nhập x 100%",current:null,anomaly:null,s:[88.14,103.33,120.23,125.75,110.45,80.9,92.97,107.4]},
+  {id:"SX033",name:"Tỷ lệ tự xử lý ở Cấp 2",uom:"%",w:25,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ Chuyền trưởng xử lý xong / Tổng số vụ nhận từ Tổ trưởng x 100%",current:null,anomaly:null,s:[72.33,83.34,95.11,100.06,89.08,66.87,74.95,85.9]},
+  {id:"SX034",name:"Số vụ phải leo lên Chủ quản (Tuấn Anh)",uom:"vụ",w:15,target:2.0,tgtTxt:"≤2 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 3 (Chủ quản) trong tháng",current:null,anomaly:null,s:[2.51,2.26,1.95,1.81,2.12,2.68,2.45,2.18]},
+  {id:"SX035",name:"Đánh giá của Chủ quản (Tuấn Anh)",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chủ quản / thang điểm 100",current:null,anomaly:null,s:[81.76,95.37,108.42,114.21,100.14,74.91,85.61,97.24]}
 ];
 var SX03_STAFF=[
-  ["Hồng Gấm","CB1"],
-  ["Kiều Chinh","CB2"],
-  ["Huỳnh Giao","CB3"]
-];
-
-var SX04_LIST=[
-  {id:"SX041",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[73.64,87.93,103.14,108.15,94.51,66.04,77.41,90.25871647270547]},
-  {id:"SX042",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[70.69,83.07,99.44,104.25,89.51,62.16,74.98,87.02853931938675]},
-  {id:"SX043",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:4.16,tgtTxt:"4.16",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[3.76,4.37,5.01,5.26,4.69,3.53,4.01,4.508231582784597]},
-  {id:"SX044",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[64.34,76.19,91.98,95.73,81.99,58.2,67.65,79.49612643059123]},
-  {id:"SX045",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[68.68,81.21,96.53,100.61,86.48,62.0,72.52,84.08716272621747]}
-];
-var SX04_STAFF=[
-  ["Lê Dũng","CQ"],
-  ["Huy Thiên","HT1 · CQ"],
-  ["Ninh Khang","HT1 · CB1"],
-  ["Hoàng Ân","HT1 · CB2"],
-  ["Ngô Thụy An","HT1 · CB3"],
-  ["Hồng Hải","HT2 · CQ"],
-  ["Huy Khánh","HT2 · CB1"],
-  ["Bùi Văn Hậu","HT2 · CB2"],
-  ["Thanh Ngân","HT2 · CB3"],
-  ["Mai","HT3 · CQ"],
-  ["Thúy An","HT3 · CB1"],
-  ["Văn Chung","HT3 · CB2"],
-  ["Thị Duyên","HT3 · CB3"],
-  ["Thị Mai","HT4 · CQ"],
-  ["Đào Văn Hậu","HT4 · CB1"],
-  ["Văn Lợi","HT4 · CB2"],
-  ["Thanh Tâm","HT4 · CB3"]
-];
-
-var SX05_LIST=[
-  {id:"SX051",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[68.93,86.73,106.53,112.67,92.72,58.32,72.51,87.7569945486392]},
-  {id:"SX052",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[70.66,89.69,107.7,115.58,95.44,61.2,74.75,90.28549288756695]},
-  {id:"SX053",name:"Đáp ứng vật tư cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:20,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu/chậm cấp vật tư trong tháng",current:null,anomaly:null,s:[0.73,0.54,0.31,0.19,0.42,0.83,0.65,0.47405736075161964]},
-  {id:"SX054",name:"Tỷ lệ hao hụt vật tư",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl vật tư hao hụt, hư hỏng / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.2,1.01,0.75,0.67,0.88,1.29,1.14,0.9355051279143649]},
-  {id:"SX055",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[78.83,94.17,112.21,117.93,100.91,69.11,81.21,95.91131239220796]}
-];
-var SX05_STAFF=[
-  ["Trần Thị Mỹ Lệ","Thành hình 4 · Lãnh mặt giày"],
-  ["Phạm Thị Phượng","Thành hình 4 · Lãnh đế"],
-  ["Trần Thị Ngọc Hiền","Thành hình 4 · Lãnh phụ kiện"],
-  ["Nguyễn Thị Thanh Trúc","Thành hình 3 · Lãnh mặt giày"],
-  ["Bùi Thị Diệp","Thành hình 3 · Lãnh đế"],
-  ["Nguyễn Huỳnh Như","Thành hình 3 · Lãnh phụ kiện"],
-  ["Nguyễn Thị Chi Lê","Thành hình 2 · Lãnh mặt giày"],
-  ["Dương Thị Thúy Oanh","Thành hình 2 · Lãnh đế"],
-  ["Nguyễn Thị Kiều Vy","Thành hình 2 · Lãnh phụ kiện"],
-  ["Hồ Mộng Trúc","Thành hình 1 · Lãnh mặt giày"],
-  ["Nguyễn Thị Lụt","Thành hình 1 · Lãnh đế"],
-  ["Huỳnh Thị Mỹ Lệ","Thành hình 1 · Lãnh phụ kiện"]
-];
-
-var SX06_LIST=[
-  {id:"SX061",name:"Sản lượng",uom:"%",w:30,target:100.0,tgtTxt:"≥100%",dir:"up",calc:"Sản lượng thực tế / Sản lượng kế hoạch x 100%",current:null,anomaly:null,s:[82.64,99.71,120.99,126.73,108.39,71.33,85.61,101.97731483542559]},
-  {id:"SX062",name:"Chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt / Tổng sl kiểm x 100%",current:null,anomaly:null,s:[69.51,86.09,105.1,112.08,93.89,56.28,71.95,87.25077808085004]},
-  {id:"SX063",name:"PPH (sản lượng bình quân/người)",uom:"sp/người/giờ",w:20,target:3,tgtTxt:"3",dir:"up",calc:"Tổng sản lượng / (Số người x Số giờ làm việc)",current:null,anomaly:null,s:[2.16,2.76,3.34,3.51,2.91,1.85,2.25,2.7681551233789077]},
-  {id:"SX064",name:"6S",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá 6S / thang điểm 100",current:null,anomaly:null,s:[62.13,77.7,97.19,103.09,83.61,51.56,64.39,79.35223243959813]},
-  {id:"SX065",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[75.72,93.02,109.26,117.3,99.12,65.1,79.3,93.41418290388214]}
-];
-var SX06_STAFF=[
-  ["Thị Nguyệt","Thoa · M1"],
-  ["Thu Thảo","Thoa · M3"],
-  ["Thị Thúy An","Thị Yến · M5"],
-  ["Thị Thúy An","Thị Yến · M6"],
-  ["Thị Hiếu","Thị Yến · M7"],
-  ["Thị Hiếu","Thị Yến · M8"],
-  ["Thị Nhí","Thị Yến · M9"],
-  ["Thị Nhí","Thị Yến · M10"]
-];
-
-var SX07_LIST=[
-  {id:"SX071",name:"Cấp phát nguyên liệu đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cấp đúng giờ / Tổng số lần cấp x 100%",current:null,anomaly:null,s:[83.56,97.63,113.8,119.26,105.9,76.56,88.05,101.41010705447287]},
-  {id:"SX072",name:"Độ chính xác nguyên liệu (đúng loại, đủ số lượng)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng lần cấp - Số lần sai/thiếu) / Tổng lần cấp x 100%",current:null,anomaly:null,s:[73.11,88.09,104.26,111.77,96.15,67.36,77.62,91.75725778101695]},
-  {id:"SX073",name:"Đáp ứng vật tư cho chuyền (không để chuyền dừng chờ liệu)",uom:"lần/tháng",w:20,target:0.5,tgtTxt:"0 lần/tháng",dir:"down",calc:"Số lần chuyền dừng do thiếu/chậm cấp vật tư trong tháng",current:null,anomaly:null,s:[0.87,0.71,0.51,0.42,0.6,0.92,0.8,0.6327972011047953]},
-  {id:"SX074",name:"Tỷ lệ hao hụt vật tư",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl vật tư hao hụt, hư hỏng / Tổng sl xuất x 100%",current:null,anomaly:null,s:[1.35,1.2,1.0,0.91,1.11,1.4,1.27,1.1146851802302766]},
-  {id:"SX075",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[77.8,92.84,107.51,111.2,97.16,72.49,82.54,94.58669316017317]}
-];
-var SX07_STAFF=[
-  ["Trần Thị Thúy Kiều","May 1 & 2 · Lãnh liệu"],
-  ["Nguyễn Ngọc Ái My","May 3 & 4 · Lãnh liệu"],
-  ["Lưu Thị Ái Mỹ","May 5 & 6 · Lãnh liệu"],
-  ["Trần Thị Cẩm Tú","May 7 & 8 · Lãnh liệu"],
-  ["Nguyễn Thị Kiều Thư","May 9 & 10 · Lãnh liệu"]
-];
-
-var SX08_LIST=[
-  {id:"SX081",name:"Giao kho đúng tiến độ",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần giao kho đúng giờ / Tổng số lần giao x 100%",current:null,anomaly:null,s:[84.02,99.77,119.5,125.7,107.69,74.75,87.24,102.596566267751]},
-  {id:"SX082",name:"Cập nhật số liệu đúng giờ",uom:"%",w:25,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lần cập nhật số liệu đúng giờ / Tổng số lần phải cập nhật x 100%",current:null,anomaly:null,s:[67.52,84.76,102.81,108.87,91.87,59.87,72.79,86.83321274449905]},
-  {id:"SX083",name:"Độ chính xác số liệu giao kho",uom:"%",w:20,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"(Tổng chứng từ - Số chứng từ sai lệch) / Tổng chứng từ x 100%",current:null,anomaly:null,s:[85.88,102.97,120.37,127.39,109.38,76.53,88.67,103.92901946162505]},
-  {id:"SX084",name:"Tỷ lệ lô hàng giao kho bị trả lại",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Số lô bị kho từ chối/trả lại / Tổng số lô giao x 100%",current:null,anomaly:null,s:[1.37,1.18,0.94,0.85,1.08,1.43,1.28,1.1096732211295146]},
-  {id:"SX085",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:null,anomaly:null,s:[65.82,81.05,97.3,104.6,87.76,57.11,69.26,83.22440345197028]}
-];
-var SX08_STAFF=[
-  ["Nguyễn Thị Ngọc Hân","May 1 & 2 · Giao kho"],
-  ["Lê Thị Thanh Duyên","May 3 & 4 · Giao kho"],
-  ["Lê Thị Hiếu Nga","May 5 & 6 · Giao kho"],
-  ["Đỗ Thị Mỹ Lệ","May 7 & 8 · Giao kho"],
-  ["Nguyễn Thị Cẩm Thu","May 9 & 10 · Giao kho"]
+  ["Thoa","M1 – M4"],
+  ["Thị Yến","M5 – M10"]
 ];
 
 var QC00_LIST=[
-  {id:"QC001",name:"Tỷ lệ đạt May",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lỗi/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[59.19,103.27,154.4,172.03,113.94,12.69,50.1,90.0]},
-  {id:"QC002",name:"Tỷ lệ B do lỗi may",uom:"%",w:20,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:5.0,anomaly:null,s:[5.66,4.69,3.69,3.33,4.51,6.54,5.83,5.0]},
-  {id:"QC003",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:20,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:3.0,anomaly:null,s:[3.64,2.7,1.68,1.34,2.51,4.57,3.82,3.0]},
-  {id:"QC004",name:"Tỷ lệ đạt ngay lần đầu kiểm",uom:"%",w:20,target:95.0,tgtTxt:"≥95 – 97%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm",current:80.0,anomaly:null,s:[49.21,93.62,142.19,160.02,102.49,5.96,41.42,80.0]},
-  {id:"QC005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[50.32,92.48,140.43,154.53,102.54,9.38,42.5,80.0]}
+  {id:"QC001",name:"Tỷ lệ đạt May",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm x 100%",current:90.0,anomaly:null,s:[59.19,103.27,154.4,172.03,113.94,12.69,50.1,90.0]},
+  {id:"QC002",name:"Tỷ lệ B do lỗi may",uom:"%",w:20,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI hàng B do lỗi may / Tổng SI đã kiểm x 100%",current:5.0,anomaly:null,s:[5.66,4.69,3.69,3.33,4.51,6.54,5.83,5.0]},
+  {id:"QC003",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:20,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI lỗi bị QA/khách phát hiện lại / Tổng SI đã kiểm x 100%",current:3.0,anomaly:null,s:[3.64,2.7,1.68,1.34,2.51,4.57,3.82,3.0]},
+  {id:"QC004",name:"Tỷ lệ đạt ngay lần đầu kiểm",uom:"%",w:20,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"SI đạt ngay lần kiểm đầu / Tổng SI đã kiểm x 100%",current:80.0,anomaly:null,s:[49.21,93.62,142.19,160.02,102.49,5.96,41.42,80.0]},
+  {id:"QC005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của QA May / thang điểm 100",current:80.0,anomaly:null,s:[50.32,92.48,140.43,154.53,102.54,9.38,42.5,80.0]}
 ];
 var QC00_STAFF=[
-  ["Võ Thị Mộng Nhi","QA MAY"],
-  ["Trần Thị Ngọc Ngân","QC MAY 1-2"],
-  ["Lưu Thị Kha Ly","QC MAY 3-4"],
-  ["Ngô Thị Mỹ Hà","QC MAY 7-8"],
-  ["Nguyễn Thị Trúc Lan","QC MAY 5-6"],
-  ["Trần Thị Ngọc Chuyên","QC MAY 9"]
+  ["Trần Thị Ngọc Ngân","M1 & M2"],
+  ["Lưu Thị Kha Ly","M3 & M4"],
+  ["Nguyễn Thị Trúc Lan","M5 & M6"],
+  ["Ngô Thị Mỹ Hà","M7 & M8"],
+  ["Trần Thị Ngọc Chuyên","M9"]
 ];
-
 var QC01_LIST=[
-  {id:"QC011",name:"Tỷ lệ đạt",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lỗi/ Tổng sl kiểm",current:90.0,anomaly:null,s:[56.64,107.31,163.64,181.6,117.99,6.12,45.42,90.0]},
-  {id:"QC012",name:"Tỷ lệ kiểm áp dụng AQL",uom:"Pos",w:20,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl lỗi/ Tổng Pos kiểm",current:10.0,anomaly:null,s:[10.68,9.67,8.5,8.15,9.43,11.71,10.91,10.0]},
-  {id:"QC013",name:"Tỷ Lệ giày loại B",uom:"%",w:20,target:0.1,tgtTxt:"~ 0.1%",dir:"down",calc:"Sl lỗi B/ Tổng sl kiểm",current:0.5,anomaly:null,s:[0.85,0.46,0.03,0.03,0.34,1.19,0.84,0.5]},
-  {id:"QC014",name:"báo cáo kiểm trên chuyền",uom:"%",w:20,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần/ngày",current:98.0,anomaly:null,s:[62.94,116.19,173.5,190.46,125.7,11.97,52.66,98.0]},
-  {id:"QC015",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[49.6,94.64,147.0,164.23,104.68,2.7,37.6,80.0]}
+  {id:"QC011",name:"Tỷ lệ đạt May toàn khu",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm toàn khu may x 100%",current:null,anomaly:null,s:[83.78,98.84,115.47,121.39,105.71,76.6,88.03,101.42]},
+  {id:"QC012",name:"Tỷ lệ bỏ sót lỗi toàn khu may",uom:"%",w:25,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI lỗi phát hiện lại khi audit / Tổng SI QC đã kiểm x 100%",current:null,anomaly:null,s:[0.49,0.31,0.12,0.06,0.21,0.58,0.4,0.23]},
+  {id:"QC013",name:"Tỷ lệ tự xử lý tại khu may",uom:"%",w:20,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ QA May xử lý xong / Tổng số vụ phát sinh x 100%",current:null,anomaly:null,s:[55.42,68.66,82.27,87.26,74.79,49.94,59.32,70.92]},
+  {id:"QC014",name:"Số vụ phải leo lên QA Supervisor",uom:"vụ",w:15,target:3.0,tgtTxt:"≤3 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 2 (QA Supervisor) trong tháng",current:null,anomaly:null,s:[3.83,3.33,2.86,2.62,3.11,4.07,3.65,3.25]},
+  {id:"QC015",name:"Đánh giá của QA Supervisor",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của QA Supervisor / thang điểm 100",current:null,anomaly:null,s:[80.99,95.38,109.95,115.73,101.69,73.73,86.17,97.38]}
 ];
 var QC01_STAFF=[
-  ["Nguyễn Thị Trúc Linh","CB THÀNH HÌNH"],
-  ["Trương Thị Huyền Trân","QA TH 1,2"],
-  ["Nguyễn Thị Ngọc Linh","QC TH1"],
-  ["Võ Thị Minh Thư","QC TH1"],
-  ["Nguyễn Thị Thảo","QC TH1"],
-  ["Nguyễn Thị Cẩm Tú","QC TH2"],
-  ["Nguyễn Võ Trà Hương","QC TH2"],
-  ["Nguyễn Thị Yến Phi","QC TH2"],
-  ["Võ Thị Diệu Đăng","QA TH 3,4"],
-  ["Đặng Thị Huyền Như","QC TH3"],
-  ["Lưu Ngọc Truyện","QC TH3"],
-  ["Bùi Ngọc Hân","QC TH3"],
-  ["Nguyễn Thị Thu Thuỷ","QC TH4"],
-  ["Trần Thị Kim Hồng","QC TH4"]
+  ["Bí","QA May (phụ trách)"],
+  ["Võ Thị Mộng Nhi","QA May"]
 ];
-
 var QC02_LIST=[
-  {id:"QC021",name:"Tỷ lệ kiểm lô NVL đạt",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[59.59,101.99,151.67,167.53,112.93,16.99,51.08,90.0]},
-  {id:"QC022",name:"Tỷ lệ kiểm sai lệch màu so với mẫu",uom:"%",w:15,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:null,s:[58.8,102.14,151.0,166.22,112.93,17.47,51.05,90.0]},
-  {id:"QC023",name:"Tỷ lệ kiểm đúng thời hạn",uom:"%",w:20,target:98,tgtTxt:"2%",dir:"up",calc:"Sl đạt/ Tổng sl kiểm x 100%",current:90.0,anomaly:"Mục tiêu gốc trong file ghi 2 phần trăm trong khi Hiện tại đã 90% — nghi ngờ lỗi nhập liệu (thiếu ký hiệu ≥ và số 9), hệ thống tạm quy đổi mục tiêu về ≥98% để tính điểm; cần khách xác nhận lại con số đúng.",s:[59.5,101.99,150.79,167.97,111.96,16.75,50.17,90.0]},
-  {id:"QC024",name:"Thời gian xử lý khiếu nại với Ncc",uom:"ngày",w:20,target:5.0,tgtTxt:"5 ngày",dir:"down",calc:"Sl đạt/ Tổng sl kiểm",current:5.0,anomaly:null,s:[6.53,4.35,1.89,1.08,3.84,8.78,6.96,5.0]},
-  {id:"QC025",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:15,target:2.0,tgtTxt:"2%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm",current:5.0,anomaly:null,s:[5.62,4.74,3.77,3.45,4.55,6.47,5.78,5.0]},
-  {id:"QC026",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[52.56,92.12,135.92,151.53,100.33,12.74,45.12,80.0]}
+  {id:"QC021",name:"Tỷ lệ khu may đạt chuẩn chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số ngày khu may đạt chuẩn / Tổng số ngày sản xuất x 100%",current:null,anomaly:null,s:[71.44,84.47,100.7,105.88,91.85,62.75,74.56,87.61]},
+  {id:"QC022",name:"Số vụ lỗi tái diễn",uom:"vụ",w:20,target:1.0,tgtTxt:"≤1 vụ/tháng",dir:"down",calc:"Đếm số dạng lỗi lặp lại sau khi đã có hành động khắc phục",current:null,anomaly:null,s:[1.17,0.99,0.8,0.72,0.88,1.2,1.07,0.92]},
+  {id:"QC023",name:"Tỷ lệ tự xử lý ở Cấp 2",uom:"%",w:25,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ QA Supervisor xử lý xong / Tổng số vụ nhận từ QA May x 100%",current:null,anomaly:null,s:[57.13,69.21,82.2,86.55,73.72,50.59,59.9,70.44]},
+  {id:"QC024",name:"Số vụ phải leo lên Chủ quản (Huy Võ)",uom:"vụ",w:15,target:2.0,tgtTxt:"≤2 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 3 (Chủ quản) trong tháng",current:null,anomaly:null,s:[2.27,1.94,1.64,1.5,1.84,2.4,2.18,1.91]},
+  {id:"QC025",name:"Đánh giá của Chủ quản (Huy Võ)",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chủ quản / thang điểm 100",current:null,anomaly:null,s:[69.14,81.11,97.09,100.71,87.9,61.14,72.48,83.85]}
 ];
 var QC02_STAFF=[
-  ["Trần Thị Hoàng My","CB LIỆU"]
-];
-
-var QC03_LIST=[
-  {id:"QC031",name:"Tỷ lệ lô liệu đạt so màu ngay lần đầu",uom:"%",w:25,target:96.0,tgtTxt:"≥96%",dir:"up",calc:"Sl lô đạt so màu lần 1 / Tổng lô so màu",current:88.0,anomaly:null,s:[55.99,105.23,158.19,176.39,113.93,6.44,43.18,88.0]},
-  {id:"QC032",name:"Tỷ lệ so màu đúng điều kiện chuẩn (tủ đèn D65/TL84, thang xám ≥4)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lần so màu đúng quy trình / Tổng lần so màu",current:90.0,anomaly:null,s:[55.77,106.51,163.73,181.71,118.02,4.77,44.81,90.0]},
-  {id:"QC033",name:"Tỷ lệ so màu đúng thời hạn",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô so màu đúng hạn / Tổng lô yêu cầu",current:90.0,anomaly:null,s:[56.3,106.9,161.69,179.64,116.08,5.61,46.25,90.0]},
-  {id:"QC034",name:"Tỷ lệ bỏ sót lệch màu (chuyền/khách hàng phát hiện sau)",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lô lệch màu phát hiện sau / Tổng lô đã so màu",current:3.0,anomaly:null,s:[3.41,2.88,2.31,2.12,2.74,3.89,3.45,3.0]},
-  {id:"QC035",name:"Thời gian phản hồi & xử lý lệch màu với NCC",uom:"ngày",w:10,target:1.0,tgtTxt:"1 ngày",dir:"down",calc:"Time chốt xử lý - time phát hiện lệch màu",current:3.0,anomaly:null,s:[3.41,2.88,2.31,2.12,2.75,3.86,3.47,3.0]},
-  {id:"QC036",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[49.35,95.59,146.55,163.39,104.81,2.7,39.31,80.0]}
-];
-var QC03_STAFF=[
-  ["Nguyễn Thị Tuyền Duyên","QC LIỆU"]
-];
-
-var QC04_LIST=[
-  {id:"QC041",name:"Tỷ lệ lô da đạt khi kiểm nhập",uom:"%",w:25,target:96.0,tgtTxt:"≥96%",dir:"up",calc:"Sl lô da đạt / Tổng lô da kiểm",current:88.0,anomaly:null,s:[57.19,101.3,150.5,165.17,112.33,15.02,49.03,88.0]},
-  {id:"QC042",name:"Tỷ lệ kiểm đủ chỉ tiêu da (độ dày, độ bền màu, phân hạng, diện tích)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô kiểm đủ chỉ tiêu / Tổng lô da kiểm",current:90.0,anomaly:null,s:[57.83,104.9,155.4,171.62,114.75,13.17,49.73,90.0]},
-  {id:"QC043",name:"Tỷ lệ kiểm da đúng thời hạn",uom:"%",w:20,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô kiểm đúng hạn / Tổng lô yêu cầu",current:90.0,anomaly:null,s:[58.58,104.61,154.26,169.52,112.66,13.65,49.75,90.0]},
-  {id:"QC044",name:"Tỷ lệ bỏ sót lỗi da (chuyền cắt phát hiện sau)",uom:"%",w:15,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lỗi da phát hiện sau kiểm / Tổng lỗi da phát hiện",current:3.0,anomaly:null,s:[3.38,2.91,2.38,2.23,2.79,3.8,3.41,3.0]},
-  {id:"QC045",name:"Thời gian xử lý khiếu nại / trả hàng với NCC",uom:"ngày",w:10,target:1.0,tgtTxt:"1 ngày",dir:"down",calc:"Time chốt xử lý - time phát hiện lỗi",current:3.0,anomaly:null,s:[3.37,2.91,2.41,2.21,2.79,3.78,3.41,3.0]},
-  {id:"QC046",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.96,92.23,138.59,152.74,102.05,10.15,44.11,80.0]}
-];
-var QC04_STAFF=[
-  ["Trần Thị Cẩm My","QC LIỆU"],
-  ["Đỗ Hoàng Khánh Băng","QC LIỆU"]
-];
-
-var QC05_LIST=[
-  {id:"QC051",name:"Tỷ lệ lỗi cắt",uom:"%",w:20,target:3.0,tgtTxt:"≤3%",dir:"down",calc:"Sl lỗi/ Tổng sl kiểm x 100%",current:10.0,anomaly:null,s:[10.95,9.55,8.02,7.47,9.27,12.34,11.25,10.0]},
-  {id:"QC052",name:"Tỷ lệ kiểm áp dụng AQL",uom:"%",w:20,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl đạt ngay lând đầu/ Tổng sl kiểm",current:10.0,anomaly:null,s:[10.65,9.71,8.66,8.32,9.51,11.55,10.84,10.0]},
-  {id:"QC053",name:"Tỷ bỏ sót lỗi",uom:"%",w:15,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl trả về/ Tổng sl giao may",current:5.0,anomaly:null,s:[5.66,4.72,3.66,3.31,4.49,6.57,5.85,5.0]},
-  {id:"QC054",name:"Tỷ lệ hành động khắc phục",uom:"%",w:15,target:2.0,tgtTxt:"≤ 2%",dir:"down",calc:"Sl kiểm lại/ Tổng sl giao may",current:5.0,anomaly:null,s:[5.66,4.72,3.69,3.34,4.49,6.58,5.86,5.0]},
-  {id:"QC055",name:"Tỷ lệ lỗi bề mặt da (Tưa biên,lẹm,sẹo,rách...)",uom:"%",w:20,target:5.0,tgtTxt:"≤5% ~ 10%",dir:"down",calc:"Sl chi tiết kiểm lỗi/ Tổng sl kiểm x 100%",current:15.0,anomaly:null,s:[16.55,14.22,11.7,10.8,13.8,18.96,17.1,15.0]},
-  {id:"QC056",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.11,94.31,140.66,155.22,102.34,8.65,42.53,80.0]}
-];
-var QC05_STAFF=[
-  ["Đỗ Thị Thuý Nga","QA CẮT"],
-  ["Nguyễn Châu Ánh Vy","QC CẮT 2"],
-  ["Lưu Thị Thu Liễu","QC CẮT 3"],
-  ["Trần Thị Tuyết Nhung","QC CẮT 1"],
-  ["Nguyễn Hoàng Minh Thư","QC CẮT"]
-];
-
-var QC06_LIST=[
-  {id:"QC061",name:"Test đúng hạn",uom:"%",w:30,target:98.0,tgtTxt:"98%",dir:"up",calc:"Sl mẫu test đúng hạn/ Tổng mẫu test",current:92.0,anomaly:null,s:[63.53,102.66,144.39,156.47,110.03,27.74,58.28,92.0]},
-  {id:"QC062",name:"Kết quả test chính xác",uom:"%",w:20,target:99.0,tgtTxt:"99%",dir:"up",calc:"SL mẫu ko retest/Số mẫu test",current:95.0,anomaly:null,s:[66.13,104.87,145.87,160.35,115.03,30.41,60.22,95.0]},
-  {id:"QC063",name:"Thời gian xử lý test",uom:"Giờ",w:20,target:120.0,tgtTxt:"5 ngày (120h)",dir:"down",calc:"Time trả kqua/ time nhận mẫu",current:168.0,anomaly:null,s:[201.9,155.54,105.07,87.6,145.28,244.01,208.61,168.0]},
-  {id:"QC064",name:"Calibration thiết bị đúng hạn",uom:"%",w:20,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số thiết bị hiệu chuẩn đúng hạn/ Tổng số thiết bị đúng hạn",current:95.0,anomaly:null,s:[66.85,105.66,148.24,160.83,115.33,31.61,60.05,95.0]},
-  {id:"QC065",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.95,89.48,128.2,140.49,96.66,21.05,49.71,80.0]}
-];
-var QC06_STAFF=[
-  ["Tăng Thị Thanh Nha","CB LAB"]
-];
-
-var QC07_LIST=[
-  {id:"QC071",name:"Tỷ lệ mẫu giày test đúng hạn (TAT)",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl mẫu giày trả kết quả đúng hạn / Tổng mẫu giày test",current:92.0,anomaly:null,s:[63.8,102.14,141.07,154.75,108.92,30.86,59.06,92.0]},
-  {id:"QC072",name:"Độ chính xác & lặp lại kết quả (không phải test lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl mẫu không retest / Tổng mẫu test",current:95.0,anomaly:null,s:[68.0,103.41,145.52,158.35,112.46,33.23,62.53,95.0]},
-  {id:"QC073",name:"Tỷ lệ test đủ hạng mục theo tiêu chuẩn KH (bám dính, uốn gập, mài mòn...)",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl mẫu test đủ hạng mục / Tổng mẫu yêu cầu",current:90.0,anomaly:null,s:[63.49,99.55,139.57,152.27,107.71,29.13,58.07,90.0]},
-  {id:"QC074",name:"Hiệu chuẩn & bảo trì thiết bị test giày đúng hạn",uom:"%",w:15,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl thiết bị hiệu chuẩn đúng hạn / Tổng thiết bị",current:95.0,anomaly:null,s:[66.92,103.95,145.4,158.16,112.56,33.1,62.52,95.0]},
-  {id:"QC075",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.31,88.63,124.41,137.19,97.13,24.02,51.14,80.0]}
-];
-var QC07_STAFF=[
-  ["Lê Tấn Tài Lộc","LAB"],
-  ["Nguyễn Ngọc Tiến","LAB"]
-];
-
-var QC08_LIST=[
-  {id:"QC081",name:"Tỷ lệ mẫu NVL (da, vải, keo, chỉ) test đúng hạn",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl mẫu NVL trả kết quả đúng hạn / Tổng mẫu NVL test",current:90.0,anomaly:null,s:[61.01,100.93,146.16,160.76,110.6,22.77,54.72,90.0]},
-  {id:"QC082",name:"Độ chính xác kết quả test NVL (không phải test lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl mẫu không retest / Tổng mẫu test",current:95.0,anomaly:null,s:[65.31,105.92,151.15,166.26,115.53,25.32,57.72,95.0]},
-  {id:"QC083",name:"Tỷ lệ lô NVL được test trước khi đưa vào sản xuất",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô NVL đã test / Tổng lô NVL nhập",current:90.0,anomaly:null,s:[60.61,100.62,148.84,162.88,110.87,20.26,52.66,90.0]},
-  {id:"QC084",name:"Thời gian xử lý mẫu gấp / phản hồi NCC",uom:"Giờ",w:15,target:24.0,tgtTxt:"24h",dir:"down",calc:"Time trả kết quả - time nhận mẫu gấp",current:48.0,anomaly:null,s:[54.83,45.29,34.0,30.62,43.1,64.87,56.97,48.0]},
-  {id:"QC085",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[53.05,89.74,132.42,145.24,98.69,16.52,46.74,80.0]}
-];
-var QC08_STAFF=[
-  ["Nguyễn Thị Kiều Lan","LAB"],
-  ["Ngô Thị Hồng Ân","LAB"]
-];
-
-var QC09_LIST=[
-  {id:"QC091",name:"Tỷ lệ báo cáo kết quả test phát hành đúng hạn",uom:"%",w:30,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl báo cáo phát hành đúng hạn / Tổng báo cáo",current:92.0,anomaly:null,s:[57.82,110.1,167.11,186.02,120.27,5.28,46.35,92.0]},
-  {id:"QC092",name:"Tỷ lệ báo cáo không sai sót (không phải chỉnh sửa/phát hành lại)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl báo cáo không hiệu chỉnh / Tổng báo cáo",current:95.0,anomaly:null,s:[61.93,112.37,169.83,186.3,123.25,9.43,49.78,95.0]},
-  {id:"QC093",name:"Tỷ lệ hồ sơ, dữ liệu test được lưu trữ & truy xuất đầy đủ",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl hồ sơ đầy đủ / Tổng hồ sơ kiểm tra",current:90.0,anomaly:null,s:[56.16,107.56,165.57,182.6,118.63,3.96,43.09,90.0]},
-  {id:"QC094",name:"Thời gian phát hành báo cáo sau khi có kết quả",uom:"Giờ",w:15,target:8.0,tgtTxt:"8h",dir:"down",calc:"Time phát hành báo cáo - time có kết quả",current:24.0,anomaly:null,s:[26.83,22.55,17.98,16.52,21.79,30.9,27.65,24.0]},
-  {id:"QC095",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[50.14,94.59,146.99,162.84,104.51,2.7,37.54,80.0]}
-];
-var QC09_STAFF=[
-  ["Lê Thị Kim Cúc","LAB"]
-];
-
-var QC10_LIST=[
-  {id:"QC101",name:"Tỷ lệ hàng đạt chất lượng ngay từ lần đầu (FPY)",uom:"%",w:30,target:97.0,tgtTxt:"≥97%",dir:"up",calc:"Sl đôi đạt ngay lần kiểm đầu / Tổng sản lượng kiểm",current:92.0,anomaly:null,s:[60.35,106.49,154.38,170.88,115.51,18.6,52.49,92.0]},
-  {id:"QC102",name:"Tỷ lệ hàng phải tái chế / sửa lại",uom:"%",w:25,target:2.0,tgtTxt:"≤2%",dir:"down",calc:"Sl đôi phải tái chế / Tổng sản lượng",current:5.0,anomaly:null,s:[5.63,4.74,3.69,3.38,4.51,6.53,5.79,5.0]},
-  {id:"QC103",name:"Tỷ lệ bỏ sót lỗi của đội QC (PKH/khách hàng phát hiện sau)",uom:"%",w:20,target:1.0,tgtTxt:"≤1%",dir:"down",calc:"Sl lỗi phát hiện sau công đoạn QC / Tổng lỗi phát hiện",current:3.0,anomaly:null,s:[3.37,2.9,2.42,2.21,2.79,3.78,3.4,3.0]},
-  {id:"QC104",name:"Tỷ lệ khiếu nại chất lượng được xử lý & đóng CAPA đúng hạn",uom:"%",w:15,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl CAPA đóng đúng hạn (≤30 ngày) / Tổng khiếu nại",current:85.0,anomaly:null,s:[53.38,99.48,150.08,166.51,108.98,8.93,44.02,85.0]},
-  {id:"QC105",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.68,92.11,138.98,153.51,101.09,10.67,44.47,80.0]}
-];
-var QC10_STAFF=[
-  ["Vũ Thăng Liêm","CQCL"],
-  ["Nguyễn Thị Tâm","CÁN BỘ"]
-];
-
-var QC11_LIST=[
-  {id:"QC111",name:"Tỷ lệ hàng tái chế lại",uom:"Pos",w:30,target:3.0,tgtTxt:"3%",dir:"down",calc:"Tổng số Pos fail/ Tổng sl Pos",current:6.5,anomaly:null,s:[7.39,6.15,4.77,4.38,5.88,8.56,7.59,6.5]},
-  {id:"QC112",name:"Tỷ lệ QC nhận biết lỗi",uom:"Người",w:20,target:2.0,tgtTxt:"≤2 người",dir:"down",calc:"Tổng số người test ko đạt/ Tổng số người có mặt",current:5.0,anomaly:null,s:[5.59,4.75,3.88,3.6,4.61,6.36,5.73,5.0]},
-  {id:"QC113",name:"Tỷ Lệ hàng đạt chất lượng ngay từ lần đầu",uom:"%",w:20,target:95.0,tgtTxt:"95%",dir:"up",calc:"Tổng số lượng đôi/ Tổng sl sản xuất",current:80.0,anomaly:null,s:[51.06,91.73,133.5,147.35,100.31,14.23,46.25,80.0]},
-  {id:"QC114",name:"Tỷ lệ lỗi xảy ra trên chuyền",uom:"%",w:20,target:5.0,tgtTxt:"5%",dir:"down",calc:"Số lần/ngày",current:15.0,anomaly:null,s:[16.49,14.37,12.12,11.45,13.94,18.44,16.87,15.0]},
-  {id:"QC115",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[54.6,90.75,130.7,143.55,97.99,18.38,46.95,80.0]}
-];
-var QC11_STAFF=[
-  ["Lê Thị Ngọc Dung","QC MẪU"]
-];
-
-var QC12_LIST=[
-  {id:"QC121",name:"Tỷ lệ lô đạt AQL ngay lần kiểm đầu",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Sl lô Pass lần 1 / Tổng lô kiểm (ISO 2859-1)",current:90.0,anomaly:null,s:[56.02,106.65,162.14,179.66,116.2,6.51,46.13,90.0]},
-  {id:"QC122",name:"Tỷ lệ lô được kiểm đúng kế hoạch / đúng hạn",uom:"%",w:25,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl lô kiểm đúng lịch / Tổng lô yêu cầu kiểm",current:92.0,anomaly:null,s:[59.52,107.79,164.63,181.69,120.05,7.53,46.36,92.0]},
-  {id:"QC123",name:"Tỷ lệ bỏ sót lỗi (khách hàng/kho phát hiện sau kiểm)",uom:"%",w:20,target:0.5,tgtTxt:"≤0.5%",dir:"down",calc:"Sl lô bị khiếu nại sau kiểm / Tổng lô đã kiểm",current:3.0,anomaly:null,s:[3.35,2.94,2.52,2.38,2.85,3.67,3.34,3.0]},
-  {id:"QC124",name:"Tỷ lệ hành động khắc phục",uom:"%",w:15,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số lượng PO đóng đúng hạn / Tổng PO phát hành",current:85.0,anomaly:null,s:[52.91,102.23,155.45,174.59,112.85,2.94,40.04,85.0]},
-  {id:"QC125",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[48.83,95.11,145.75,162.47,104.84,4.89,39.04,80.0]}
-];
-var QC12_STAFF=[
-  ["Nguyễn Thị Ngọc Tâm","QA PKH"],
-  ["Lê Thị Huỳnh Như","QA PKH"],
-  ["Nguyễn Thị Ngọc Trinh","QA PKH"],
-  ["Phan Thị Như Huỳnh","QC PKH"]
-];
-
-var QC13_LIST=[
-  {id:"QC131",name:"Tỷ lệ báo cáo chất lượng phát hành đúng hạn (ngày/tuần/tháng)",uom:"%",w:30,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl báo cáo đúng hạn / Tổng báo cáo theo lịch",current:92.0,anomaly:null,s:[59.01,107.68,159.78,176.34,118.04,12.88,49.32,92.0]},
-  {id:"QC132",name:"Độ chính xác số liệu báo cáo (không phải hiệu chỉnh sau phát hành)",uom:"%",w:25,target:99.0,tgtTxt:"≥99%",dir:"up",calc:"Sl báo cáo không hiệu chỉnh / Tổng báo cáo",current:95.0,anomaly:null,s:[63.23,108.88,161.47,178.21,119.52,15.99,52.54,95.0]},
-  {id:"QC133",name:"Tỷ lệ dữ liệu lỗi được cập nhật đầy đủ vào hệ thống trong 24h",uom:"%",w:20,target:100,tgtTxt:"≥100%",dir:"up",calc:"Sl hồ sơ lỗi cập nhật ≤24h / Tổng hồ sơ lỗi",current:90.0,anomaly:null,s:[58.44,104.18,158.47,174.42,115.13,11.21,47.04,90.0]},
-  {id:"QC134",name:"Tỷ lệ báo cáo có phân tích nguyên nhân & đề xuất cải tiến",uom:"%",w:15,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Sl báo cáo có phân tích & đề xuất / Tổng báo cáo",current:60.0,anomaly:null,s:[28.35,75.15,124.02,140.38,84.07,2.85,19.95,60.0]},
-  {id:"QC135",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của quản lý trực tiếp / thang điểm 100",current:80.0,anomaly:null,s:[51.66,94.54,141.63,157.39,103.5,8.07,41.99,80.0]}
-];
-var QC13_STAFF=[
-  ["Tô Thị Hồng Ngân","TRỢ LÝ"],
-  ["Giao Thị Thanh Nguyên","TRỢ LÝ"]
+  ["Tâm","QA Supervisor (toàn nhà máy)"]
 ];
 
 var LEAVES_SX=[
-  {code:"SX00",congdoan:"Cắt",nhom:"Công nhân",list:SX00_LIST,staff:SX00_STAFF,off:mkOffsets(SX00_STAFF.length,SX00_LIST.length,20260301)},
-  {code:"SX01",congdoan:"Cắt",nhom:"Vật tư / Lãnh liệu",list:SX01_LIST,staff:SX01_STAFF,off:mkOffsets(SX01_STAFF.length,SX01_LIST.length,20260302)},
-  {code:"SX02",congdoan:"Ấn",nhom:"Công nhân",list:SX02_LIST,staff:SX02_STAFF,off:mkOffsets(SX02_STAFF.length,SX02_LIST.length,20260303)},
-  {code:"SX03",congdoan:"Chuẩn Bị",nhom:"Công nhân",list:SX03_LIST,staff:SX03_STAFF,off:mkOffsets(SX03_STAFF.length,SX03_LIST.length,20260304)},
-  {code:"SX04",congdoan:"Hình Thành",nhom:"Công nhân",list:SX04_LIST,staff:SX04_STAFF,off:mkOffsets(SX04_STAFF.length,SX04_LIST.length,20260305)},
-  {code:"SX05",congdoan:"Hình Thành",nhom:"Vật tư / Lãnh liệu",list:SX05_LIST,staff:SX05_STAFF,off:mkOffsets(SX05_STAFF.length,SX05_LIST.length,20260306)},
-  {code:"SX06",congdoan:"May",nhom:"Công nhân",list:SX06_LIST,staff:SX06_STAFF,off:mkOffsets(SX06_STAFF.length,SX06_LIST.length,20260307)},
-  {code:"SX07",congdoan:"May",nhom:"Vật tư / Lãnh liệu",list:SX07_LIST,staff:SX07_STAFF,off:mkOffsets(SX07_STAFF.length,SX07_LIST.length,20260308)},
-  {code:"SX08",congdoan:"May",nhom:"Giao kho",list:SX08_LIST,staff:SX08_STAFF,off:mkOffsets(SX08_STAFF.length,SX08_LIST.length,20260309)}
+  {code:"SX00",congdoan:"Lãnh liệu",nhom:"Công nhân",list:SX00_LIST,staff:SX00_STAFF,off:mkOffsets(SX00_STAFF.length,SX00_LIST.length,20260301)},
+  {code:"SX01",congdoan:"Giao kho",nhom:"Công nhân",list:SX01_LIST,staff:SX01_STAFF,off:mkOffsets(SX01_STAFF.length,SX01_LIST.length,20260302)},
+  {code:"SX02",congdoan:"Tổ trưởng chuyền",nhom:"Công nhân",list:SX02_LIST,staff:SX02_STAFF,off:mkOffsets(SX02_STAFF.length,SX02_LIST.length,20260303)},
+  {code:"SX03",congdoan:"Chuyền trưởng",nhom:"Công nhân",list:SX03_LIST,staff:SX03_STAFF,off:mkOffsets(SX03_STAFF.length,SX03_LIST.length,20260304)}
+];
+var LEAVES_QC=[
+  {code:"QC00",congdoan:"QC chuyền may",nhom:"Công nhân",list:QC00_LIST,staff:QC00_STAFF,off:mkOffsets(QC00_STAFF.length,QC00_LIST.length,20260401)},
+  {code:"QC01",congdoan:"QA May",nhom:"Công nhân",list:QC01_LIST,staff:QC01_STAFF,off:mkOffsets(QC01_STAFF.length,QC01_LIST.length,20260402)},
+  {code:"QC02",congdoan:"QA Supervisor",nhom:"Công nhân",list:QC02_LIST,staff:QC02_STAFF,off:mkOffsets(QC02_STAFF.length,QC02_LIST.length,20260403)}
 ];
 
-var LEAVES_QC=[
-  {code:"QC00",congdoan:"QA May",nhom:"Công nhân",list:QC00_LIST,staff:QC00_STAFF,off:mkOffsets(QC00_STAFF.length,QC00_LIST.length,20260401)},
-  {code:"QC01",congdoan:"QA HT",nhom:"Công nhân",list:QC01_LIST,staff:QC01_STAFF,off:mkOffsets(QC01_STAFF.length,QC01_LIST.length,20260402)},
-  {code:"QC02",congdoan:"QA liệu đầu vào",nhom:"Công nhân",list:QC02_LIST,staff:QC02_STAFF,off:mkOffsets(QC02_STAFF.length,QC02_LIST.length,20260403)},
-  {code:"QC03",congdoan:"QA liệu đầu vào",nhom:"So màu",list:QC03_LIST,staff:QC03_STAFF,off:mkOffsets(QC03_STAFF.length,QC03_LIST.length,20260404)},
-  {code:"QC04",congdoan:"QA liệu đầu vào",nhom:"Kiểm da",list:QC04_LIST,staff:QC04_STAFF,off:mkOffsets(QC04_STAFF.length,QC04_LIST.length,20260405)},
-  {code:"QC05",congdoan:"QA Cắt chuẩn bị",nhom:"Công nhân",list:QC05_LIST,staff:QC05_STAFF,off:mkOffsets(QC05_STAFF.length,QC05_LIST.length,20260406)},
-  {code:"QC06",congdoan:"Lab Test",nhom:"Công nhân",list:QC06_LIST,staff:QC06_STAFF,off:mkOffsets(QC06_STAFF.length,QC06_LIST.length,20260407)},
-  {code:"QC07",congdoan:"Lab Test",nhom:"Lab giày",list:QC07_LIST,staff:QC07_STAFF,off:mkOffsets(QC07_STAFF.length,QC07_LIST.length,20260408)},
-  {code:"QC08",congdoan:"Lab Test",nhom:"Lab liệu",list:QC08_LIST,staff:QC08_STAFF,off:mkOffsets(QC08_STAFF.length,QC08_LIST.length,20260409)},
-  {code:"QC09",congdoan:"Lab Test",nhom:"Lab báo cáo",list:QC09_LIST,staff:QC09_STAFF,off:mkOffsets(QC09_STAFF.length,QC09_LIST.length,20260410)},
-  {code:"QC10",congdoan:"QA Supervisor",nhom:"Công nhân",list:QC10_LIST,staff:QC10_STAFF,off:mkOffsets(QC10_STAFF.length,QC10_LIST.length,20260411)},
-  {code:"QC11",congdoan:"QA Supervisor",nhom:"QC Mẫu",list:QC11_LIST,staff:QC11_STAFF,off:mkOffsets(QC11_STAFF.length,QC11_LIST.length,20260412)},
-  {code:"QC12",congdoan:"QA Supervisor",nhom:"PKH",list:QC12_LIST,staff:QC12_STAFF,off:mkOffsets(QC12_STAFF.length,QC12_LIST.length,20260413)},
-  {code:"QC13",congdoan:"QA Supervisor",nhom:"Báo Cáo",list:QC13_LIST,staff:QC13_STAFF,off:mkOffsets(QC13_STAFF.length,QC13_LIST.length,20260414)}
-];
 /* ============ DỮ LIỆU CHẤT LƯỢNG THEO CHUYỀN — gộp Tháng 9 từ file Chất lượng hàng ngày ============ */
 var QUALITY_DATA=[
   {sheet:"CẮT 1",congdoan:"Cắt",total_loi:195,tong_sl:840,pct_loi:23.21,top3:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",sl:120,pct:61.5},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",sl:62,pct:31.8},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",sl:12,pct:6.2}]},
@@ -710,6 +458,30 @@ var QUALITY_DATA=[
   {sheet:"MAY 5+6",congdoan:"May",total_loi:451,tong_sl:4200,pct_loi:10.74,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:224,pct:49.7},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:45,pct:10.0},{ten:"Biên may xấu, khoảng cách biên may không đều",sl:32,pct:7.1}]},
   {sheet:"MAY 7+8",congdoan:"May",total_loi:295,tong_sl:3850,pct_loi:7.66,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:143,pct:48.5},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:35,pct:11.9},{ten:"Biên may xấu, khoảng cách biên may không đều",sl:33,pct:11.2}]},
   {sheet:"MAY 9+10",congdoan:"May",total_loi:73,tong_sl:888,pct_loi:8.22,top3:[{ten:"Đầu chỉ thừa, xén lót dơ",sl:24,pct:32.9},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",sl:17,pct:23.3},{ten:"Lỗi khác",sl:11,pct:15.1}]}
+];
+
+/* ============ DỮ LIỆU GỐC ĐỂ SINH THEO NGÀY (demo) — sản lượng SX & chất lượng QC ============ */
+var VOLUME_PLAN=[
+  {congdoan:"M1 & M2",plan:820},
+  {congdoan:"M3 & M4",plan:780},
+  {congdoan:"M5 & M6",plan:850},
+  {congdoan:"M7 & M8",plan:790},
+  {congdoan:"M9 & M10",plan:760}
+];
+var QUALITY_BASE=[
+  {sheet:"CẮT 1",congdoan:"Cắt",avgLoi:16.25,avgKt:70.0,shares:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",share:0.6154},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",share:0.3179},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",share:0.0615},{ten:"Dao chặt biến dạng, bị sét, dính dơ",share:0.0051}]},
+  {sheet:"CẮT 2",congdoan:"Cắt",avgLoi:14.5,avgKt:70.833,shares:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",share:0.6264},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",share:0.2644},{ten:"Dao chặt biến dạng, bị sét, dính dơ",share:0.0862},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",share:0.023}]},
+  {sheet:"CẮT 3",congdoan:"Cắt",avgLoi:19.583,avgKt:77.917,shares:[{ten:"Cắt vật tư bị lẹm, lông biên, lỗ đinh không thông",share:0.8043},{ten:"Cắt vật tư bị biến dạng, vết thương, trầy",share:0.1362},{ten:"Cắt Vật tư không đúng hướng, không đồng đôi vân",share:0.0553},{ten:"Cắt Vật tư Khác màu /đôi",share:0.0043}]},
+  {sheet:"ÉP-ẤN 1+2+3",congdoan:"Ấn",avgLoi:0.0,avgKt:116.667,shares:[]},
+  {sheet:"GÒ 1",congdoan:"Hình Thành",avgLoi:272.25,avgKt:644.167,shares:[{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",share:0.2654},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",share:0.2507},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",share:0.1867},{ten:"Không thẳng tâm, méo mũi, méo gót, méo ode",share:0.0667},{ten:"Không đồng đôi khoảng cách các chi tiết lắp ráp",share:0.0566},{ten:"Đế cuốn mép, nhăn, nở biên",share:0.0505}]},
+  {sheet:"GÒ 2",congdoan:"Hình Thành",avgLoi:172.0,avgKt:683.833,shares:[{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",share:0.3144},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",share:0.2418},{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",share:0.14},{ten:"Không thẳng tâm, méo mũi, méo gót, méo ode",share:0.0761},{ten:"Lắc đế",share:0.0465},{ten:"Nhăn gãy mũi, thân, gót",share:0.0446}]},
+  {sheet:"GÒ 3",congdoan:"Hình Thành",avgLoi:241.417,avgKt:497.833,shares:[{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",share:0.3445},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",share:0.2706},{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",share:0.2409},{ten:"Không thẳng tâm, méo mũi, méo gót, méo ode",share:0.038},{ten:"Lắc đế",share:0.0276},{ten:"Dây bị xoắn, đầu nhựa gãy, xỏ sai",share:0.0183}]},
+  {sheet:"GÒ 4",congdoan:"Hình Thành",avgLoi:64.75,avgKt:112.5,shares:[{ten:"Bung keo, hở keo (sâu >2mm & dài >5mm)",share:0.3037},{ten:"Bung keo, hở keo (sâu ≤2mm & dài ≤5mm)",share:0.26},{ten:"Dơ, lem keo, lem nước xử lý, lem màu, đường chì, chỉ dư",share:0.2394},{ten:"Không đồng đôi khoảng cách các chi tiết lắp ráp",share:0.0605},{ten:"Nhăn gãy mũi, thân, gót",share:0.0502},{ten:"Dây bị xoắn, đầu nhựa gãy, xỏ sai",share:0.0425}]},
+  {sheet:"MAY 1+2",congdoan:"May",avgLoi:22.083,avgKt:263.333,shares:[{ten:"Đầu chỉ thừa, xén lót dơ",share:0.366},{ten:"Lỗ kim / vết rách",share:0.0755},{ten:"Biên vòng cổ không đều, tưa lót, nhăn, đỉnh gót xấu",share:0.0755},{ten:"Lỗi khác",share:0.0755},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",share:0.0679},{ten:"Lem keo hoặc nước xử lý",share:0.0604}]},
+  {sheet:"MAY 3+4",congdoan:"May",avgLoi:29.167,avgKt:325.0,shares:[{ten:"Đầu chỉ thừa, xén lót dơ",share:0.3371},{ten:"Không đồng đôi, không đối xứng, eo trong - ngoài, chiều cao gót",share:0.1057},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",share:0.1029},{ten:"Bị nhiễm bẩn (vết bẩn, vết hằn)",share:0.0914},{ten:"Không lại mối chỉ, lại mối không trùng mũi",share:0.0714},{ten:"Mũi gót lệch tâm, cong vặn, méo gót",share:0.0514}]},
+  {sheet:"MAY 5+6",congdoan:"May",avgLoi:37.583,avgKt:350.0,shares:[{ten:"Đầu chỉ thừa, xén lót dơ",share:0.4967},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",share:0.0998},{ten:"Biên may xấu, khoảng cách biên may không đều",share:0.071},{ten:"Đường may gợn sóng / không đều",share:0.0687},{ten:"Không lại mối chỉ, lại mối không trùng mũi",share:0.0576},{ten:"Bước chỉ đường may zig-zag không đúng, lòi zig-zag, sụp mí",share:0.0576}]},
+  {sheet:"MAY 7+8",congdoan:"May",avgLoi:24.583,avgKt:320.833,shares:[{ten:"Đầu chỉ thừa, xén lót dơ",share:0.4847},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",share:0.1186},{ten:"Biên may xấu, khoảng cách biên may không đều",share:0.1119},{ten:"Mũi gót lệch tâm, cong vặn, méo gót",share:0.0712},{ten:"Biên vòng cổ không đều, tưa lót, nhăn, đỉnh gót xấu",share:0.0644},{ten:"Lỗ kim / vết rách",share:0.0373}]},
+  {sheet:"MAY 9+10",congdoan:"May",avgLoi:6.083,avgKt:74.0,shares:[{ten:"Đầu chỉ thừa, xén lót dơ",share:0.3288},{ten:"Đứt chỉ / lỏng chỉ / bỏ mũi / bung đường may, tuột chỉ",share:0.2329},{ten:"Lỗi khác",share:0.1507},{ten:"Bước chỉ đường may zig-zag không đúng, lòi zig-zag, sụp mí",share:0.0959},{ten:"Mũi gót lệch tâm, cong vặn, méo gót",share:0.0548},{ten:"Lỗ kim / vết rách",share:0.0411}]}
 ];
 
 
@@ -962,7 +734,7 @@ function drillRows(dep,i,mode){
 /* ===== TRẠNG THÁI ===== */
 
 /* ===== TRẠNG THÁI ===== */
-var st={m:7,nk:{p2:'ALL',p3:'ALL'}},charts={};
+var st={m:7,nk:{p2:'ALL',p3:'ALL'},dayVol:29,dayDefect:29},charts={};
 var mode='month';
 var DEPARTMENTS=[
   {pid:'p2',code:'SX',name:'Sản xuất',color:'#0065B3'},
@@ -1146,6 +918,43 @@ function renderPhong(pid,pfx){
   renderTree(pid);
 }
 function scopeScoreAt(pid,scope,j){return scope==='ALL'?groupAt(pid,j,mode):congdoanAt(pid,scope,j,mode);}
+function daysInMonth(m){return [31,28,31,30,31,30,31,31][m];}
+function hashStr(s){var h=0;for(var i=0;i<s.length;i++){h=(h*31+s.charCodeAt(i))|0;}return Math.abs(h)||1;}
+function dayLabel(m,d){return (d+1<10?'0':'')+(d+1)+'/'+((m+1)<10?'0':'')+(m+1);}
+function volDayActual(congdoan,plan,m,d){
+  var r=seedRand(hashStr(congdoan+'|'+m+'|'+d));
+  var isSunday=(d%7===6);
+  var factor=isSunday?(0.30+r()*0.10):(0.85+r()*0.20);
+  return Math.round(plan*factor);
+}
+function fillDayVol(){
+  var sel=document.getElementById('fDayVol');
+  if(!sel)return;
+  var n=daysInMonth(st.m);
+  sel.innerHTML='';
+  for(var d=0;d<n;d++){var o=document.createElement('option');o.value=d;o.textContent='Ngày '+dayLabel(st.m,d);sel.appendChild(o);}
+  if(st.dayVol>=n)st.dayVol=n-1;
+  sel.value=st.dayVol;
+}
+function renderVolume(){
+  var el=document.getElementById('c2v');
+  if(!el)return;
+  var d=st.dayVol;
+  var rows=VOLUME_PLAN.map(function(v){return {cd:v.congdoan,plan:v.plan,actual:volDayActual(v.congdoan,v.plan,st.m,d)};});
+  mk('c2v',{type:'bar',data:{labels:rows.map(function(r){return r.cd;}),
+    datasets:[
+      {label:'Thực tế',data:rows.map(function(r){return r.actual;}),backgroundColor:'#0065B3',borderRadius:5,barThickness:22},
+      {label:'Kế hoạch',data:rows.map(function(r){return r.plan;}),backgroundColor:'#C7D5DF',borderRadius:5,barThickness:22}
+    ]},
+    options:baseOpt({layout:{padding:{top:16}},
+      scales:{y:{min:0,grid:GRID,ticks:Object.assign({},TICK,{callback:function(v){return Math.round(v);}}),border:{display:false}},
+        x:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:12,family:'Inter',weight:'600'}})}},
+      plugins:{legend:{display:true,position:'top',align:'end',labels:{boxWidth:10,boxHeight:10,font:{size:11,family:'Inter'}}},
+        tooltip:Object.assign({},TT,{callbacks:{
+          label:function(c){return c.dataset.label+': '+n1(c.raw)+' đôi';}}})}}),
+    plugins:[]});
+}
+
 function r2(){renderPhong('p2','c2');}
 function r3(){renderPhong('p3','c3');}
 
@@ -1157,7 +966,7 @@ function renderCongdoanBar(pid,pfx){
   var hr=hAxisRange(rows.map(function(r){return r.score;}));
   mk(pfx+'e',{type:'bar',data:{labels:rows.map(function(r){return r.cd;}),
     datasets:[{data:rows.map(function(r){return R1(r.score);}),
-      backgroundColor:dp.color,borderRadius:5,barThickness:22}]},
+      backgroundColor:rows.map(function(r){return r.score<PASS?'#E4622B':dp.color;}),borderRadius:5,barThickness:22}]},
     options:baseOpt({indexAxis:'y',layout:{padding:{top:16}},
       scales:{x:{min:hr.min,max:hr.max,grid:GRID,ticks:TICK,border:{display:false}},
         y:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:11.5,family:'Inter',weight:'600'}})}},
@@ -1221,6 +1030,35 @@ function heatLegendHtml(){
       .map(function(v){return '<em><i style="background:'+v[1]+'"></i>'+v[0]+'</em>';}).join('')+
     '<b>Di chuột lên từng ô TC để xem tên chỉ số đầy đủ</b></div>';
 }
+function empRowsHtmlAsL1Child(pid,leaf,i,l1code,maxN){
+  return leaf.staff.map(function(p,e){
+    var sc=normAt(leaf.list,leaf.off,e,i,mode);
+    var prevSc=i>0?normAt(leaf.list,leaf.off,e,i-1,mode):null;
+    var rk=rank(sc);
+    var tcc=tcCells(leaf.list,leaf.off,e,i,maxN);
+    var hcs=hc(sc);
+    return '<tr class="lvl2 chr" data-pid="'+pid+'" data-l1="'+l1code+'">'+
+      '<td style="padding-left:24px">'+p[0]+' <span style="color:var(--gray)">— '+p[1]+'</span></td>'+
+      '<td class="num">1</td>'+tcc+
+      '<td class="num hc" style="'+hcs+';font-weight:700">'+n1(sc)+'</td>'+
+      '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
+      '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+  }).join('');
+}
+function empRowsHtmlFlat(pid,leaf,i,maxN){
+  return leaf.staff.map(function(p,e){
+    var sc=normAt(leaf.list,leaf.off,e,i,mode);
+    var prevSc=i>0?normAt(leaf.list,leaf.off,e,i-1,mode):null;
+    var rk=rank(sc);
+    var tcc=tcCells(leaf.list,leaf.off,e,i,maxN);
+    var hcs=hc(sc);
+    return '<tr><td>'+p[0]+' <span style="color:var(--gray)">— '+p[1]+'</span></td>'+
+      '<td class="num">1</td>'+tcc+
+      '<td class="num hc" style="'+hcs+';font-weight:700">'+n1(sc)+'</td>'+
+      '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
+      '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
+  }).join('');
+}
 function renderTree(pid){
   var i=st.m,scope=st.nk[pid];
   var el=document.getElementById('tree'+pid.slice(1));
@@ -1243,16 +1081,25 @@ function renderTree(pid){
         '<td class="num hc" style="'+hc(sc)+';font-weight:700">'+n1(sc)+'</td>'+
         '<td class="num">'+(prevSc===null?'—':n1(prevSc))+'</td>'+
         '<td><span class="pill '+rk.c+'">'+rk.t+'</span></td></tr>';
-      leaves.forEach(function(leaf){
-        rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:true,indent:true,dataAttrs:'data-pid="'+pid+'" data-l1="'+l1+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
-        rowsHtml+=empRowsHtml(pid,leaf,i,l1,leaf.code,maxN);
-      });
+      if(leaves.length===1){
+        rowsHtml+=empRowsHtmlAsL1Child(pid,leaves[0],i,l1,maxN);
+      }else{
+        leaves.forEach(function(leaf){
+          rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:true,indent:true,dataAttrs:'data-pid="'+pid+'" data-l1="'+l1+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
+          rowsHtml+=empRowsHtml(pid,leaf,i,l1,leaf.code,maxN);
+        });
+      }
     });
   }else{
-    congdoanLeaves(pid,scope).forEach(function(leaf){
-      rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:false,indent:false,dataAttrs:'data-pid="'+pid+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
-      rowsHtml+=empRowsHtml(pid,leaf,i,'NA',leaf.code,maxN);
-    });
+    var scLeaves=congdoanLeaves(pid,scope);
+    if(scLeaves.length===1){
+      rowsHtml+=empRowsHtmlFlat(pid,scLeaves[0],i,maxN);
+    }else{
+      scLeaves.forEach(function(leaf){
+        rowsHtml+=leafRowHtml(pid,leaf,i,{hidden:false,indent:false,dataAttrs:'data-pid="'+pid+'"',caretId:'car2-'+pid+'-'+leaf.code,onclick:"tgL2('"+pid+"','"+leaf.code+"')"},maxN);
+        rowsHtml+=empRowsHtml(pid,leaf,i,'NA',leaf.code,maxN);
+      });
+    }
   }
   el.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+rowsHtml+'</tbody></table>'+heatLegendHtml();
 }
@@ -1283,16 +1130,50 @@ function defectHc(pct){
   return ['#EDB4AD','#701C16'];
 }
 var defectRendered=false;
+var volRendered=false;
+function fillDayDefect(){
+  var sel=document.getElementById('fDayDefect');
+  if(!sel)return;
+  var n=daysInMonth(st.m);
+  sel.innerHTML='';
+  for(var d=0;d<n;d++){var o=document.createElement('option');o.value=d;o.textContent='Ngày '+dayLabel(st.m,d);sel.appendChild(o);}
+  if(st.dayDefect>=n)st.dayDefect=n-1;
+  sel.value=st.dayDefect;
+}
+function defectDayValues(base,m,d){
+  var r=seedRand(hashStr(base.sheet+'|'+m+'|'+d));
+  var loiF=0.5+r()*1.0;
+  var ktF=0.85+r()*0.3;
+  var loi=Math.max(0,Math.round(base.avgLoi*loiF));
+  var kt=Math.max(1,Math.round(base.avgKt*ktF));
+  var top3=[];
+  if(loi>0&&base.shares.length){
+    var vals=base.shares.map(function(s){return {ten:s.ten,v:s.share*loi*(0.7+r()*0.6)};});
+    vals.sort(function(a,b){return b.v-a.v;});
+    var top=vals.slice(0,3);
+    var sumTop=top.reduce(function(a,x){return a+x.v;},0);
+    var scale=sumTop>0?Math.min(1,loi/sumTop*0.85):0;
+    top.forEach(function(x){x.sl=Math.max(0,Math.round(x.v*scale));});
+    top3=top.filter(function(x){return x.sl>0;}).map(function(x){return {ten:x.ten,sl:x.sl};});
+  }
+  return {loi:loi,kt:kt,top3:top3};
+}
 function renderDefect(){
   var tbl=document.getElementById('defectTable');
   if(!tbl)return;
-  var rows=QUALITY_DATA.slice().sort(function(a,b){return b.pct_loi-a.pct_loi;});
+  var d=st.dayDefect;
+  var rows=QUALITY_BASE.map(function(b){
+    var day=defectDayValues(b,st.m,d);
+    var pct=day.kt?round1(day.loi/day.kt*100):0;
+    var top3=day.top3.map(function(t){return {ten:t.ten,sl:t.sl,pct:day.loi?round1(t.sl/day.loi*100):0};});
+    return {sheet:b.sheet,congdoan:b.congdoan,total_loi:day.loi,tong_sl:day.kt,pct_loi:pct,top3:top3};
+  }).sort(function(a,b){return b.pct_loi-a.pct_loi;});
   var maxPct=Math.max.apply(null,rows.map(function(r){return r.pct_loi;}));
   mk('c3f',{type:'bar',data:{labels:rows.map(function(r){return r.sheet;}),
     datasets:[{data:rows.map(function(r){return r.pct_loi;}),
       backgroundColor:rows.map(function(r){var h=defectHc(r.pct_loi);return h[1];}),borderRadius:5,barThickness:17}]},
     options:baseOpt({indexAxis:'y',layout:{padding:{top:6,right:38}},
-      scales:{x:{min:0,max:Math.ceil((maxPct+6)/5)*5,grid:GRID,ticks:Object.assign({},TICK,{callback:function(v){return v+'%';}}),border:{display:false}},
+      scales:{x:{min:0,max:Math.max(20,Math.ceil((maxPct+6)/5)*5),grid:GRID,ticks:Object.assign({},TICK,{callback:function(v){return v+'%';}}),border:{display:false}},
         y:{grid:{display:false},ticks:Object.assign({},TICK,{font:{size:11,family:'Inter',weight:'600'}})}},
       plugins:{legend:{display:false},tooltip:Object.assign({},TT,{callbacks:{
         label:function(c){var r=rows[c.dataIndex];return ['SL không đạt: '+r.total_loi+' / '+r.tong_sl,'Tỷ lệ lỗi: '+n1(r.pct_loi)+'%'];}}})}}),
@@ -1308,14 +1189,18 @@ function renderDefect(){
     body+='<tr class="clk" onclick="tgDefL1(\''+code+'\')"><td><span class="cr" id="defcar-'+code+'">▸</span> <b>'+r.sheet+'</b></td>'+
       '<td class="num">'+r.tong_sl+'</td><td class="num">'+r.total_loi+'</td>'+
       '<td class="num hc" style="background:'+hc[0]+';color:'+hc[1]+';font-weight:700">'+n1(r.pct_loi)+'%</td></tr>';
+    if(!r.top3.length){
+      body+='<tr class="chr deflvl2" data-defp="'+code+'"><td style="padding-left:34px" class="mut">Không phát sinh lỗi trong ngày</td><td class="num mut">—</td><td class="num mut">—</td><td class="num mut">—</td></tr>';
+    }
     r.top3.forEach(function(t,idx){
       body+='<tr class="chr deflvl2" data-defp="'+code+'"><td style="padding-left:34px">'+(idx+1)+'. '+t.ten+'</td>'+
         '<td class="num mut">—</td><td class="num">'+t.sl+'</td><td class="num">'+n1(t.pct)+'%</td></tr>';
     });
   });
   tbl.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+body+'</tbody></table>'+
-    '<div class="hleg"><span>% Lỗi ở dòng lỗi con là tỷ trọng lỗi đó trong tổng số lỗi của chính chuyền</span></div>';
+    '<div class="hleg"><span>% Lỗi ở dòng lỗi con là tỷ trọng lỗi đó trong tổng số lỗi của chính chuyền trong ngày</span></div>';
 }
+function round1(v){return Math.round(v*10)/10;}
 function tgDefL1(code){
   var rs=document.querySelectorAll('tr.deflvl2[data-defp="'+code+'"]');
   var c=document.getElementById('defcar-'+code);
@@ -1350,19 +1235,29 @@ function renderCatalog(pid){
     var n=congdoanStaffCount(pid,cd);
     var l1=safeCode(cd);
     rows+='<tr class="clk" onclick="tgCatL1(\''+pid+'\',\''+l1+'\')"><td colspan="7"><span class="cr" id="catcar1-'+pid+'-'+l1+'">▸</span> <b>'+cd+'</b>'+
-      ' <span style="color:var(--gray);font-weight:500">— '+leaves.length+' nhóm nhỏ, '+n+' người</span></td></tr>';
-    leaves.forEach(function(leaf){
-      rows+='<tr class="catlvl2 chr clk" data-catpid="'+pid+'" data-cl1="'+l1+'" onclick="tgCatL2(\''+pid+'\',\''+leaf.code+'\')">'+
-        '<td colspan="7"><span class="ind"></span><span class="cr" id="catcar2-'+pid+'-'+leaf.code+'">▸</span> '+leaf.nhom+
-        ' <span style="color:var(--gray);font-weight:500">— áp dụng cho '+leaf.staff.length+' người, '+leaf.list.length+' chỉ số</span></td></tr>';
-      leaf.list.forEach(function(k,x){
-        rows+='<tr class="catlvl3 chr" data-catpid="'+pid+'" data-cl1="'+l1+'" data-cl2="'+leaf.code+'">'+
-          '<td class="num" style="padding-left:44px">'+(x+1)+'</td><td><b>'+k.name+'</b></td><td>'+k.uom+'</td>'+
+      ' <span style="color:var(--gray);font-weight:500">— '+n+' người</span></td></tr>';
+    if(leaves.length===1){
+      leaves[0].list.forEach(function(k,x){
+        rows+='<tr class="catlvl2 chr" data-catpid="'+pid+'" data-cl1="'+l1+'">'+
+          '<td class="num" style="padding-left:24px">'+(x+1)+'</td><td><b>'+k.name+'</b></td><td>'+k.uom+'</td>'+
           '<td class="num">'+k.w+'%</td><td class="num">'+k.tgtTxt+'</td>'+
           '<td>'+(k.dir==='up'?'Cao hơn tốt hơn':'Thấp hơn tốt hơn')+'</td>'+
           '<td style="color:var(--gray)">'+(k.calc||'—')+'</td></tr>';
       });
-    });
+    }else{
+      leaves.forEach(function(leaf){
+        rows+='<tr class="catlvl2 chr clk" data-catpid="'+pid+'" data-cl1="'+l1+'" onclick="tgCatL2(\''+pid+'\',\''+leaf.code+'\')">'+
+          '<td colspan="7"><span class="ind"></span><span class="cr" id="catcar2-'+pid+'-'+leaf.code+'">▸</span> '+leaf.nhom+
+          ' <span style="color:var(--gray);font-weight:500">— áp dụng cho '+leaf.staff.length+' người, '+leaf.list.length+' chỉ số</span></td></tr>';
+        leaf.list.forEach(function(k,x){
+          rows+='<tr class="catlvl3 chr" data-catpid="'+pid+'" data-cl1="'+l1+'" data-cl2="'+leaf.code+'">'+
+            '<td class="num" style="padding-left:44px">'+(x+1)+'</td><td><b>'+k.name+'</b></td><td>'+k.uom+'</td>'+
+            '<td class="num">'+k.w+'%</td><td class="num">'+k.tgtTxt+'</td>'+
+            '<td>'+(k.dir==='up'?'Cao hơn tốt hơn':'Thấp hơn tốt hơn')+'</td>'+
+            '<td style="color:var(--gray)">'+(k.calc||'—')+'</td></tr>';
+        });
+      });
+    }
   });
   el.innerHTML='<table class="heatt"><thead>'+thead+'</thead><tbody>'+rows+'</tbody></table>';
 }
@@ -1393,23 +1288,32 @@ function go(p){
     fillNhomKPI(p);
     if(!catalogRendered[p]){renderCatalog(p);catalogRendered[p]=true;}
   }
-  if(p==='p3'&&!defectRendered){renderDefect();defectRendered=true;}
+  if(p==='p2'&&!volRendered){fillDayVol();renderVolume();volRendered=true;}
+  if(p==='p3'&&!defectRendered){fillDayDefect();renderDefect();defectRendered=true;}
   window.scrollTo(0,0);render();
 }
 function render(){
   var p=document.querySelector('.page.show').id;
-  var sub = p==='p1' ? 'So sánh Sản xuất (57 người) và QC (44 người)' : ('Phạm vi: '+(st.nk[p]==='ALL'?'Toàn phòng ban':st.nk[p]));
+  var sub = p==='p1' ? 'So sánh Sản xuất (17 người) và QC (8 người)' : ('Phạm vi: '+(st.nk[p]==='ALL'?'Toàn phòng ban':st.nk[p]));
   document.getElementById('sub').innerHTML=sub+' &nbsp;·&nbsp; Kỳ: '+MONTHS[st.m];
   if(p==='p1')r1();else if(p==='p2')r2();else r3();
 }
 (function init(){
   var sel=document.getElementById('fMonth');
   MONTHS.forEach(function(m,x){var o=document.createElement('option');o.value=x;o.textContent='Tháng '+m;sel.appendChild(o);});
-  sel.value=st.m;sel.onchange=function(){st.m=+sel.value;render();};
+  sel.value=st.m;sel.onchange=function(){
+    st.m=+sel.value;
+    var p=document.querySelector('.page.show').id;
+    if(p==='p2'&&volRendered){fillDayVol();renderVolume();}
+    if(p==='p3'&&defectRendered){fillDayDefect();renderDefect();}
+    render();
+  };
   document.getElementById('fNhomKPI').onchange=function(){
     var p=document.querySelector('.page.show').id;
     st.nk[p]=this.value; render();
   };
+  document.getElementById('fDayVol').onchange=function(){st.dayVol=+this.value;renderVolume();};
+  document.getElementById('fDayDefect').onchange=function(){st.dayDefect=+this.value;renderDefect();};
   document.querySelectorAll('nav a').forEach(function(a){a.onclick=function(){go(a.getAttribute('data-p'));};});
   document.getElementById('fnkWrap').style.display='none';
   render();
