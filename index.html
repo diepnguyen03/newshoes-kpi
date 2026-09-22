@@ -228,25 +228,6 @@ tr.chr:hover>td{background:#EFF5FA}
     <div class="note info mb14"><b>Về số liệu:</b> File KPI Sản xuất chưa có cột "Hiện tại" nào được điền — toàn bộ 17 người / 4 nhóm KPI lớn (Lãnh liệu, Giao kho, Tổ trưởng chuyền, Chuyền trưởng) thuộc chuyền May mới dừng ở khung chỉ số, trọng số và mục tiêu năm 2026. Biểu đồ xu hướng theo tháng dưới đây là <b>số minh hoạ</b>, không phải số đo thực tế.</div>
     <div class="grid g4 mb14" id="p2stats"></div>
 
-    <div class="grid g2 mb14">
-      <div class="card">
-        <h3>Điểm trung bình theo tháng</h3>
-        <div class="cs">Điểm của phạm vi đang chọn (toàn phòng hoặc một nhóm KPI lớn) qua từng tháng.</div>
-        <div class="cw"><canvas id="c2d"></canvas></div>
-      </div>
-      <div class="card">
-        <h3 id="c2title">Chỉ số nào kéo điểm xuống</h3>
-        <div class="cs" id="c2sub">Khi chọn "Toàn phòng", mỗi cột là một nhóm KPI lớn. Khi chọn một nhóm KPI lớn cụ thể, mỗi cột là một nhóm KPI nhỏ bên trong nhóm đó.</div>
-        <div class="cw"><canvas id="c2a"></canvas></div>
-      </div>
-    </div>
-
-    <div class="card mb14">
-      <h3>Điểm KPI trung bình của các nhóm KPI lớn</h3>
-      <div class="cs">Điểm bình quân của từng nhóm KPI lớn (không đổi theo bộ lọc "Nhóm KPI" phía trên) — dùng để định vị nhanh nhóm nào đang mạnh, nhóm nào đang yếu trong toàn phòng.</div>
-      <div class="cw lg"><canvas id="c2e"></canvas></div>
-    </div>
-
     <div class="card mb14">
       <div class="topbar-row" style="align-items:flex-start;gap:10px;flex-wrap:wrap">
         <div>
@@ -275,25 +256,6 @@ tr.chr:hover>td{background:#EFF5FA}
   <section class="page" id="p3">
     <div class="note info mb14"><b>Về số liệu:</b> Nhóm "QC chuyền may" (5 người) đã có "Hiện tại" thật và mục tiêu chi tiết Quý 3–4/2026, nhưng giá trị này <b>giống hệt nhau cho mọi cá nhân</b> trong nhóm — là số ước lượng chung theo dây chuyền, chưa phải số đo riêng theo từng người. Hai nhóm "QA May" và "QA Supervisor" hiện chỉ có khung chỉ số — trọng số — mục tiêu, chưa có số liệu Hiện tại nên chuỗi 8 tháng ở các nhóm này là <b>số minh hoạ</b>.</div>
     <div class="grid g4 mb14" id="p3stats"></div>
-
-    <div class="grid g2 mb14">
-      <div class="card">
-        <h3>Điểm trung bình theo tháng</h3>
-        <div class="cs">Điểm của phạm vi đang chọn (toàn phòng hoặc một nhóm KPI lớn) qua từng tháng, neo về số Hiện tại thật ở tháng gần nhất khi có.</div>
-        <div class="cw"><canvas id="c3d"></canvas></div>
-      </div>
-      <div class="card">
-        <h3 id="c3title">Chỉ số nào kéo điểm xuống</h3>
-        <div class="cs" id="c3sub">Khi chọn "Toàn phòng", mỗi cột là một nhóm KPI lớn. Khi chọn một nhóm KPI lớn cụ thể, mỗi cột là một nhóm KPI nhỏ bên trong nhóm đó.</div>
-        <div class="cw"><canvas id="c3a"></canvas></div>
-      </div>
-    </div>
-
-    <div class="card mb14">
-      <h3>Điểm KPI trung bình của các nhóm KPI lớn</h3>
-      <div class="cs">Điểm bình quân của từng nhóm KPI lớn (không đổi theo bộ lọc "Nhóm KPI" phía trên) — dùng để định vị nhanh nhóm nào đang mạnh, nhóm nào đang yếu trong toàn phòng.</div>
-      <div class="cw lg"><canvas id="c3e"></canvas></div>
-    </div>
 
     <div class="card mb14">
       <div class="topbar-row" style="align-items:flex-start;gap:10px;flex-wrap:wrap">
@@ -348,8 +310,8 @@ function mkOffsets(nS,nK,seed){
 /* ============ DỮ LIỆU KPI SẢN XUẤT & QC ============ */
 
 var SX00_LIST=[
-  {id:"SX001",name:"Tỷ lệ đồng bộ hàng nhập",uom:"%",w:60,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần nhập đồng bộ đủ / Tổng số lần nhập x 100%",current:null,anomaly:null,s:[69.48,85.5,102.03,108.89,93.69,60.83,73.29,88.26]},
-  {id:"SX002",name:"Tỷ lệ báo cáo đúng hạn",uom:"%",w:40,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần báo đúng chu kỳ 2 giờ / Tổng số lần phải báo x 100%",current:null,anomaly:null,s:[71.19,87.21,105.49,111.11,94.4,62.57,76.08,90.47]}
+  {id:"SX001",name:"Tỷ lệ đồng bộ hàng nhập",uom:"%",w:60,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần nhập đồng bộ đủ / Tổng số lần nhập x 100%",current:null,anomaly:null,s:[78.48,94.5,111.03,117.89,102.69,69.83,82.29,97.26]},
+  {id:"SX002",name:"Tỷ lệ báo cáo đúng hạn",uom:"%",w:40,target:100.0,tgtTxt:"100%",dir:"up",calc:"Số lần báo đúng chu kỳ 2 giờ / Tổng số lần phải báo x 100%",current:null,anomaly:null,s:[79.19,95.21,113.49,119.11,102.4,70.57,84.08,98.47]}
 ];
 var SX00_STAFF=[
   ["Trần Thị Thúy Kiều","M1 & M2"],
@@ -371,7 +333,7 @@ var SX01_STAFF=[
 ];
 var SX02_LIST=[
   {id:"SX021",name:"Tỷ lệ chuyền đạt sản lượng",uom:"%",w:30,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"Số giờ chuyền đạt ≥95% / Tổng số giờ sản xuất x 100%",current:null,anomaly:null,s:[67.82,81.33,98.38,104.6,88.18,59.28,70.58,85.13]},
-  {id:"SX022",name:"Chất lượng chuyền",uom:"%",w:25,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm x 100%",current:null,anomaly:null,s:[72.01,88.26,104.25,109.47,93.99,64.86,75.97,88.92]},
+  {id:"SX022",name:"Chất lượng chuyền",uom:"%",w:25,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm x 100%",current:90.0,anomaly:null,s:[59.19,103.27,154.4,172.03,113.94,12.69,50.1,90.0]},
   {id:"SX023",name:"Tỷ lệ tự xử lý tại chuyền",uom:"%",w:20,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ tổ trưởng xử lý xong / Tổng số vụ phát sinh x 100%",current:null,anomaly:null,s:[69.15,82.85,95.37,99.94,87.56,62.57,72.68,84.27]},
   {id:"SX024",name:"Số vụ phải leo lên Chuyền trưởng",uom:"vụ",w:15,target:3.0,tgtTxt:"≤3 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 2 (Chuyền trưởng) trong tháng",current:null,anomaly:null,s:[3.31,2.88,2.36,2.13,2.65,3.56,3.24,2.77]},
   {id:"SX025",name:"Đánh giá của Chuyền trưởng",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chuyền trưởng / thang điểm 100",current:null,anomaly:null,s:[80.57,94.4,108.52,115.81,99.88,72.66,82.69,96.88]}
@@ -397,10 +359,7 @@ var SX03_STAFF=[
 
 var QC00_LIST=[
   {id:"QC001",name:"Tỷ lệ đạt May",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm x 100%",current:90.0,anomaly:null,s:[59.19,103.27,154.4,172.03,113.94,12.69,50.1,90.0]},
-  {id:"QC002",name:"Tỷ lệ B do lỗi may",uom:"%",w:20,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI hàng B do lỗi may / Tổng SI đã kiểm x 100%",current:5.0,anomaly:null,s:[5.66,4.69,3.69,3.33,4.51,6.54,5.83,5.0]},
-  {id:"QC003",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:20,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI lỗi bị QA/khách phát hiện lại / Tổng SI đã kiểm x 100%",current:3.0,anomaly:null,s:[3.64,2.7,1.68,1.34,2.51,4.57,3.82,3.0]},
-  {id:"QC004",name:"Tỷ lệ đạt ngay lần đầu kiểm",uom:"%",w:20,target:95.0,tgtTxt:"≥95%",dir:"up",calc:"SI đạt ngay lần kiểm đầu / Tổng SI đã kiểm x 100%",current:80.0,anomaly:null,s:[49.21,93.62,142.19,160.02,102.49,5.96,41.42,80.0]},
-  {id:"QC005",name:"Đánh giá của quản lý",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của QA May / thang điểm 100",current:80.0,anomaly:null,s:[50.32,92.48,140.43,154.53,102.54,9.38,42.5,80.0]}
+  {id:"QC002",name:"Tỷ lệ bỏ sót lỗi",uom:"%",w:20,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI lỗi bị QA/khách phát hiện lại / Tổng SI đã kiểm x 100%",current:3.0,anomaly:null,s:[3.64,2.7,1.68,1.34,2.51,4.57,3.82,3.0]}
 ];
 var QC00_STAFF=[
   ["Trần Thị Ngọc Ngân","M1 & M2"],
@@ -412,9 +371,8 @@ var QC00_STAFF=[
 var QC01_LIST=[
   {id:"QC011",name:"Tỷ lệ đạt May toàn khu",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"SI đạt / Tổng SI kiểm toàn khu may x 100%",current:null,anomaly:null,s:[83.78,98.84,115.47,121.39,105.71,76.6,88.03,101.42]},
   {id:"QC012",name:"Tỷ lệ bỏ sót lỗi toàn khu may",uom:"%",w:25,target:0.3,tgtTxt:"0%",dir:"down",calc:"SI lỗi phát hiện lại khi audit / Tổng SI QC đã kiểm x 100%",current:null,anomaly:null,s:[0.49,0.31,0.12,0.06,0.21,0.58,0.4,0.23]},
-  {id:"QC013",name:"Tỷ lệ tự xử lý tại khu may",uom:"%",w:20,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ QA May xử lý xong / Tổng số vụ phát sinh x 100%",current:null,anomaly:null,s:[55.42,68.66,82.27,87.26,74.79,49.94,59.32,70.92]},
-  {id:"QC014",name:"Số vụ phải leo lên QA Supervisor",uom:"vụ",w:15,target:3.0,tgtTxt:"≤3 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 2 (QA Supervisor) trong tháng",current:null,anomaly:null,s:[3.83,3.33,2.86,2.62,3.11,4.07,3.65,3.25]},
-  {id:"QC015",name:"Đánh giá của QA Supervisor",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của QA Supervisor / thang điểm 100",current:null,anomaly:null,s:[80.99,95.38,109.95,115.73,101.69,73.73,86.17,97.38]}
+  {id:"QC013",name:"Số vụ phải leo lên QA Supervisor",uom:"vụ",w:15,target:3.0,tgtTxt:"≤3 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 2 (QA Supervisor) trong tháng",current:null,anomaly:null,s:[3.83,3.33,2.86,2.62,3.11,4.07,3.65,3.25]},
+  {id:"QC014",name:"Đánh giá của QA Supervisor",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của QA Supervisor / thang điểm 100",current:null,anomaly:null,s:[80.99,95.38,109.95,115.73,101.69,73.73,86.17,97.38]}
 ];
 var QC01_STAFF=[
   ["Bí","QA May (phụ trách)"],
@@ -422,10 +380,9 @@ var QC01_STAFF=[
 ];
 var QC02_LIST=[
   {id:"QC021",name:"Tỷ lệ khu may đạt chuẩn chất lượng",uom:"%",w:30,target:98.0,tgtTxt:"≥98%",dir:"up",calc:"Số ngày khu may đạt chuẩn / Tổng số ngày sản xuất x 100%",current:null,anomaly:null,s:[71.44,84.47,100.7,105.88,91.85,62.75,74.56,87.61]},
-  {id:"QC022",name:"Số vụ lỗi tái diễn",uom:"vụ",w:20,target:1.0,tgtTxt:"≤1 vụ/tháng",dir:"down",calc:"Đếm số dạng lỗi lặp lại sau khi đã có hành động khắc phục",current:null,anomaly:null,s:[1.17,0.99,0.8,0.72,0.88,1.2,1.07,0.92]},
-  {id:"QC023",name:"Tỷ lệ tự xử lý ở Cấp 2",uom:"%",w:25,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ QA Supervisor xử lý xong / Tổng số vụ nhận từ QA May x 100%",current:null,anomaly:null,s:[57.13,69.21,82.2,86.55,73.72,50.59,59.9,70.44]},
-  {id:"QC024",name:"Số vụ phải leo lên Chủ quản (Huy Võ)",uom:"vụ",w:15,target:2.0,tgtTxt:"≤2 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 3 (Chủ quản) trong tháng",current:null,anomaly:null,s:[2.27,1.94,1.64,1.5,1.84,2.4,2.18,1.91]},
-  {id:"QC025",name:"Đánh giá của Chủ quản (Huy Võ)",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chủ quản / thang điểm 100",current:null,anomaly:null,s:[69.14,81.11,97.09,100.71,87.9,61.14,72.48,83.85]}
+  {id:"QC022",name:"Tỷ lệ tự xử lý ở Cấp 2",uom:"%",w:25,target:80.0,tgtTxt:"≥80%",dir:"up",calc:"Số vụ QA Supervisor xử lý xong / Tổng số vụ nhận từ QA May x 100%",current:null,anomaly:null,s:[57.13,69.21,82.2,86.55,73.72,50.59,59.9,70.44]},
+  {id:"QC023",name:"Số vụ phải leo lên Chủ quản (Huy Võ)",uom:"vụ",w:15,target:2.0,tgtTxt:"≤2 vụ/tháng",dir:"down",calc:"Đếm số vụ phải báo lên Cấp 3 (Chủ quản) trong tháng",current:null,anomaly:null,s:[2.27,1.94,1.64,1.5,1.84,2.4,2.18,1.91]},
+  {id:"QC024",name:"Đánh giá của Chủ quản (Huy Võ)",uom:"%",w:10,target:90.0,tgtTxt:"≥90%",dir:"up",calc:"Điểm đánh giá của Chủ quản / thang điểm 100",current:null,anomaly:null,s:[69.14,81.11,97.09,100.71,87.9,61.14,72.48,83.85]}
 ];
 var QC02_STAFF=[
   ["Tâm","QA Supervisor (toàn nhà máy)"]
@@ -442,6 +399,18 @@ var LEAVES_QC=[
   {code:"QC01",congdoan:"QA May",nhom:"Công nhân",list:QC01_LIST,staff:QC01_STAFF,off:mkOffsets(QC01_STAFF.length,QC01_LIST.length,20260402)},
   {code:"QC02",congdoan:"QA Supervisor",nhom:"Công nhân",list:QC02_LIST,staff:QC02_STAFF,off:mkOffsets(QC02_STAFF.length,QC02_LIST.length,20260403)}
 ];
+
+/* Đồng bộ chỉ tiêu trùng công thức giữa Sản xuất và QC: "Chất lượng chuyền" (SX, Tổ trưởng chuyền)
+   và "Tỷ lệ đạt May" (QC, QC chuyền may) đều đo trên cùng 1 chuyền M-line (SX021 -> item index 1, QC001 -> item index 0),
+   nên điểm của từng tổ trưởng/QC phụ trách cùng 1 chuyền phải khớp nhau tuyệt đối. */
+(function syncSharedMetric(){
+  var sxLeaf=LEAVES_SX.filter(function(d){return d.congdoan==='Tổ trưởng chuyền';})[0];
+  var qcLeaf=LEAVES_QC.filter(function(d){return d.congdoan==='QC chuyền may';})[0];
+  if(!sxLeaf||!qcLeaf)return;
+  var sxIdx=1, qcIdx=0;
+  var n=Math.min(sxLeaf.staff.length, qcLeaf.staff.length);
+  for(var e=0;e<n;e++){ sxLeaf.off[e][sxIdx]=qcLeaf.off[e][qcIdx]; }
+})();
 
 /* ============ DỮ LIỆU CHẤT LƯỢNG THEO CHUYỀN — gộp Tháng 9 từ file Chất lượng hàng ngày ============ */
 var QUALITY_DATA=[
@@ -486,9 +455,9 @@ var QUALITY_BASE=[
 
 
 function valAt(k,i,mode){if(mode==='ytd'){var s=0;for(var j=0;j<=i;j++)s+=k.s[j];return s/(i+1);}return k.s[i];}
-function scoreOf(k,v){var r=(k.dir==='down')?(k.target/v):(v/k.target);return Math.min(r,1.2)*100;}
+function scoreOf(k,v){var r=(k.dir==='down')?(k.target/v):(v/k.target);return Math.min(r,1.0)*100;}
 function kScore(k,i,mode){return scoreOf(k,valAt(k,i,mode));}
-function cl(v){return Math.max(0,Math.min(120,v));}
+function cl(v){return Math.max(0,Math.min(100,v));}
 /* điểm của một chỉ số: e<0 là cả phòng, e>=0 là một nhân viên */
 function sc1(list,off,e,x,i,mode){var b=kScore(list[x],i,mode);return e<0?b:cl(b+off[e][x]);}
 function backVal(k,s){return k.dir==='down'?k.target/(s/100):s/100*k.target;}
@@ -889,32 +858,6 @@ function renderPhong(pid,pfx){
     statCard(false,'Chỉ số dưới ngưỡng Đạt',kBad+'<small>/'+allK.length+'</small>',kBad,kBadPrev,kBad?'red':'green')+
     statCard(false,'Số nhóm KPI nhỏ',leaves.length,leaves.length,null,'');
 
-  trendChart(pfx+'d',i,function(j){return scope==='ALL'?groupAt(pid,j,mode):congdoanAt(pid,scope,j,mode);});
-
-  var titleEl=document.getElementById(pfx+'title'), subEl=document.getElementById(pfx+'sub');
-  var items,totW2;
-  if(scope==='ALL'){
-    if(titleEl)titleEl.innerHTML='Chỉ số nào kéo điểm xuống — theo nhóm KPI lớn';
-    if(subEl)subEl.innerHTML='Mỗi cột là một nhóm KPI lớn (Cắt/Ấn/Chuẩn Bị/Hình Thành/May hoặc tương đương bên QC).';
-    var cds=congdoanList(pid);
-    totW2=n;
-    items=cds.map(function(cd){
-      var sc=congdoanAt(pid,cd,i,mode),cN=congdoanStaffCount(pid,cd);
-      return {label:cd,full:cd,score:sc,loss:(100-sc)*(cN/totW2),w:R1(cN/totW2*100)};
-    });
-  }else{
-    if(titleEl)titleEl.innerHTML='Chỉ số nào kéo điểm xuống — theo nhóm KPI nhỏ trong '+scope;
-    if(subEl)subEl.innerHTML='Mỗi cột là một nhóm KPI nhỏ bên trong '+scope+'.';
-    totW2=n;
-    items=leaves.map(function(d){
-      var sc=deptAt(d.code,i,mode);
-      return {label:d.nhom,full:scope+' — '+d.nhom,score:sc,loss:(100-sc)*(d.staff.length/totW2),w:R1(d.staff.length/totW2*100)};
-    });
-  }
-  items=items.slice().sort(function(a,b){return b.loss-a.loss;});
-  waterfall(pfx+'a',items,score,scope==='ALL'?'Điểm phòng':'Điểm nhóm');
-
-  renderCongdoanBar(pid,pfx);
   renderTree(pid);
 }
 function scopeScoreAt(pid,scope,j){return scope==='ALL'?groupAt(pid,j,mode):congdoanAt(pid,scope,j,mode);}
